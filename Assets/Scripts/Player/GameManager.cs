@@ -27,13 +27,15 @@ public class GameManager : MonoBehaviour
     {
         if(buttonInput.XButtonDown)
         {
+            Vector3 bigPos = bigVisibility.transform.position;
             bigVisibility.Hide();
-            activeMinis = miniSpawner.SpawnHorizontal();
+            activeMinis = miniSpawner.SpawnHorizontal(bigPos);
         }
         else if(buttonInput.YButtonDown)
         {
+            Vector3 bigPos = bigVisibility.transform.position;
             bigVisibility.Hide();
-            activeMinis = miniSpawner.SpawnVertical();
+            activeMinis = miniSpawner.SpawnVertical(bigPos);
         }
     }
 

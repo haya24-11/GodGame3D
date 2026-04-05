@@ -13,25 +13,25 @@ public class MiniSpawner : MonoBehaviour
     int arrivedCount;
     Vector3 lastArrivalPoint;
 
-    public List<GameObject> SpawnHorizontal()
+    public List<GameObject> SpawnHorizontal(Vector3 centerPos)
     {
-        return SpawnWithOffset(Vector3.right);
+        return SpawnWithOffset(centerPos, Vector3.right);
     }
 
-    public List<GameObject> SpawnVertical()
+    public List<GameObject> SpawnVertical(Vector3 centerPos)
     {
-        return SpawnWithOffset(Vector3.forward);
+        return SpawnWithOffset(centerPos, Vector3.forward);
     }
 
-    List<GameObject> SpawnWithOffset(Vector3 axis)
+    List<GameObject> SpawnWithOffset(Vector3 centerPos, Vector3 axis)
     {
         arrivedCount = 0;
         var spawned = new List<GameObject>();
 
         float totalWidth = spacing * (miniCount - 1);
-        Vector3 startPos = transform.position - axis * (totalWidth / 2f);
+        Vector3 startPos = centerPos - axis * (totalWidth / 2f);
 
-        for (int i =0; i<miniCount;i++)
+        for (int i = 0; i < miniCount; i++)
         {
             Vector3 spawnPos = startPos + axis * spacing * i;
             spawnPos.y = 1.0f;
