@@ -4,22 +4,26 @@ using System.Collections.Generic;
 
 public class MiniMoveDispatcher : MonoBehaviour
 {
+    [SerializeField] MiniSpawner miniSpawner;
     [SerializeField] float sequenceInterval = 0.5f;
 
     public void DispatchAll(List<GameObject> minis,Vector3 target)
     {
-        foreach (var mini in minis)
+        miniSpawner.SetArrivalTarget(target);
+
+        foreach (GameObject mini in minis)
         {
             if (mini == null) continue;
 
-            var mover = mini.GetComponent<Mover>();
-            var detector = mini.GetComponent<ArrivalDetector>();
+            Mover mover = mini.GetComponent<Mover>();
+            ArrivalDetector detector = mini.GetComponent<ArrivalDetector>();
 
             detector.SetTarget(target);
 
             detector.OnArrived += () =>
             {
                 Destroy(mini);
+                miniSpawner.OnMiniArrived();
             };
 
             mover.SetTargetPosition(target);
@@ -28,7 +32,7 @@ public class MiniMoveDispatcher : MonoBehaviour
 
     public void DispatchSequential(List<GameObject> minis,Vector3 target)
     {
-        var sorted = new List<GameObject>(minis);
+        List<GameObject> sorted = new List<GameObject>(minis);
         sorted.Sort((a, b) => Vector3.Distance(a.transform.position, target).CompareTo(Vector3.Distance(b.transform.position, target))
         );
 
@@ -37,12 +41,12 @@ public class MiniMoveDispatcher : MonoBehaviour
 
     IEnumerator SequenceCoroutine(List<GameObject> sorted, Vector3 target)
     {
-        foreach (var mini in sorted)
+        foreach (GameObject mini in sorted)
         {
             if (mini == null) continue;
 
-            var mover =mini.GetComponent<Mover>();
-            var detector =mini.GetComponent<ArrivalDetector>();
+            Mover mover =mini.GetComponent<Mover>();
+            ArrivalDetector detector =mini.GetComponent<ArrivalDetector>();
 
             detector.SetTarget(target);
             detector.OnArrived += () => Destroy(mini);

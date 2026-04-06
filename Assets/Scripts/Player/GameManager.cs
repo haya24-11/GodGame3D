@@ -9,8 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] MiniSpawner miniSpawner;
     [SerializeField] MiniMoveDispatcher moveDispatcher;
     [SerializeField] ButtonInputReader buttonInput;
+    [SerializeField] CursorController cursorController;
 
     List<GameObject> activeMinis = new List<GameObject>();
+
+    bool canForm = true;
 
     void Awake()
     {
@@ -25,17 +28,21 @@ public class GameManager : MonoBehaviour
 
     void HandleFormationInput()
     {
-        if(buttonInput.XButtonDown)
+        if (!canForm) return;
+
+        if (buttonInput.XButtonDown)
         {
             Vector3 bigPos = bigVisibility.transform.position;
             bigVisibility.Hide();
             activeMinis = miniSpawner.SpawnHorizontal(bigPos);
+            canForm = false;
         }
         else if(buttonInput.YButtonDown)
         {
             Vector3 bigPos = bigVisibility.transform.position;
             bigVisibility.Hide();
             activeMinis = miniSpawner.SpawnVertical(bigPos);
+            canForm = false;
         }
     }
 
@@ -47,18 +54,25 @@ public class GameManager : MonoBehaviour
 
         if(buttonInput.RBDown||buttonInput.RTDown)
         {
+            cursorController.SetMovable(false);
             moveDispatcher.DispatchAll(activeMinis,cursorPos);
         }
         else if(buttonInput.LBDown||buttonInput.LTDown)
         {
+            cursorController.SetMovable(false);
             moveDispatcher.DispatchSequential(activeMinis,cursorPos);
         }
     }
 
-    public void OnAllMinisArrived(Vector3 arrivalPoint)
+    public void OnAllMinisArrived(Vector3 _)
     {
         activeMinis.Clear();
-        bigVisibility.Show(arrivalPoint);
+
+        Vector3 cursorPos = cursorTransform.position;
+        bigVisibility.Show(cursorPos);
+
+        cursorController.SetMovable(true);
+        canForm = true;
     }
 
     void OnDestroy()

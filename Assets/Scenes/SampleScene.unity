@@ -496,6 +496,11 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &734996435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8981435484000600222, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
+  m_PrefabInstance: {fileID: 5728436997774488745}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,6 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac32ac811dc254e458b0ae2777dab513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniMoveDispatcher
+  miniSpawner: {fileID: 4504556004476197263}
   sequenceInterval: 0.5
 --- !u!114 &1966406800
 MonoBehaviour:
@@ -606,6 +612,7 @@ MonoBehaviour:
   miniSpawner: {fileID: 4504556004476197263}
   moveDispatcher: {fileID: 1966406799}
   buttonInput: {fileID: 1966406800}
+  cursorController: {fileID: 5728436997774488754}
 --- !u!4 &1966406802
 Transform:
   m_ObjectHideFlags: 0
@@ -631,7 +638,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4737654934856437215, guid: f4a039e5378d6f24d81c66bbd482c732, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 2.91
       objectReference: {fileID: 0}
     - target: {fileID: 4737654934856437215, guid: f4a039e5378d6f24d81c66bbd482c732, type: 3}
       propertyPath: m_LocalPosition.y
@@ -710,7 +717,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1748212143667618547, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3.19
       objectReference: {fileID: 0}
     - target: {fileID: 1748212143667618547, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -748,6 +755,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7029883039138502661, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
+      propertyPath: halfX
+      value: 9.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029883039138502661, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
+      propertyPath: halfZ
+      value: 5.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8981435484000600222, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
       propertyPath: m_Name
       value: Cursor
@@ -755,13 +770,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8981435484000600222, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5728436997774488754}
   m_SourcePrefab: {fileID: 100100000, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
 --- !u!4 &5728436997774488746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1748212143667618547, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
   m_PrefabInstance: {fileID: 5728436997774488745}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5728436997774488748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2994704692801418824, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
+  m_PrefabInstance: {fileID: 5728436997774488745}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734996435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47641570f280ca94185756fc6689a5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Mover
+--- !u!114 &5728436997774488749 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2453488220593622138, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
+  m_PrefabInstance: {fileID: 5728436997774488745}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734996435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c0c508fdb5bc54db54d575673a755f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputReader
+--- !u!114 &5728436997774488754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734996435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8648c362bf156684bac4d59ae2d5f347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorController
+  inputReader: {fileID: 5728436997774488749}
+  mover: {fileID: 5728436997774488748}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

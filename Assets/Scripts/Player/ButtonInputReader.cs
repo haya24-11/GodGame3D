@@ -14,7 +14,7 @@ public class ButtonInputReader : MonoBehaviour
     {
         if (Gamepad.current == null) return;
 
-        var gp = Gamepad.current;
+        Gamepad gp = Gamepad.current;
 
         XButtonDown = gp.buttonWest.wasPressedThisFrame;
         YButtonDown = gp.buttonNorth.wasPressedThisFrame;
