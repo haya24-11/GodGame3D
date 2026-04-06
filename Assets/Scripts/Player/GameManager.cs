@@ -1,9 +1,9 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("QÆ")]
+    [Header("å‚ç…§")]
     [SerializeField] Transform cursorTransform;
     [SerializeField] BigVisibility bigVisibility;
     [SerializeField] MiniSpawner miniSpawner;
