@@ -71,8 +71,11 @@ public class EnemyBossAlpha : MonoBehaviour
     {
         currentHp -= damage;
 
+        Debug.Log($"Boss Damage: {damage} / HP: {currentHp}");
         // ”í’eFŠÔ{‚Q
         SendMessage("AddTime", 2, SendMessageOptions.DontRequireReceiver);
+        // ”í’e‚ÉF‚ª•Ï‚í‚é
+        StartCoroutine(DamageFlash());
 
         if(currentHp<=0)
         {
@@ -103,4 +106,19 @@ public class EnemyBossAlpha : MonoBehaviour
         }
     }
 
+    private Renderer rend;
+    private Color originalColor;
+
+    void Awake()
+    {
+        rend = GetComponent<Renderer>();
+        originalColor = rend.material.color;
+    }
+
+    System.Collections.IEnumerator DamageFlash()
+    {
+        rend.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        rend.material.color = originalColor;
+    }
 }
