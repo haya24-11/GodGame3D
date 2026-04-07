@@ -23,7 +23,6 @@ public class MiniMoveDispatcher : MonoBehaviour
             detector.OnArrived += () =>
             {
                 Destroy(mini);
-                miniSpawner.OnMiniArrived();
             };
 
             mover.SetTargetPosition(target);
