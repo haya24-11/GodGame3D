@@ -86,7 +86,7 @@ public class EnemyBossAlpha : MonoBehaviour
     void Die()
     {
         // タイトルへ戻る
-        SceneManager.LoadScene("TitleScene");
+        SceneManager.LoadScene("Title");
     }
 
     // 衝突（mini想定）
