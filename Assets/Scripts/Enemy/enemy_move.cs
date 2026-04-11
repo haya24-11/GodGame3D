@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour
+public class MoveEnemy: MonoBehaviour
 {
     public Rigidbody enemy_rigidbody;
     //enemy‚ÌˆÚ“®‘¬“x(unit/•b)
