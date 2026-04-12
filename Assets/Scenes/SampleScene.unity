@@ -1459,7 +1459,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac32ac811dc254e458b0ae2777dab513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniMoveDispatcher
-  miniSpawner: {fileID: 4504556004476197263}
   sequenceInterval: 0.5
 --- !u!114 &1966406800
 MonoBehaviour:
@@ -1770,6 +1769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CursorController
   inputReader: {fileID: 5728436997774488749}
   mover: {fileID: 5728436997774488748}
+  cam: {fileID: 330585545}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
