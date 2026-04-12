@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] ButtonInputReader buttonInput;
     [SerializeField] CursorController cursorController;
 
+    [SerializeField, Tooltip("ON: Call中もcursorを動かせる / OFF: Call中は固定")]
+    bool canMoveCursorDuringCall = false;
+
     List<GameObject> activeMinis = new List<GameObject>();
 
     bool canForm = true;
@@ -60,15 +63,11 @@ public class GameManager : MonoBehaviour
 
         if(buttonInput.RBDown||buttonInput.RTDown)
         {
-            cursorController.SetMovable(false);
-            canForm = false;
-            moveDispatcher.DispatchAll(activeMinis,cursorPos);
+            OnCallStarted(cursorPos, isSequential: false);
         }
         else if(buttonInput.LBDown||buttonInput.LTDown)
         {
-            cursorController.SetMovable(false);
-            canForm = false;
-            moveDispatcher.DispatchSequential(activeMinis,cursorPos);
+            OnCallStarted(cursorPos, isSequential: true);
         }
     }
 
@@ -79,11 +78,11 @@ public class GameManager : MonoBehaviour
         Vector3 cursorPos = cursorTransform.position;
         bigVisibility.Show(cursorPos);
 
-        isFormationDeployed = false;
-        currentFormation = FormationType.None;
+        cursorController.SetMovable(true);
         canForm = true;
 
-        cursorController.SetMovable(true);
+        isFormationDeployed = false;
+        currentFormation = FormationType.None;
     }
 
     void OnDestroy()
@@ -135,5 +134,23 @@ public class GameManager : MonoBehaviour
 
         isFormationDeployed = false;
         currentFormation = FormationType.None;
+    }
+    void OnCallStarted(Vector3 targetPos, bool isSequential)
+    {
+        canForm = false;
+
+        if (!canMoveCursorDuringCall)
+        {
+            cursorController.SetMovable(false);
+        }
+
+        if (isSequential)
+        {
+            moveDispatcher.DispatchSequential(activeMinis, targetPos);
+        }
+        else
+        {
+            moveDispatcher.DispatchAll(activeMinis, targetPos);
+        }
     }
 }
