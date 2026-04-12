@@ -11,9 +11,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] ButtonInputReader buttonInput;
     [SerializeField] CursorController cursorController;
 
+    [SerializeField, Tooltip("ON: Call中もcursorを動かせる / OFF: Call中は固定")]
+    bool canMoveCursorDuringCall = false;
+
     List<GameObject> activeMinis = new List<GameObject>();
 
     bool canForm = true;
+    bool isFormationDeployed = false;
+    enum FormationType
+    {
+        None,
+        Horizontal,
+        Vertical
+    }
+
+    FormationType currentFormation = FormationType.None;
+
+    Vector3 formationOriginPos;
 
     void Awake()
     {
@@ -32,18 +46,13 @@ public class GameManager : MonoBehaviour
 
         if (buttonInput.XButtonDown)
         {
-            Vector3 bigPos = bigVisibility.transform.position;
-            bigVisibility.Hide();
-            activeMinis = miniSpawner.SpawnHorizontal(bigPos);
-            canForm = false;
+            HandleFormation(FormationType.Horizontal);
         }
-        else if(buttonInput.YButtonDown)
+        else if (buttonInput.YButtonDown)
         {
-            Vector3 bigPos = bigVisibility.transform.position;
-            bigVisibility.Hide();
-            activeMinis = miniSpawner.SpawnVertical(bigPos);
-            canForm = false;
+            HandleFormation(FormationType.Vertical);
         }
+
     }
 
     void HandleMoveInput()
@@ -54,13 +63,11 @@ public class GameManager : MonoBehaviour
 
         if(buttonInput.RBDown||buttonInput.RTDown)
         {
-            cursorController.SetMovable(false);
-            moveDispatcher.DispatchAll(activeMinis,cursorPos);
+            OnCallStarted(cursorPos, isSequential: false);
         }
         else if(buttonInput.LBDown||buttonInput.LTDown)
         {
-            cursorController.SetMovable(false);
-            moveDispatcher.DispatchSequential(activeMinis,cursorPos);
+            OnCallStarted(cursorPos, isSequential: true);
         }
     }
 
@@ -73,10 +80,77 @@ public class GameManager : MonoBehaviour
 
         cursorController.SetMovable(true);
         canForm = true;
+
+        isFormationDeployed = false;
+        currentFormation = FormationType.None;
     }
 
     void OnDestroy()
     {
         miniSpawner.OnAllArrived -= OnAllMinisArrived;
+    }
+
+    void HandleFormation(FormationType type)
+    {
+
+        if (isFormationDeployed)
+        {
+            if (currentFormation == type)
+            {
+                CancelFormation();
+            }
+            return;
+        }
+
+        formationOriginPos = bigVisibility.transform.position;
+
+        bigVisibility.Hide();
+
+        switch (type)
+        {
+            case FormationType.Horizontal:
+                activeMinis = miniSpawner.SpawnHorizontal(formationOriginPos);
+                break;
+
+            case FormationType.Vertical:
+                activeMinis = miniSpawner.SpawnVertical(formationOriginPos);
+                break;
+        }
+
+        currentFormation = type;
+        isFormationDeployed = true;
+    }
+
+    void CancelFormation()
+    {
+        foreach (var mini in activeMinis)
+        {
+            if (mini != null)
+                Destroy(mini);
+        }
+        activeMinis.Clear();
+
+        bigVisibility.Show(formationOriginPos);
+
+        isFormationDeployed = false;
+        currentFormation = FormationType.None;
+    }
+    void OnCallStarted(Vector3 targetPos, bool isSequential)
+    {
+        canForm = false;
+
+        if (!canMoveCursorDuringCall)
+        {
+            cursorController.SetMovable(false);
+        }
+
+        if (isSequential)
+        {
+            moveDispatcher.DispatchSequential(activeMinis, targetPos);
+        }
+        else
+        {
+            moveDispatcher.DispatchAll(activeMinis, targetPos);
+        }
     }
 }

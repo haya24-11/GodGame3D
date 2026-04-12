@@ -801,6 +801,7 @@ MonoBehaviour:
   moveDispatcher: {fileID: 1966406799}
   buttonInput: {fileID: 1966406800}
   cursorController: {fileID: 5728436997774488754}
+  canMoveCursorDuringCall: 0
 --- !u!4 &1966406802
 Transform:
   m_ObjectHideFlags: 0
