@@ -9,6 +9,7 @@ public class EnemyBossAlpha : MonoBehaviour
     [SerializeField] private float moveSpeed = 4f;
 
     private int currentHp;
+    public int CurrentHp => currentHp;
 
     // ステージ範囲（7:3）
     private float boundX;
@@ -22,6 +23,13 @@ public class EnemyBossAlpha : MonoBehaviour
     private void Start()
     {
         currentHp = maxHp;
+
+        // HPバーと連携
+        var ui = FindObjectOfType<BossHPBarUI>();
+        if (ui != null)
+        {
+            ui.Initialize(this, maxHp);
+        }
 
         // カメラから範囲取得
         var cam = Camera.main;
