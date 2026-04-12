@@ -11,14 +11,10 @@ public class OperationUI : MonoBehaviour
     void Start()
     {
         text.text =
-@"LSTICK : MOVE
-
-Y : FORCE
-¨ Y : RESET
-
-R : CALL
-
-¦ “WŠJ ¨ W‡‚Å“G‚ğUŒ‚
-¦ W‡Œã‚ÍŒ³‚É–ß‚é";
+@"
+LSTICK : MOVE
+         Y : FORCE
+    ¨ Y : RESET
+        R : CALL";
     }
 }
