@@ -2,55 +2,56 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Miniへの移動命令の発行のみを担う。
+/// 到着カウントの管理はMiniSpawnerが行うため、このクラスはMiniSpawnerに依存しない。
+/// </summary>
 public class MiniMoveDispatcher : MonoBehaviour
 {
-    [SerializeField] MiniSpawner miniSpawner;
     [SerializeField] float sequenceInterval = 0.5f;
 
-    public void DispatchAll(List<GameObject> minis,Vector3 target)
+    // ──────────────────────────────────────────
+    // Public API
+    // ──────────────────────────────────────────
+
+    /// <summary>全Miniを同時にtargetへ向かわせる。</summary>
+    public void DispatchAll(List<MiniUnit> minis, Vector3 target)
     {
-        miniSpawner.SetArrivalTarget(target);
-
-        foreach (GameObject mini in minis)
+        foreach (var unit in minis)
         {
-            if (mini == null) continue;
-
-            Mover mover = mini.GetComponent<Mover>();
-            ArrivalDetector detector = mini.GetComponent<ArrivalDetector>();
-
-            detector.SetTarget(target);
-
-            detector.OnArrived += () =>
-            {
-                Destroy(mini);
-            };
-
-            mover.SetTargetPosition(target);
+            if (unit == null) continue;
+            SendToTarget(unit, target);
         }
     }
 
-    public void DispatchSequential(List<GameObject> minis,Vector3 target)
+    /// <summary>targetに近い順に、intervalごとにMiniを発進させる。</summary>
+    public void DispatchSequential(List<MiniUnit> minis, Vector3 target)
     {
-        List<GameObject> sorted = new List<GameObject>(minis);
-        sorted.Sort((a, b) => Vector3.Distance(a.transform.position, target).CompareTo(Vector3.Distance(b.transform.position, target))
-        );
+        var sorted = new List<MiniUnit>(minis);
+        sorted.Sort((a, b) =>
+            Vector3.Distance(a.transform.position, target)
+            .CompareTo(Vector3.Distance(b.transform.position, target)));
 
         StartCoroutine(SequenceCoroutine(sorted, target));
     }
 
-    IEnumerator SequenceCoroutine(List<GameObject> sorted, Vector3 target)
+    // ──────────────────────────────────────────
+    // Private
+    // ──────────────────────────────────────────
+
+    void SendToTarget(MiniUnit unit, Vector3 target)
     {
-        foreach (GameObject mini in sorted)
+        unit.Detector.SetTarget(target);
+        unit.Detector.OnArrived += () => Destroy(unit.gameObject);
+        unit.Mover.SetTargetPosition(target);
+    }
+
+    IEnumerator SequenceCoroutine(List<MiniUnit> sorted, Vector3 target)
+    {
+        foreach (var unit in sorted)
         {
-            if (mini == null) continue;
-
-            Mover mover =mini.GetComponent<Mover>();
-            ArrivalDetector detector =mini.GetComponent<ArrivalDetector>();
-
-            detector.SetTarget(target);
-            detector.OnArrived += () => Destroy(mini);
-            mover.SetTargetPosition(target);
-
+            if (unit == null) continue;
+            SendToTarget(unit, target);
             yield return new WaitForSeconds(sequenceInterval);
         }
     }
