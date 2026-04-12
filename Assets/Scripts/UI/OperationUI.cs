@@ -12,9 +12,11 @@ public class OperationUI : MonoBehaviour
     {
         text.text =
 @"
-LSTICK : MOVE
-         Y : FORCE
+LSTICK : CURSOR MOVE
+RSTICK : CAMERA ROTATION
+         Y : FORMATION
     Å® Y : RESET
         R : CALL";
+
     }
 }
