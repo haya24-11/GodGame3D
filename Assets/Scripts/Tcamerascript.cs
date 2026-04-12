@@ -27,9 +27,16 @@ public class Tcamerascript : MonoBehaviour
         if (target == null) return;
 
         float input = 0f;
-
-        if (Keyboard.current.aKey.isPressed) input = -1f;
-        if (Keyboard.current.dKey.isPressed) input = 1f;
+        //キーボード
+        if (Gamepad.current != null)
+        {
+            input = Gamepad.current.rightStick.ReadValue().x;
+        }
+        //コントローラー
+        if (Gamepad.current != null)
+        {
+            input = Gamepad.current.rightStick.ReadValue().x;
+        }
 
         currentAngle += input * rotationSpeed * Time.deltaTime;
 
