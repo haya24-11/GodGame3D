@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class Ttimer : MonoBehaviour
 {
 
@@ -8,6 +9,15 @@ public class Ttimer : MonoBehaviour
 
     private float timer = 0f;
     public TextMeshProUGUI timerText;
+
+    public string nextSceneName; // ← 遷移先（Inspectorで設定）
+    private bool isFinished = false; // ← 1回だけ実行するため
+
+    //時間追加系？
+    public void AddTime(int value)
+    {
+        currentValue += value;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,5 +47,11 @@ public class Ttimer : MonoBehaviour
         string formatted = str.Substring(0, 3) + ":" + str.Substring(3, 3);
 
         timerText.text = formatted; timerText.text = formatted;
+
+        if (currentValue == 0)
+        {
+            isFinished = true;
+            SceneManager.LoadScene(nextSceneName);
+        }
     }
 }
