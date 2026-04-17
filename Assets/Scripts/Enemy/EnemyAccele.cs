@@ -1,9 +1,12 @@
-// ˆÓ}Fˆê’è‹——£‚Å’âŽ~‚µA‚»‚ÌŒã‰Á‘¬‚·‚é“G
+// ˆÓ}FŽd—l’Ê‚èuˆÚ“®¨’âŽ~¨‰Á‘¬v‚ðŽÀ‘•
 
 using UnityEngine;
 
 public class EnemyAccele : EnemyBase
 {
+    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float accelSpeed = 4f;
+
     private Vector3 startPos;
     private bool stopped = false;
     private float timer = 0f;
@@ -18,11 +21,12 @@ public class EnemyAccele : EnemyBase
     {
         if (!stopped)
         {
-            transform.Translate(Vector3.forward * Time.deltaTime * 2f);
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
 
             if (Vector3.Distance(startPos, transform.position) >= 2f)
             {
                 stopped = true;
+                timer = 0f;
             }
         }
         else
@@ -31,8 +35,14 @@ public class EnemyAccele : EnemyBase
 
             if (timer >= 1f)
             {
-                transform.Translate(Vector3.forward * Time.deltaTime * 4f);
+                transform.Translate(Vector3.forward * accelSpeed * Time.deltaTime);
             }
         }
+    }
+
+    protected override void OnDead()
+    {
+        SendMessage("AddTime", 1, SendMessageOptions.DontRequireReceiver);
+        base.OnDead();
     }
 }
