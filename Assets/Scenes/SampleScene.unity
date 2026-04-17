@@ -780,8 +780,9 @@ GameObject:
   m_Component:
   - component: {fileID: 908147088}
   - component: {fileID: 908147089}
+  - component: {fileID: 908147090}
   m_Layer: 0
-  m_Name: EnemyEanager
+  m_Name: EnemyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -811,11 +812,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 908147087}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caef75af7ee3583428ef119533afd2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemy_playback
+  call_enemy_script: {fileID: 908147090}
+  enemyTypeTable:
+  - {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
+  - {fileID: 4555168720117620098, guid: 6cb2f30f2936d1f4693302a6ea876324, type: 3}
+  spawnTableSO:
+  - {fileID: 11400000, guid: e4831f5ffee5e0d43a99e081c1b85e7e, type: 2}
+--- !u!114 &908147090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908147087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eeb2b57ebf76c0a4fb15b6290449d05d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::call_enemy
   Enemy: {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
-  Boss: {fileID: 0}
+  Boss: {fileID: 4555168720117620098, guid: 6cb2f30f2936d1f4693302a6ea876324, type: 3}
 --- !u!1 &971299338
 GameObject:
   m_ObjectHideFlags: 0

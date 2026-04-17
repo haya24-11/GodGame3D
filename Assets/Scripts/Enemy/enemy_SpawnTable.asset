@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemy_SpawnTable
   spawnTable:
   - spawnTime: 1
-    spawnPosition: {x: 0, y: 2}
+    spawnPosition: {x: 0, y: 2, z: 0}
+    spawnAngle: 100
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 5
+    spawnPosition: {x: 0, y: 2, z: 0}
     spawnAngle: 100
     spawnRoat: 0
     enemyType: 0
