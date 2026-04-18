@@ -639,6 +639,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &627071994 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+  m_PrefabInstance: {fileID: 1160371979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &734996435 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8981435484000600222, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
@@ -1051,6 +1056,71 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 96.97186, y: 0, z: 55.35679}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1183371464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1183371467}
+  - component: {fileID: 1183371466}
+  - component: {fileID: 1183371465}
+  m_Layer: 0
+  m_Name: enem_Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1183371465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183371464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caef75af7ee3583428ef119533afd2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemy_playback
+  call_enemy_script: {fileID: 1183371466}
+  enemyTypeTable:
+  - {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
+  - {fileID: 627071994}
+  spawnTableSO:
+  - {fileID: 11400000, guid: e4831f5ffee5e0d43a99e081c1b85e7e, type: 2}
+--- !u!114 &1183371466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183371464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb2b57ebf76c0a4fb15b6290449d05d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::call_enemy
+  Enemy: {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
+  Boss: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+--- !u!4 &1183371467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183371464}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.31312, y: 0, z: -5.86444}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1802,3 +1872,4 @@ SceneRoots:
   - {fileID: 1073315859}
   - {fileID: 851103460}
   - {fileID: 1175021163}
+  - {fileID: 1183371467}
