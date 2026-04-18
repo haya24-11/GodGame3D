@@ -561,7 +561,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1 &410087039
 GameObject:
@@ -802,11 +802,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &627071994 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-  m_PrefabInstance: {fileID: 1160371979}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &734996435 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8981435484000600222, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
@@ -1502,7 +1497,7 @@ MonoBehaviour:
   call_enemy_script: {fileID: 1183371466}
   enemyTypeTable:
   - {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
-  - {fileID: 627071994}
+  - {fileID: 0}
   spawnTableSO:
   - {fileID: 11400000, guid: e4831f5ffee5e0d43a99e081c1b85e7e, type: 2}
 --- !u!114 &1183371466
@@ -2282,3 +2277,4 @@ SceneRoots:
   - {fileID: 1175021163}
   - {fileID: 1183371467}
   - {fileID: 52402452}
+  - {fileID: 1093026431}
