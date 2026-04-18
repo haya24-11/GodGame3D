@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] MiniMoveDispatcher moveDispatcher;
     [SerializeField] ButtonInputReader  buttonInput;
     [SerializeField] CursorController   cursorController;
+    [SerializeField] ComboCounter comboCounter;
 
     [SerializeField, Tooltip("ON: Call中もcursorを動かせる / OFF: Call中は固定")]
     bool canMoveCursorDuringCall = false;
@@ -62,8 +63,8 @@ public class GameManager : MonoBehaviour
 
         Vector3 cursorPos = cursorTransform.position;
 
-        if      (buttonInput.RBDown || buttonInput.RTDown) StartCall(cursorPos, isSequential: false);
-        else if (buttonInput.LBDown || buttonInput.LTDown) StartCall(cursorPos, isSequential: true);
+        if (buttonInput.RBDown) StartCall(cursorPos, isSequential: false);
+        else if (buttonInput.LBDown) StartCall(cursorPos, isSequential: true);
     }
 
     // ──────────────────────────────────────────
@@ -118,6 +119,8 @@ public class GameManager : MonoBehaviour
         if (!canMoveCursorDuringCall)
             cursorController.SetMovable(false);
 
+        comboCounter?.BeginCall();
+
         // カウンタ・ターゲットをMiniSpawnerに通知してからDispatch
         miniSpawner.PrepareForDispatch(targetPos);
 
@@ -141,5 +144,7 @@ public class GameManager : MonoBehaviour
         canForm             = true;
         isFormationDeployed = false;
         currentFormation    = FormationType.None;
+
+        comboCounter?.EndCall();
     }
 }
