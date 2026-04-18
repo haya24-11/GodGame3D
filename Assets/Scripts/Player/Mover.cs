@@ -3,6 +3,11 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
+    public float MoveSpeed
+    {
+        get => moveSpeed;
+        set => moveSpeed = value;
+    }
 
     Vector3 targetPosition;
     bool isTracking = false;

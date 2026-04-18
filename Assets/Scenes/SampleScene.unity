@@ -511,6 +511,68 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &427694791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 427694794}
+  - component: {fileID: 427694793}
+  - component: {fileID: 427694792}
+  m_Layer: 0
+  m_Name: ComboSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &427694792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427694791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7007c6da9ebea444f8d269e66f60a03c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboRewardApplier
+  isBossBattle: 0
+  comboCounter: {fileID: 427694793}
+  focusTimeModifier: {fileID: 0}
+  bossHealth: {fileID: 0}
+--- !u!114 &427694793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427694791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b491cb667fa59bb4c89801f401a86b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboCounter
+  rewardConfig: {fileID: 11400000, guid: e916beb634479ca409b0c8e6de45bf33, type: 2}
+--- !u!4 &427694794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427694791}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0128, y: -0, z: 2.00562}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &437439736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,6 +1502,9 @@ GameObject:
   - component: {fileID: 1966406801}
   - component: {fileID: 1966406800}
   - component: {fileID: 1966406799}
+  - component: {fileID: 1966406803}
+  - component: {fileID: 1966406805}
+  - component: {fileID: 1966406804}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1460,6 +1525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniMoveDispatcher
   sequenceInterval: 0.5
+  comboCounter: {fileID: 427694793}
 --- !u!114 &1966406800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1490,6 +1556,7 @@ MonoBehaviour:
   moveDispatcher: {fileID: 1966406799}
   buttonInput: {fileID: 1966406800}
   cursorController: {fileID: 5728436997774488754}
+  comboCounter: {fileID: 427694793}
   canMoveCursorDuringCall: 0
 --- !u!4 &1966406802
 Transform:
@@ -1506,6 +1573,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1966406803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966406798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecaaec7961fd03f41bf321f9c04f9e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusSystem
+  buttonInput: {fileID: 1966406800}
+  timeConsumptionMultiplier: 1.5
+  moveSpeedMultiplier: 1.5
+--- !u!114 &1966406804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966406798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7007c6da9ebea444f8d269e66f60a03c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboRewardApplier
+  isBossBattle: 0
+  comboCounter: {fileID: 1966406805}
+  focusTimeModifier: {fileID: 0}
+  bossHealth: {fileID: 0}
+--- !u!114 &1966406805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966406798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b491cb667fa59bb4c89801f401a86b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboCounter
+  rewardConfig: {fileID: 11400000, guid: e916beb634479ca409b0c8e6de45bf33, type: 2}
 --- !u!1 &1991039910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,6 +1700,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5530108179229331275, guid: f4a039e5378d6f24d81c66bbd482c732, type: 3}
+      propertyPath: focusSystem
+      value: 
+      objectReference: {fileID: 1966406803}
     - target: {fileID: 4737654934856437215, guid: f4a039e5378d6f24d81c66bbd482c732, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.91
@@ -1727,6 +1842,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8981435484000600222, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5728436997774488754}
+    - targetCorrespondingSourceObject: {fileID: 8981435484000600222, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5728436997774488755}
   m_SourcePrefab: {fileID: 100100000, guid: 1f526410aabf1ca43a7bc0dfe6dbedbc, type: 3}
 --- !u!4 &5728436997774488746 stripped
 Transform:
@@ -1770,6 +1888,19 @@ MonoBehaviour:
   inputReader: {fileID: 5728436997774488749}
   mover: {fileID: 5728436997774488748}
   cam: {fileID: 330585545}
+--- !u!114 &5728436997774488755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734996435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f80a784e2375c914f836be57f8568570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusSpeedModifier
+  focusSystem: {fileID: 1966406803}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1786,3 +1917,4 @@ SceneRoots:
   - {fileID: 1073315859}
   - {fileID: 851103460}
   - {fileID: 1175021163}
+  - {fileID: 427694794}

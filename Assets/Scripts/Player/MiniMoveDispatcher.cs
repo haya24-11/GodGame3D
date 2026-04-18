@@ -10,6 +10,9 @@ public class MiniMoveDispatcher : MonoBehaviour
 {
     [SerializeField] float sequenceInterval = 0.5f;
 
+    [Header("コンボシステム")]
+    [SerializeField] ComboCounter comboCounter;
+
     // ──────────────────────────────────────────
     // Public API
     // ──────────────────────────────────────────
@@ -42,7 +45,14 @@ public class MiniMoveDispatcher : MonoBehaviour
     void SendToTarget(MiniUnit unit, Vector3 target)
     {
         unit.Detector.SetTarget(target);
-        unit.Detector.OnArrived += () => Destroy(unit.gameObject);
+        unit.Detector.OnArrived += () =>
+        {
+            // ① コンボカウントを先に登録（報酬付与）
+            comboCounter?.RegisterHit();
+
+            // ② Mini を破棄
+            Destroy(unit.gameObject);
+        };
         unit.Mover.SetTargetPosition(target);
     }
 
