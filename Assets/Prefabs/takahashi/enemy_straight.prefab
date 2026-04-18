@@ -129,4 +129,4 @@ MonoBehaviour:
   moveSpeed: 2
   yHeight: 2
   timer: {fileID: 0}
-  addTimeOnDeath: 10
+  addTimeOnDeath: 1

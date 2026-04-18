@@ -40,11 +40,11 @@ public class Ttimer : MonoBehaviour
             }
         }
 
-        // 4桁文字列にする
-        string str = currentValue.ToString("D6");
+        // 3桁文字列にする
+        string str = currentValue.ToString("D3");
 
         // 先頭1桁 + ":" + 後ろ3桁
-        string formatted = str.Substring(0, 3) + ":" + str.Substring(3, 3);
+        string formatted = str.Substring(0, 3);// + ":" + str.Substring(3, 3);
 
         timerText.text = formatted; timerText.text = formatted;
 

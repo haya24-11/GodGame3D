@@ -957,7 +957,7 @@ PrefabInstance:
       objectReference: {fileID: 454911602}
     - target: {fileID: 15125971945191155, guid: 14d608269f34db843be59dbe9d3ae3b7, type: 3}
       propertyPath: addTimeOnDeath
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3615914903188041962, guid: 14d608269f34db843be59dbe9d3ae3b7, type: 3}
       propertyPath: m_LocalPosition.x
