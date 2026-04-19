@@ -3,24 +3,30 @@ using UnityEngine.Pool;
 public class call_enemy : MonoBehaviour
 {
     //オブジェクトプールマネージャー
-    [SerializeField] GameObject Enemy;
-    [SerializeField] GameObject Boss;
+    [SerializeField] GameObject enemy_straight;
+    [SerializeField] GameObject boss_alpha;
+    [SerializeField] GameObject enemy_accele;
 
     //オブジェクトプール
-    ObjectPool<GameObject> enemy_pool;
-    ObjectPool<GameObject> boss_pool;
+    ObjectPool<GameObject> enemy_straight_pool;
+    ObjectPool<GameObject> boss_alpha_pool;
+    ObjectPool<GameObject> enemy_accele_pool;
 
     void Awake()
     {
         //オブジェクトプールの定義
-        enemy_pool = new ObjectPool<GameObject>(
-            () => Instantiate(Enemy),
+        enemy_straight_pool = new ObjectPool<GameObject>(
+            () => Instantiate(enemy_straight),
             obj => obj.SetActive(true),
             obj => obj.SetActive(false)
         );
-
-        boss_pool = new ObjectPool<GameObject>(
-            () => Instantiate(Boss),
+        boss_alpha_pool = new ObjectPool<GameObject>(
+            () => Instantiate(boss_alpha),
+            obj => obj.SetActive(true),
+            obj => obj.SetActive(false)
+        );
+        enemy_accele_pool=new ObjectPool<GameObject>(
+            ()=> Instantiate(enemy_accele),
             obj => obj.SetActive(true),
             obj => obj.SetActive(false)
         );
@@ -32,11 +38,15 @@ public class call_enemy : MonoBehaviour
         GameObject enemy;
 
         if (ID == 0)
-            enemy = enemy_pool.Get();
+            enemy = enemy_straight_pool.Get();
         else if (ID == 1)
-            enemy = boss_pool.Get();
+            enemy = enemy_accele_pool.Get();
+        else if (ID == 2)
+            enemy = boss_alpha_pool.Get();
         else
-            enemy = enemy_pool.Get();
+            enemy = enemy_straight_pool.Get();
+
+        Debug.Log("A");
 
         // 3D座標
         enemy.transform.position = position;
@@ -45,9 +55,15 @@ public class call_enemy : MonoBehaviour
         enemy.transform.rotation = Quaternion.Euler(0, rotY, 0);
 
         // 角度設定（move_enemyの中身も3D対応が必要）
-        MoveEnemy move_Enemy = enemy.GetComponent<MoveEnemy>();
-        move_Enemy.tune_angle(angle, rotY);
+        if (ID == 0)
+        {
+            MoveEnemy move_Enemy = enemy.GetComponent<MoveEnemy>();
+            move_Enemy.tune_angle(angle, rotY);
+        }
+        else if(ID == 2)
+        {
 
+        }
         return enemy;
     }
 
