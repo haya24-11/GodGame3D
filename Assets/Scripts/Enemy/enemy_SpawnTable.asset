@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbf4c184704cb14e8f22ca02cb6f60e, type: 3}
+  m_Name: enemy_SpawnTable
+  m_EditorClassIdentifier: Assembly-CSharp::enemy_SpawnTable
+  spawnTable:
+  - spawnTime: 1
+    spawnPosition: {x: -11, y: 2, z: 1}
+    spawnAngle: 0
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 1
+    spawnPosition: {x: -11, y: 2, z: -1}
+    spawnAngle: 0
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 5
+    spawnPosition: {x: -4.5, y: 2, z: -6.5}
+    spawnAngle: 45
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 5
+    spawnPosition: {x: -6.5, y: 2, z: -6.5}
+    spawnAngle: 45
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 5
+    spawnPosition: {x: -8.5, y: 2, z: -6.5}
+    spawnAngle: 45
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 9
+    spawnPosition: {x: 2.25, y: 2, z: -6.5}
+    spawnAngle: 90
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 9
+    spawnPosition: {x: 4.25, y: 2, z: -6.5}
+    spawnAngle: 90
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 9
+    spawnPosition: {x: 6.25, y: 2, z: -6.5}
+    spawnAngle: 90
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 9
+    spawnPosition: {x: 0.25, y: 2, z: -6.5}
+    spawnAngle: 90
+    spawnRoat: 0
+    enemyType: 0
+  - spawnTime: 0
+    spawnPosition: {x: 1, y: 2, z: -6.5}
+    spawnAngle: 90
+    spawnRoat: 0
+    enemyType: 1
+  - spawnTime: 0
+    spawnPosition: {x: -1, y: 2, z: -6.5}
+    spawnAngle: 90
+    spawnRoat: 0
+    enemyType: 1
