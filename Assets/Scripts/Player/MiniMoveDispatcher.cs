@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -44,15 +45,18 @@ public class MiniMoveDispatcher : MonoBehaviour
 
     void SendToTarget(MiniUnit unit, Vector3 target)
     {
-        unit.Detector.SetTarget(target);
-        unit.Detector.OnArrived += () =>
+        // ラムダを変数に持つことで -= による除去を可能にし、二重登録を防ぐ
+        Action onArrived = null;
+        onArrived = () =>
         {
-            // ① コンボカウントを先に登録（報酬付与）
-            comboCounter?.RegisterHit();
+            unit.Detector.OnArrived -= onArrived;   // 自身を解除（冪等性確保）
 
-            // ② Mini を破棄
+            comboCounter?.RegisterHit();
             Destroy(unit.gameObject);
         };
+
+        unit.Detector.OnArrived += onArrived;
+        unit.Detector.SetTarget(target);
         unit.Mover.SetTargetPosition(target);
     }
 
