@@ -1,91 +1,95 @@
 // どのファイルのどこを変更：EnemyBossStraight.cs（新規）
 // 意図：状態管理ベースを構築
+// 意図：ボスの全挙動・フェーズ・ダメージ・点滅を一本で管理
 
 using UnityEngine;
 
-public class EnemyBossStraight : EnemyBase
+public class EnemyBossStraight : MonoBehaviour
 {
     private enum State
     {
-        Spawn,
         MoveIn,
         Stop,
         Wait,
-        Feint,
         Charge,
-        Exit
+        Exit,
+        Feint
     }
 
     private State state;
 
+    [Header("ステータス")]
+    [SerializeField] private int maxHp = 60;
+    private int currentHp;
+
     [Header("速度")]
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float chargeSpeed = 5f;
+    private float baseMoveSpeed = 2f;
+    private float chargeSpeed = 5f;
 
-    private float timer;
     private Vector3 moveDir;
     private Vector3 startPos;
-    private int phase = 0;
 
-    // 意図：フェイント制御
-    private bool canFeint = false;     // Phase1でON
-    private bool skipNextFeint = false; // 連続防止
+    private float timer;
 
-    // 意図：吹っ飛び方向制御
-    private Vector3 knockbackDir;
+    // フェーズ
+    private bool phase1 = false;
+    private bool phase2 = false;
+
+    // フェイント
+    private bool canFeint = false;
+    private bool skipNextFeint = false;
+    private Vector3 feintStart;
+    private float feintDistance = 0.5f;
+
+    // 吹っ飛び
     private bool isKnockback = false;
+    private Vector3 knockbackDir;
 
-    protected override void Start()
+    // 点滅
+    private Renderer rend;
+    private Color originalColor;
+
+    public int CurrentHp => currentHp;
+    void Start()
     {
-        base.Start();
-        state = State.Spawn;
+        currentHp = maxHp;
+
+        rend = GetComponent<Renderer>();
+        originalColor = rend.material.color;
+
+        // HPバー接続
+        var ui = FindObjectOfType<BossHPBarUI>();
+        if (ui != null)
+        {
+            ui.Initialize(() => currentHp, maxHp);
+        }
+
         Respawn();
     }
 
-    private State prevState;
     void Update()
     {
-        // 意図：状態確認
-        if (prevState != state)
-        {
-            Debug.Log($"State変更: {prevState} → {state}");
-            prevState = state;
-        }
         switch (state)
         {
-            case State.MoveIn:
-                MoveIn();
-                break;
-
-            case State.Stop:
-                Stop();
-                break;
-
-            case State.Wait:
-                Wait();
-                break;
-
-            case State.Charge:
-                Charge();
-                break;
-
-            case State.Exit:
-                Exit();
-                break;
-
-            case State.Feint:
-                Feint();
-                break;
+            case State.MoveIn: MoveIn(); break;
+            case State.Stop: Stop(); break;
+            case State.Wait: Wait(); break;
+            case State.Charge: Charge(); break;
+            case State.Exit: Exit(); break;
+            case State.Feint: Feint(); break;
         }
     }
 
+    // =========================
+    // 出現処理
+    // =========================
     void Respawn()
     {
         var cam = Camera.main;
         float h = cam.orthographicSize;
         float w = h * cam.aspect;
 
-        // 上か下から出す（縦移動のみ）
         bool fromTop = Random.value > 0.5f;
 
         float x = Random.Range(-w + 1f, w - 1f);
@@ -98,8 +102,6 @@ public class EnemyBossStraight : EnemyBase
         startPos = transform.position;
 
         state = State.MoveIn;
-
-        startPos = transform.position;
     }
 
     void MoveIn()
@@ -122,15 +124,14 @@ public class EnemyBossStraight : EnemyBase
     {
         timer += Time.deltaTime;
 
-        // 意図：フェイント分岐
         if (timer >= 1f)
         {
-            // フェイント条件
+            // フェイント
             if (canFeint && !skipNextFeint && Random.value < 0.75f)
             {
-                FeintStart();
+                feintStart = transform.position;
                 state = State.Feint;
-                skipNextFeint = true; // 次は封印
+                skipNextFeint = true;
             }
             else
             {
@@ -142,19 +143,19 @@ public class EnemyBossStraight : EnemyBase
 
     void Charge()
     {
-        // 意図：通常移動と吹っ飛びを分岐
         Vector3 dir = isKnockback ? knockbackDir : moveDir;
+
         transform.Translate(dir * chargeSpeed * Time.deltaTime);
 
-        // 画面外判定
         var cam = Camera.main;
         float h = cam.orthographicSize;
+        float w = h * cam.aspect;
 
         if (Mathf.Abs(transform.position.z) > h + 2f ||
-    Mathf.Abs(transform.position.x) > (h * Camera.main.aspect) + 2f)
+            Mathf.Abs(transform.position.x) > w + 2f)
         {
             isKnockback = false;
-            state = State.Exit;
+            Respawn();
         }
     }
 
@@ -163,101 +164,86 @@ public class EnemyBossStraight : EnemyBase
         Respawn();
     }
 
-    // 意図：吹っ飛び＋時間加算＋フェイント解禁
-    void Phase1(Vector3 dir)
-    {
-        Debug.Log($"[BossStraight] Phase1突入 HP:{currentHp}");
-
-        moveSpeed = 3f;
-        canFeint = true;
-
-        // 吹っ飛び
-        knockbackDir = dir;
-        chargeSpeed = 8f;
-        isKnockback = true;
-
-        // 時間+20
-        SendMessage("AddTime", 20, SendMessageOptions.DontRequireReceiver);
-
-        state = State.Charge;
-    }
-
-    // 意図：さらに高速化＋吹っ飛び
-    void Phase2(Vector3 dir)
-    {
-        Debug.Log($"[BossStraight] Phase2突入 HP:{currentHp}");
-
-        moveSpeed = 4f;
-        chargeSpeed = 7f;
-
-        knockbackDir = dir;
-        isKnockback = true;
-
-        // 時間+20
-        SendMessage("AddTime", 20, SendMessageOptions.DontRequireReceiver);
-
-        state = State.Charge;
-    }
-
-    // 意図：逆方向に0.5unit戻る
-    private Vector3 feintStart;
-    private float feintDistance = 0.5f;
-
-    void FeintStart()
-    {
-        feintStart = transform.position;
-    }
-
     void Feint()
     {
-        // 逆方向に移動
         transform.Translate(-moveDir * moveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(feintStart, transform.position) >= feintDistance)
         {
-            // 元の流れに戻る（再出現）
-            state = State.Exit;
+            Respawn();
             skipNextFeint = false;
         }
     }
 
-    // 意図：攻撃方向を受け取る
+    // =========================
+    // ダメージ処理
+    // =========================
     public void TakeDamage(int damage, Vector3 attackerPos)
     {
+
         int beforeHp = currentHp;
-
-        Debug.Log($"[BossStraight] ダメージ受け取り前 HP:{beforeHp}");
-
         currentHp -= damage;
+        Debug.Log($"[BossStraight] ダメージ:{damage} / HP:{beforeHp} → {currentHp}");
 
-        int afterHp = currentHp;
+        // 点滅
+        StartCoroutine(DamageFlash());
 
-        Debug.Log($"[BossStraight] ダメージ受け取り後 HP:{afterHp}");
         // 吹っ飛び方向
         Vector3 dir = (transform.position - attackerPos).normalized;
 
-        // フェーズ判定
-        int threshold1 = Mathf.CeilToInt(maxHp * 2f / 3f);
-        int threshold2 = Mathf.CeilToInt(maxHp * 1f / 3f);
+        int t1 = Mathf.CeilToInt(maxHp * 2f / 3f);
+        int t2 = Mathf.CeilToInt(maxHp * 1f / 3f);
 
-        Debug.Log($"[BossStraight] 閾値確認 before:{beforeHp} after:{afterHp} t1:{threshold1} t2:{threshold2}");
-
-        if (beforeHp > threshold1 && afterHp <= threshold1)
+        // Phase1
+        if (!phase1 && currentHp <= t1)
         {
-            Debug.Log("[BossStraight] Phase1条件成立");
-            Phase1(dir);
+            phase1 = true;
+            Debug.Log($"[BossStraight] Phase1突入 HP:{currentHp}");
+
+            moveSpeed = 3f;
+            chargeSpeed = 8f;
+            canFeint = true;
+
+            isKnockback = true;
+            knockbackDir = dir;
+
+            //  即吹っ飛び状態へ
+            state = State.Charge;
+
+            SendMessage("AddTime", 20, SendMessageOptions.DontRequireReceiver);
         }
 
-        if (beforeHp > threshold2 && afterHp <= threshold2)
+        // Phase2
+        if (!phase2 && currentHp <= t2)
         {
-            Debug.Log("[BossStraight] Phase2条件成立");
-            Phase2(dir);
+            phase2 = true;
+            Debug.Log($"[BossStraight] Phase2突入 HP:{currentHp}");
+
+            moveSpeed = 4f;
+            chargeSpeed = 7f;
+
+            isKnockback = true;
+            knockbackDir = dir;
+
+            //  即吹っ飛び状態へ
+            state = State.Charge;
+
+            SendMessage("AddTime", 20, SendMessageOptions.DontRequireReceiver);
         }
 
         if (currentHp <= 0)
         {
-            OnDead();
+            Destroy(gameObject);
         }
     }
-}
 
+    // =========================
+    // 点滅処理
+    // =========================
+    System.Collections.IEnumerator DamageFlash()
+    {
+        rend.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        rend.material.color = originalColor;
+    }
+}

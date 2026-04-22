@@ -11,18 +11,20 @@ public class BossHPBarUI : MonoBehaviour
     private EnemyBossAlpha boss;
 
     // ボスから初期化される
-    public void Initialize(EnemyBossAlpha targetBoss, int maxHp)
-    {
-        boss = targetBoss;
+    // 意図：どのボスでもHP取得できるようにする
+    private System.Func<int> getHp;
 
+    public void Initialize(System.Func<int> hpGetter, int maxHp)
+    {
         slider.maxValue = maxHp;
-        slider.value = maxHp;
+        getHp = hpGetter;
     }
 
     void Update()
     {
-        if (boss == null) return;
-
-        slider.value = boss.CurrentHp;
+        if (getHp != null)
+        {
+            slider.value = getHp();
+        }
     }
 }

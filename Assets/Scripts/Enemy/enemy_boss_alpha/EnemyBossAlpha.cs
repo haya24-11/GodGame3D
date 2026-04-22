@@ -28,7 +28,7 @@ public class EnemyBossAlpha : MonoBehaviour
         var ui = FindObjectOfType<BossHPBarUI>();
         if (ui != null)
         {
-            ui.Initialize(this, maxHp);
+            //ui.Initialize(this, maxHp);
         }
 
         // ƒJƒƒ‰‚©‚ç”ÍˆÍæ“¾
