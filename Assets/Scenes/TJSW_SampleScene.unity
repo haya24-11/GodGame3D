@@ -783,7 +783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComboRewardApplier
   isBossBattle: 0
   comboCounter: {fileID: 427694793}
-  focusTimeModifier: {fileID: 0}
+  focusTimeModifier: {fileID: 422464588}
   bossHealth: {fileID: 0}
 --- !u!114 &427694793
 MonoBehaviour:
