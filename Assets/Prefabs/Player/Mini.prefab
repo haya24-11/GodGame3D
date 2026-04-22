@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -1804199495266352775}
   - component: {fileID: -5435885885152491772}
   - component: {fileID: -5623001669489396327}
+  - component: {fileID: 3695146961791666504}
   m_Layer: 0
   m_Name: Mini
   m_TagString: Mini
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab45e277807dba468771bd01ff4f243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniUnit
+--- !u!114 &3695146961791666504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6877813210677450260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5322d936315d74785899a818c6dbf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MiniAttack
+  attack: 2
