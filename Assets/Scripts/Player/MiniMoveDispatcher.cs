@@ -49,7 +49,7 @@ public class MiniMoveDispatcher : MonoBehaviour
         Action onArrived = null;
         onArrived = () =>
         {
-            unit.Detector.OnArrived -= onArrived;   // 自身を解除（冪等性確保）
+            unit.Detector.OnArrived -= onArrived;   // 自身を解除
 
             comboCounter?.RegisterHit();
             Destroy(unit.gameObject);
