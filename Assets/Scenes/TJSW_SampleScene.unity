@@ -594,23 +594,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &397820881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 397820862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3ecaf31b90f0584e998b9fcff590496, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossWeakPoint
-  localOffset: {x: 0, y: 0, z: 0}
-  damageMultiplier: 2
-  hitRadius: 0.5
-  focusSystem: {fileID: 1966406803}
-  weakPointMarker: {fileID: 5594770426529267310, guid: c0c50f260d62a9740b7e36a16e85496a, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +739,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FocusTimeModifier
   focusSystem: {fileID: 1966406803}
-  totalTime: 60
+  ttimer: {fileID: 422464590}
+--- !u!114 &422464590 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7896850991948193545, guid: 3b1e010af30622e40a04916050c54e61, type: 3}
+  m_PrefabInstance: {fileID: 52402452}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422464583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 497618b73ddf533489d6ff6ad5a82f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ttimer
 --- !u!1 &427694791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,9 +1385,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 397820875}
-    - targetCorrespondingSourceObject: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 397820881}
   m_SourcePrefab: {fileID: 100100000, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
 --- !u!1 &1175021161
 GameObject:
