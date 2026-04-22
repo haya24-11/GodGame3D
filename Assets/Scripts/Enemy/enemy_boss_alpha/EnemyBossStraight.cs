@@ -127,16 +127,37 @@ public class EnemyBossStraight : MonoBehaviour
         if (timer >= 1f)
         {
             // フェイント
-            if (canFeint && !skipNextFeint && Random.value < 0.75f)
+            if (canFeint)
             {
-                feintStart = transform.position;
-                state = State.Feint;
-                skipNextFeint = true;
+                // フェイント後は強制で直進
+                if (skipNextFeint)
+                {
+                    Debug.Log("フェイント後の強制直進");
+                    state = State.Charge;
+                    skipNextFeint = false;
+                    return;
+                }
+
+                // 50%でフェイント
+                if (Random.value < 0.5f)
+                {
+                    Debug.Log("フェイント発動");
+                    feintStart = transform.position;
+                    state = State.Feint;
+
+                    // 次は必ず直進
+                    skipNextFeint = true;
+                }
+                else
+                {
+                    Debug.Log("通常直進");
+                    state = State.Charge;
+                }
             }
             else
             {
+                Debug.Log("フェイント未解禁（Phase前）");
                 state = State.Charge;
-                skipNextFeint = false;
             }
         }
     }
@@ -171,7 +192,8 @@ public class EnemyBossStraight : MonoBehaviour
         if (Vector3.Distance(feintStart, transform.position) >= feintDistance)
         {
             Respawn();
-            skipNextFeint = false;
+            // ここは触らない
+            // skipNextFeint は Waitで管理する
         }
     }
 
