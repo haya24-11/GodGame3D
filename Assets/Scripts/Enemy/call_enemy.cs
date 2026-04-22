@@ -1,5 +1,13 @@
 using UnityEngine;
 using UnityEngine.Pool;
+
+/*<enemyのオブジェクトプール管理のスクリプト>
+ * 
+ * <内容>
+ * ・オブジェクトプールの宣言と定義
+ * ・オブジェクトプールからの取り出し
+ * ・オブジェクトプールへの返還
+*/
 public class call_enemy : MonoBehaviour
 {
     //オブジェクトプールマネージャー
@@ -67,7 +75,10 @@ public class call_enemy : MonoBehaviour
         return enemy;
     }
 
-
+    public void method_release_enemy(GameObject enemy_object)
+    {
+        
+    }
 
 
 }
