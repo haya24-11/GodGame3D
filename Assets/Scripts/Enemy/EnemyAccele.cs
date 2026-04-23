@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemyAccele : EnemyBase
 {
+    //進行方向を決めるスクリプト
+    [SerializeField] enemy_direction enemy_Direction;
+
+    //進行方向(0～360°)
+    private float angle;
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float accelSpeed = 4f;
 
@@ -15,13 +20,22 @@ public class EnemyAccele : EnemyBase
     {
         base.Start();
         startPos = transform.position;
+
+        angle = enemy_Direction.direction;
     }
 
     void Update()
     {
+        //進行方向の単位ベクトル
+        Vector3 vector3 = new Vector3(
+            Mathf.Cos(0) * Mathf.Cos(angle),
+            Mathf.Sin(0),
+            Mathf.Cos(0) * Mathf.Sin(angle)
+            );
+
         if (!stopped)
         {
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+            transform.Translate(vector3 * moveSpeed * Time.deltaTime);
 
             if (Vector3.Distance(startPos, transform.position) >= 2f)
             {
@@ -35,7 +49,7 @@ public class EnemyAccele : EnemyBase
 
             if (timer >= 1f)
             {
-                transform.Translate(Vector3.forward * accelSpeed * Time.deltaTime);
+                transform.Translate(vector3 * accelSpeed * Time.deltaTime);
             }
         }
     }

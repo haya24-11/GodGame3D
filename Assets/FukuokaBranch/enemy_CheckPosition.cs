@@ -17,13 +17,19 @@ public class enemy_CheckPosition : MonoBehaviour
     [SerializeField] float distance_x;
     [SerializeField] float distance_y;
 
+    //敵の種類の識別番号　Get関数が働いた際に付与されRelease時に使用する
+    public int enemy_ID;
+
+    //オブジェクトプールのスクリプト
+    public call_enemy Call_Enemy;
+
     private void Update()
     {
         //中心座標から離れている場合
         if (this.transform.position.x > distance_x || this.transform.position.x<-distance_x
             || this.transform.position.y>distance_y || this.transform.position.y<-distance_y)
         {
-
+            Call_Enemy.method_release_enemy(this.gameObject);
         }
     }
 }

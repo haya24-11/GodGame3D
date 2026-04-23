@@ -63,21 +63,32 @@ public class call_enemy : MonoBehaviour
         enemy.transform.rotation = Quaternion.Euler(0, rotY, 0);
 
         // 角度設定（move_enemyの中身も3D対応が必要）
-        if (ID == 0)
-        {
-            MoveEnemy move_Enemy = enemy.GetComponent<MoveEnemy>();
-            move_Enemy.tune_angle(angle, rotY);
-        }
-        else if(ID == 2)
-        {
+        enemy_direction enemy_Direction=enemy.GetComponent<enemy_direction>();
+        enemy_Direction.method_enemy_direction(angle);
 
-        }
+        //ID情報付与(後にrelease処理をするための個体番号)
+        enemy_CheckPosition enemy_CheckPosition=enemy.GetComponent<enemy_CheckPosition>();
+        enemy_CheckPosition.enemy_ID = ID;
+
+        //Release処理を呼ぶためにこのスクリプトの参照を付与
+        enemy_CheckPosition.Call_Enemy = this;
+
         return enemy;
     }
 
     public void method_release_enemy(GameObject enemy_object)
     {
-        
+        //敵の種類を判別する為に参照
+        enemy_CheckPosition enemy_CheckPosition=enemy_object.GetComponent<enemy_CheckPosition>();
+
+        if(enemy_CheckPosition.enemy_ID == 0)
+        {
+            enemy_straight_pool.Release(enemy_object);
+        }
+        else if(enemy_CheckPosition.enemy_ID==1)
+        {
+            enemy_accele_pool.Release(enemy_object);
+        }
     }
 
 
