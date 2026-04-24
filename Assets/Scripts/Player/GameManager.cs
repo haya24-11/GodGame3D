@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     List<MiniUnit> activeMinis     = new List<MiniUnit>();
     bool           canForm         = true;
+    bool           isCalling        = false;
     bool           isFormationDeployed = false;
     FormationType  currentFormation    = FormationType.None;
     Vector3        formationOriginPos;
@@ -60,11 +61,12 @@ public class GameManager : MonoBehaviour
     void HandleMoveInput()
     {
         if (activeMinis == null || activeMinis.Count == 0) return;
+        if (isCalling) return;
 
         Vector3 cursorPos = cursorTransform.position;
 
-        if (buttonInput.RBDown) StartCall(cursorPos, isSequential: false);
-        else if (buttonInput.LBDown) StartCall(cursorPos, isSequential: true);
+        if (buttonInput.RTDown) StartCall(cursorPos, isSequential: false);
+        //else if (buttonInput.LBDown) StartCall(cursorPos, isSequential: true);
     }
 
     // ──────────────────────────────────────────
@@ -114,6 +116,7 @@ public class GameManager : MonoBehaviour
 
     void StartCall(Vector3 targetPos, bool isSequential)
     {
+        isCalling = true;
         canForm = false;
 
         if (!canMoveCursorDuringCall)
@@ -141,6 +144,7 @@ public class GameManager : MonoBehaviour
         bigVisibility.Show(cursorTransform.position);
 
         cursorController.SetMovable(true);
+        isCalling           = false;
         canForm             = true;
         isFormationDeployed = false;
         currentFormation    = FormationType.None;

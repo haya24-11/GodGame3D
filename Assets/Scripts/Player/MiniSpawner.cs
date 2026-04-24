@@ -19,7 +19,7 @@ public class MiniSpawner : MonoBehaviour
     /// <summary>全MiniがtargetPosに到着したとき、到着地点を引数として発火する。</summary>
     public event Action<Vector3> OnAllArrived;
 
-    int   arrivedCount;
+    int     pendingCount;
     Vector3 arrivalTarget;
 
     // ──────────────────────────────────────────
@@ -38,7 +38,6 @@ public class MiniSpawner : MonoBehaviour
     public void PrepareForDispatch(Vector3 target)
     {
         arrivalTarget = target;
-        arrivedCount  = 0;
     }
 
     // ──────────────────────────────────────────
@@ -47,7 +46,6 @@ public class MiniSpawner : MonoBehaviour
 
     List<MiniUnit> SpawnWithOffset(Vector3 centerPos, Vector3 axis)
     {
-        arrivedCount = 0;
         var spawned  = new List<MiniUnit>(miniCount);
 
         float totalWidth = spacing * (miniCount - 1);
@@ -73,15 +71,17 @@ public class MiniSpawner : MonoBehaviour
 
             spawned.Add(unit);
         }
+        pendingCount = spawned.Count;
 
         return spawned;
     }
 
     void HandleMiniArrived()
     {
-        arrivedCount++;
-        if (arrivedCount >= miniCount)
+        pendingCount--;
+        if (pendingCount <= 0)
         {
+            pendingCount = 0;
             OnAllArrived?.Invoke(arrivalTarget);
         }
     }
