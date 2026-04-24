@@ -17,6 +17,7 @@ public class Ttimer : MonoBehaviour
     public void AddTime(int value)
     {
         currentValue += value;
+        Debug.Log($"[Timer] 加算:{value} → 現在:{currentValue}");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

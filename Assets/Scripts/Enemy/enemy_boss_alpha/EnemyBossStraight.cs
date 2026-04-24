@@ -53,6 +53,9 @@ public class EnemyBossStraight : MonoBehaviour
     // 意図：初回か再出現かを判定
     private bool isFirstSpawn = true;
 
+    // 意図：タイマーを直接操作する
+    private Ttimer timerSystem;
+
     public int CurrentHp => currentHp;
     void Start()
     {
@@ -67,6 +70,13 @@ public class EnemyBossStraight : MonoBehaviour
         if (ui != null)
         {
             ui.Initialize(() => currentHp, maxHp);
+        }
+        // タイマー取得
+        timerSystem = FindObjectOfType<Ttimer>();
+
+        if (timerSystem == null)
+        {
+            Debug.LogError("Ttimerがシーンに存在しない");
         }
 
         Respawn();
@@ -265,7 +275,11 @@ public class EnemyBossStraight : MonoBehaviour
             //  即吹っ飛び状態へ
             state = State.Charge;
 
-            SendMessage("AddTime", 20, SendMessageOptions.DontRequireReceiver);
+            if (timerSystem != null)
+            {
+                timerSystem.AddTime(20);
+                Debug.Log("[BossStraight] タイム+20");
+            }
         }
 
         // Phase2
