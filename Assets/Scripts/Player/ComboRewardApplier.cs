@@ -17,7 +17,9 @@ public class ComboRewardApplier : UnityEngine.MonoBehaviour
     [Header("参照")]
     [SerializeField] ComboCounter      comboCounter;
     [SerializeField] FocusTimeModifier focusTimeModifier; // 通常戦のみ使用
-    [SerializeField] BossHealth        bossHealth;        // ボス戦のみ使用
+    [SerializeField, Tooltip("BossAlphaAdapter または BossStraightAdapter をアタッチした GameObject を指定")]
+    MonoBehaviour bossTargetMono;
+    IBossTarget bossTarget;
 
     // ──────────────────────────────────────────
     // Public API
@@ -26,9 +28,23 @@ public class ComboRewardApplier : UnityEngine.MonoBehaviour
     /// <summary>ランタイムでボス戦フラグを切り替えたい場合に使う。</summary>
     public void SetBossBattle(bool value) => isBossBattle = value;
 
+    public void SetBossTarget(IBossTarget target) => bossTarget = target;
+
     // ──────────────────────────────────────────
     // Unity lifecycle
     // ──────────────────────────────────────────
+
+    void Awake()
+    {
+        // Inspector アサインした MonoBehaviour を IBossTarget にキャスト
+        if (bossTargetMono != null)
+            bossTarget = bossTargetMono as IBossTarget;
+
+        if (bossTargetMono != null && bossTarget == null)
+            Debug.LogWarning(
+                "[ComboRewardApplier] bossTargetMono が IBossTarget を実装していません。" +
+                "BossAlphaAdapter か BossStraightAdapter を設定してください。");
+    }
 
     void OnEnable()
     {
@@ -62,7 +78,7 @@ public class ComboRewardApplier : UnityEngine.MonoBehaviour
 
     void ApplyBossReward(ComboRewardConfig.RewardStep step)
     {
-        if (bossHealth == null) return;
-        bossHealth.AddDamageBonus(step.damageBonus);
+        if (bossTarget == null) return;
+        bossTarget.AddDamageBonus(step.damageBonus);
     }
 }
