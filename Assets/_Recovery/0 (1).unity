@@ -2,7 +2,6 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!29 &1
 OcclusionCullingSettings:
-  m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
     smallestOccluder: 5
@@ -229,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7896850991948193545, guid: 3b1e010af30622e40a04916050c54e61, type: 3}
       propertyPath: currentValue
-      value: 100
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9219653667349631851, guid: 3b1e010af30622e40a04916050c54e61, type: 3}
       propertyPath: m_fontSize
@@ -1341,10 +1340,6 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
       propertyPath: maxHp
       value: 13
@@ -1444,8 +1439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemy_playback
   call_enemy_script: {fileID: 1183371466}
   enemyTypeTable:
-  - {fileID: 5236634696607220464, guid: ac7fdf40e717b2747be49c3e2f438e29, type: 3}
-  - {fileID: 5049444824402838723, guid: 5351a4b948a1bf84688028c2e9383aa5, type: 3}
+  - {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
+  - {fileID: 5049444824402838723, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
   - {fileID: 397820862}
   spawnTableSO:
   - {fileID: 11400000, guid: e4831f5ffee5e0d43a99e081c1b85e7e, type: 2}
@@ -2203,10 +2198,6 @@ PrefabInstance:
     - target: {fileID: 5049444824402838723, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
       propertyPath: m_Name
       value: enemy_accele
-      objectReference: {fileID: 0}
-    - target: {fileID: 5049444824402838723, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

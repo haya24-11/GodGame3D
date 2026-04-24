@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2996101171802691597}
   - component: {fileID: 6325656654807345356}
   - component: {fileID: 8335609438383278294}
+  - component: {fileID: 7917552376611301488}
+  - component: {fileID: 1325166433444126397}
   m_Layer: 0
   m_Name: enemy_accele
   m_TagString: Untagged
@@ -136,7 +138,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -154,5 +156,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAccele
   maxHp: 10
+  enemy_Direction: {fileID: 0}
   moveSpeed: 2
   accelSpeed: 4
+--- !u!114 &7917552376611301488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049444824402838723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca48f75d67d0f9d439a0f5863264e3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemy_direction
+  direction: 0
+--- !u!114 &1325166433444126397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049444824402838723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77513421dade1994e97fc3d6cd69dfbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemy_CheckPosition
+  distance_x: 8
+  distance_y: 8
+  enemy_ID: 0
+  Call_Enemy: {fileID: 0}
