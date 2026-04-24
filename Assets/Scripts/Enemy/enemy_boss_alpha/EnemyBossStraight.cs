@@ -3,7 +3,7 @@
 // 意図：ボスの全挙動・フェーズ・ダメージ・点滅を一本で管理
 
 using UnityEngine;
-
+using System.Collections;
 public class EnemyBossStraight : MonoBehaviour
 {
     private enum State
@@ -56,6 +56,9 @@ public class EnemyBossStraight : MonoBehaviour
     // 意図：タイマーを直接操作する
     private Ttimer timerSystem;
 
+    // 意図：死亡状態を管理（多重実行防止）
+    private bool isDead = false;
+
     public int CurrentHp => currentHp;
     void Start()
     {
@@ -84,6 +87,7 @@ public class EnemyBossStraight : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
         switch (state)
         {
             case State.MoveIn: MoveIn(); break;
@@ -300,9 +304,10 @@ public class EnemyBossStraight : MonoBehaviour
             SendMessage("AddTime", 20, SendMessageOptions.DontRequireReceiver);
         }
 
-        if (currentHp <= 0)
+        if (currentHp <= 0 && !isDead)
         {
-            Destroy(gameObject);
+            isDead = true;
+            StartCoroutine(DeathSequence());
         }
     }
 
@@ -314,5 +319,36 @@ public class EnemyBossStraight : MonoBehaviour
         rend.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         rend.material.color = originalColor;
+    }
+
+    // 意図：ボス撃破後、5秒待ってタイトルへ遷移
+    System.Collections.IEnumerator DeathSequence()
+    {
+        Debug.Log("[BossStraight] 撃破！");
+
+        // 必要ならここで動き止める
+        state = State.Stop;
+
+        // 1秒後に見た目だけ消す
+        StartCoroutine(HideAfterDelay(1f));
+
+        // 5秒後にシーン遷移
+        yield return new WaitForSeconds(5f);
+
+        Debug.Log("[BossStraight] タイトルへ遷移");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+    }
+    // 意図：指定秒後にボスを消す
+    IEnumerator HideAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Debug.Log("[BossStraight] ボス非表示");
+
+        // 見た目と当たり判定だけ消す
+        GetComponent<Renderer>().enabled = false;
+
+        var col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
     }
 }
