@@ -50,10 +50,14 @@ public class EnemyBossStraight : MonoBehaviour
     private Renderer rend;
     private Color originalColor;
 
+    // 意図：初回か再出現かを判定
+    private bool isFirstSpawn = true;
+
     public int CurrentHp => currentHp;
     void Start()
     {
         currentHp = maxHp;
+        isFirstSpawn = true;
 
         rend = GetComponent<Renderer>();
         originalColor = rend.material.color;
@@ -90,14 +94,43 @@ public class EnemyBossStraight : MonoBehaviour
         float h = cam.orthographicSize;
         float w = h * cam.aspect;
 
-        bool fromTop = Random.value > 0.5f;
+        // 意図：初回は1unit、再出現は1.5unit
+        float margin = isFirstSpawn ? 1f : 1.5f;
 
-        float x = Random.Range(-w + 1f, w - 1f);
-        float z = fromTop ? h + 1f : -h - 1f;
+        // どの方向から出るか（0:上 1:下 2:右 3:左）
+        int spawnDir = Random.Range(0, 4);
 
+        float x = 0f;
+        float z = 0f;
+
+        switch (spawnDir)
+        {
+            case 0: // 上 → 下
+                x = Random.Range(-w + margin, w - margin);
+                z = h + margin;
+                moveDir = Vector3.back;
+                break;
+
+            case 1: // 下 → 上
+                x = Random.Range(-w + margin, w - margin);
+                z = -h - margin;
+                moveDir = Vector3.forward;
+                break;
+
+            case 2: // 右 → 左
+                x = w + margin;
+                z = Random.Range(-h + margin, h - margin);
+                moveDir = Vector3.left;
+                break;
+
+            case 3: // 左 → 右
+                x = -w - margin;
+                z = Random.Range(-h + margin, h - margin);
+                moveDir = Vector3.right;
+                break;
+        }
         transform.position = new Vector3(x, 1f, z);
-
-        moveDir = fromTop ? Vector3.back : Vector3.forward;
+        isFirstSpawn = false;
 
         startPos = transform.position;
 
@@ -241,7 +274,7 @@ public class EnemyBossStraight : MonoBehaviour
             phase2 = true;
             Debug.Log($"[BossStraight] Phase2突入 HP:{currentHp}");
 
-            moveSpeed = 4f;
+            moveSpeed = 6f;
             chargeSpeed = 7f;
 
             isKnockback = true;
