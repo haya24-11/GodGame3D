@@ -7,6 +7,10 @@ public class EnemyBase : MonoBehaviour
     [Header("ステータス")]
     [SerializeField] protected int maxHp = 10;
 
+    [SerializeField] public Ttimer timer;
+    public int addTimeOnDeath = 10;
+
+
     protected int currentHp;
 
     protected virtual void Start()
@@ -26,6 +30,12 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void OnDead()
     {
+
+        if (timer != null)
+        {
+            timer.AddTime(addTimeOnDeath);
+        }
+
         Destroy(gameObject);
     }
 
