@@ -248,6 +248,11 @@ MonoBehaviour:
   scrollDirection: {x: 1, y: 0}
   scrollSpeed: 0.8
   tiling: {x: 1, y: 1}
+  textures:
+  - {fileID: 2800000, guid: b575793892caa8a438dd9f960885add6, type: 3}
+  - {fileID: 2800000, guid: 80ce771ec0d33cd478c19c5e62b4de0c, type: 3}
+  autoChangeTextureOnLoop: 0
+  waitForFrontPosition: 1
   enableDirectionChange: 0
   directionSequence:
   - {x: 0, y: 1}
@@ -258,6 +263,8 @@ MonoBehaviour:
   keyDown: 
   keyLeft: 
   keyRight: 
+  keyNextTexture: Tab
+  keyPrevTexture: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
