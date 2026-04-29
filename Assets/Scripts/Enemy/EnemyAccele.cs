@@ -14,8 +14,7 @@ public class EnemyAccele : EnemyBase
 
     private Vector3 startPos;
     private bool stopped = false;
-    private float timer = 0f;
-
+    //private float timer = 0f;
     protected override void Start()
     {
         base.Start();
@@ -40,17 +39,18 @@ public class EnemyAccele : EnemyBase
             if (Vector3.Distance(startPos, transform.position) >= 2f)
             {
                 stopped = true;
-                timer = 0f;
+                //timer = 0f;
             }
         }
         else
         {
-            timer += Time.deltaTime;
+           /* timer += Time.deltaTime;
 
             if (timer >= 1f)
             {
                 transform.Translate(vector3 * accelSpeed * Time.deltaTime);
             }
+           */
         }
     }
 

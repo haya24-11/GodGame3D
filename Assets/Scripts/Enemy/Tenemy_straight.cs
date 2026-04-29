@@ -18,7 +18,7 @@ public class Tenemy_straight : MonoBehaviour
     private Vector3[] corners;
 
     [SerializeField] private float yHeight = 2f;
-    [SerializeField] private Ttimer timer;//0416çÇã¥í«â¡
+    [SerializeField] private Ttimer addtimer;//0416çÇã¥í«â¡
     public int addTimeOnDeath = 10;   // 0416çÇã¥í«â¡
     private void Start()
     {
@@ -87,9 +87,9 @@ public class Tenemy_straight : MonoBehaviour
     void Die()
     {
         // ì‡ïîï“èWÅ@0416çÇã¥
-        if (timer != null)
+        if (addtimer != null)
         {
-            timer.AddTime(addTimeOnDeath);
+            addtimer.AddTime(addTimeOnDeath);
         }
         Destroy(gameObject);
     }

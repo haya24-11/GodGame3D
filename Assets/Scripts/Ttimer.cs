@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class Ttimer : MonoBehaviour
 {
 
-    public int currentValue = 100; // 初期値
+    public int cnttime = 100; // 初期値
     public float interval = 1f;     // 減る間隔（秒）
 
     private float timer = 0f;
@@ -16,8 +16,7 @@ public class Ttimer : MonoBehaviour
     //時間追加系？
     public void AddTime(int value)
     {
-        currentValue += value;
-        Debug.Log($"[Timer] 加算:{value} → 現在:{currentValue}");
+        cnttime += value;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,21 +34,21 @@ public class Ttimer : MonoBehaviour
         {
             timer = 0f;
 
-            if (currentValue > 0)
+            if (cnttime > 0)
             {
-                currentValue--;
+                cnttime--;
             }
         }
 
         // 3桁文字列にする
-        string str = currentValue.ToString("D3");
+        string str = cnttime.ToString("D3");
 
         // 先頭1桁 + ":" + 後ろ3桁
         string formatted = str.Substring(0, 3);
 
         timerText.text = formatted; timerText.text = formatted;
 
-        if (currentValue == 0)
+        if (cnttime == 0)
         {
             isFinished = true;
             SceneManager.LoadScene(nextSceneName);
