@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAccele
   maxHp: 13
-  addtimer: {fileID: 0}
+  addtimer: {fileID: 858886834}
   addTimeOnDeath: 10
   moveSpeed: 2
   accelSpeed: 4
@@ -910,6 +910,18 @@ PrefabInstance:
       propertyPath: timer
       value: 
       objectReference: {fileID: 858886834}
+    - target: {fileID: -3739996043023385083, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
+      propertyPath: addtime
+      value: 
+      objectReference: {fileID: 858886834}
+    - target: {fileID: -3739996043023385083, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
+      propertyPath: addtimer
+      value: 
+      objectReference: {fileID: 858886834}
+    - target: {fileID: -3739996043023385083, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
+      propertyPath: addTimeOnDeath
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
       propertyPath: m_Name
       value: Cube

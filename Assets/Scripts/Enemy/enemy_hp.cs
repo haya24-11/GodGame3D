@@ -4,7 +4,7 @@ public class enemy_hp : MonoBehaviour
 {
     [SerializeField] private int maxHP = 10;
 
-    [SerializeField] private Ttimer timer;//0416高橋追加
+    [SerializeField] private Ttimer addtimer;//0416高橋追加
     public int addTimeOnDeath = 10;   // 0416高橋追加
 
     private int currentHP;
@@ -29,9 +29,9 @@ public class enemy_hp : MonoBehaviour
     private void Die()
     {
         Debug.Log($"{gameObject.name} が倒された");
-        if (timer != null)
+        if (addtimer != null)
         {
-            timer.AddTime(addTimeOnDeath);
+            addtimer.AddTime(addTimeOnDeath);
         }
         // ここで破壊・非アクティブ化・プール返却など
         Destroy(gameObject);
