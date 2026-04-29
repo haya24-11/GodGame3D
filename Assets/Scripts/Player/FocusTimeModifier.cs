@@ -5,12 +5,12 @@ using System;
 /// Ttimer を変更せずに集中システムの時間消費倍率を適用するアダプタ。
 ///
 /// 仕組み:
-///   Ttimer は「timer += Time.deltaTime → interval 超えたら currentValue--」で動く。
+///   Ttimer は「timer += Time.deltaTime → interval 超えたら cnttime--」で動く。
 ///   集中中は Ttimer.interval を (baseInterval / multiplier) に短縮することで
 ///   実質的な消費速度を倍率分だけ上げる。
 ///   集中解除時は baseInterval に戻す。
 ///
-/// totalTime は Ttimer.currentValue の初期値（Start前の値）を自動取得する。
+/// totalTime は Ttimer.cnttime の初期値（Start前の値）を自動取得する。
 /// コンボ報酬の AddTime は Ttimer.AddTime(int) に委譲する。
 /// </summary>
 public class FocusTimeModifier : MonoBehaviour
@@ -23,11 +23,11 @@ public class FocusTimeModifier : MonoBehaviour
     // Public properties（既存コードとのAPI互換）
     // ──────────────────────────────────────────
 
-    /// <summary>残り時間（Ttimer.currentValue をそのまま返す）。</summary>
-    public float RemainingTime => ttimer != null ? ttimer.currentValue : 0f;
+    /// <summary>残り時間（Ttimer.cnttime をそのまま返す）。</summary>
+    public float RemainingTime => ttimer != null ? ttimer.cnttime : 0f;
 
     /// <summary>
-    /// totalTime は Ttimer の初期 currentValue を起動時に記録した値。
+    /// totalTime は Ttimer の初期 cnttime を起動時に記録した値。
     /// </summary>
     public float TotalTime { get; private set; }
 
@@ -50,7 +50,7 @@ public class FocusTimeModifier : MonoBehaviour
         if (ttimer == null) return;
 
         // Ttimer変更前の初期値を totalTime として記録
-        TotalTime = ttimer.currentValue;
+        TotalTime = ttimer.cnttime;
         baseInterval = ttimer.interval;
     }
 
@@ -75,8 +75,8 @@ public class FocusTimeModifier : MonoBehaviour
     {
         if (ttimer == null) return;
 
-        // currentValue がゼロになった瞬間だけ OnTimeUp を発火
-        bool isZero = ttimer.currentValue <= 0;
+        // cnttime がゼロになった瞬間だけ OnTimeUp を発火
+        bool isZero = ttimer.cnttime <= 0;
         if (isZero && !prevWasZero)
             OnTimeUp?.Invoke();
         prevWasZero = isZero;
@@ -95,8 +95,8 @@ public class FocusTimeModifier : MonoBehaviour
         if (ttimer == null) return;
 
         int intAmount = Mathf.RoundToInt(amount);
-        int clamped = Mathf.Min(ttimer.currentValue + intAmount, (int)TotalTime)
-                        - ttimer.currentValue;
+        int clamped = Mathf.Min(ttimer.cnttime + intAmount, (int)TotalTime)
+                        - ttimer.cnttime;
 
         if (clamped > 0)
             ttimer.AddTime(clamped);
