@@ -377,6 +377,21 @@ MonoBehaviour:
   scrollDirection: {x: 1, y: 0}
   scrollSpeed: 0.5
   tiling: {x: 1, y: 1}
+  textures: []
+  autoChangeTextureOnLoop: 0
+  waitForFrontPosition: 1
+  enableDirectionChange: 1
+  directionSequence:
+  - {x: 0, y: 1}
+  - {x: 1, y: 0}
+  - {x: 0, y: -1}
+  - {x: -1, y: 0}
+  keyUp: UpArrow
+  keyDown: DownArrow
+  keyLeft: LeftArrow
+  keyRight: RightArrow
+  keyNextTexture: Tab
+  keyPrevTexture: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +578,7 @@ MonoBehaviour:
   maxHp: 13
   addtimer: {fileID: 858886834}
   addTimeOnDeath: 10
+  enemy_Direction: {fileID: 0}
   moveSpeed: 2
   accelSpeed: 4
 --- !u!54 &397820875
@@ -752,7 +768,7 @@ MonoBehaviour:
   isBossBattle: 0
   comboCounter: {fileID: 427694793}
   focusTimeModifier: {fileID: 0}
-  bossHealth: {fileID: 0}
+  bossTargetMono: {fileID: 0}
 --- !u!114 &427694793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,6 +1126,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497618b73ddf533489d6ff6ad5a82f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ttimer
+--- !u!114 &1064714905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7917552376611301488, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
+  m_PrefabInstance: {fileID: 5348548002009210779}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca48f75d67d0f9d439a0f5863264e3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemy_direction
 --- !u!1 &1073315858
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,7 +2208,7 @@ MonoBehaviour:
   isBossBattle: 0
   comboCounter: {fileID: 1966406805}
   focusTimeModifier: {fileID: 0}
-  bossHealth: {fileID: 0}
+  bossTargetMono: {fileID: 0}
 --- !u!114 &1966406805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2405,6 +2432,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: enemy_accele
       objectReference: {fileID: 0}
+    - target: {fileID: 6325656654807345356, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
     - target: {fileID: 8335609438383278294, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
       propertyPath: maxHp
       value: 1
@@ -2421,6 +2452,10 @@ PrefabInstance:
       propertyPath: addTimeOnDeath
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 8335609438383278294, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
+      propertyPath: enemy_Direction
+      value: 
+      objectReference: {fileID: 1064714905}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
