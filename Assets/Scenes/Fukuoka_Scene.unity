@@ -377,6 +377,9 @@ MonoBehaviour:
   scrollDirection: {x: 1, y: 0}
   scrollSpeed: 0.5
   tiling: {x: 1, y: 1}
+  textures: []
+  autoChangeTextureOnLoop: 0
+  waitForFrontPosition: 1
   enableDirectionChange: 1
   directionSequence:
   - {x: 0, y: 1}
@@ -387,6 +390,8 @@ MonoBehaviour:
   keyDown: DownArrow
   keyLeft: LeftArrow
   keyRight: RightArrow
+  keyNextTexture: Tab
+  keyPrevTexture: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,6 +576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAccele
   maxHp: 13
+  addtimer: {fileID: 0}
+  addTimeOnDeath: 10
   enemy_Direction: {fileID: 0}
   moveSpeed: 2
   accelSpeed: 4
@@ -761,7 +768,7 @@ MonoBehaviour:
   isBossBattle: 0
   comboCounter: {fileID: 427694793}
   focusTimeModifier: {fileID: 0}
-  bossHealth: {fileID: 0}
+  bossTargetMono: {fileID: 0}
 --- !u!114 &427694793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,9 +1451,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemy_playback
   call_enemy_script: {fileID: 1183371466}
   enemyTypeTable:
-  - {fileID: 5236634696607220464, guid: ac7fdf40e717b2747be49c3e2f438e29, type: 3}
+  - {fileID: 1606013895056094715, guid: e9310501a20cd5949bce72e075820767, type: 3}
   - {fileID: 5049444824402838723, guid: 5351a4b948a1bf84688028c2e9383aa5, type: 3}
-  - {fileID: 397820862}
+  - {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
   spawnTableSO:
   - {fileID: 11400000, guid: e4831f5ffee5e0d43a99e081c1b85e7e, type: 2}
 --- !u!114 &1183371466
@@ -1461,7 +1468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb2b57ebf76c0a4fb15b6290449d05d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::call_enemy
-  enemy_straight: {fileID: 5236634696607220464, guid: ac7fdf40e717b2747be49c3e2f438e29, type: 3}
+  enemy_straight: {fileID: 1606013895056094715, guid: e9310501a20cd5949bce72e075820767, type: 3}
   boss_alpha: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
   enemy_accele: {fileID: 5049444824402838723, guid: 5351a4b948a1bf84688028c2e9383aa5, type: 3}
 --- !u!4 &1183371467
@@ -1980,7 +1987,7 @@ MonoBehaviour:
   isBossBattle: 0
   comboCounter: {fileID: 1966406805}
   focusTimeModifier: {fileID: 0}
-  bossHealth: {fileID: 0}
+  bossTargetMono: {fileID: 0}
 --- !u!114 &1966406805
 MonoBehaviour:
   m_ObjectHideFlags: 0

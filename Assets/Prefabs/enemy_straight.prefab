@@ -157,6 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemy_hp
   maxHP: 1
+  addtimer: {fileID: 0}
+  addTimeOnDeath: 10
 --- !u!114 &8946478694560013309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77513421dade1994e97fc3d6cd69dfbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemy_CheckPosition
-  distance_x: 8
-  distance_y: 8
+  distance_x: 15
+  distance_y: 10
   enemy_ID: 0
   Call_Enemy: {fileID: 0}
