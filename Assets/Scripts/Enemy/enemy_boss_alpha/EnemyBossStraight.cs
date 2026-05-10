@@ -50,6 +50,11 @@ public class EnemyBossStraight : MonoBehaviour
     private Renderer rend;
     private Color originalColor;
 
+    // =========================
+    // スプライト管理
+    // =========================
+    private SpriteSheetAnimator spriteAnimator;
+
     // 意図：初回か再出現かを判定
     private bool isFirstSpawn = true;
 
@@ -65,8 +70,13 @@ public class EnemyBossStraight : MonoBehaviour
         currentHp = maxHp;
         isFirstSpawn = true;
 
-        rend = GetComponent<Renderer>();
-        originalColor = rend.material.color;
+        rend = GetComponentInChildren<Renderer>();
+        if (rend != null)
+        {
+            originalColor = rend.material.color;
+        }
+
+        spriteAnimator = GetComponentInChildren<SpriteSheetAnimator>();
 
         // HPバー接続
         var ui = FindObjectOfType<BossHPBarUI>();
@@ -96,6 +106,19 @@ public class EnemyBossStraight : MonoBehaviour
             case State.Charge: Charge(); break;
             case State.Exit: Exit(); break;
             case State.Feint: Feint(); break;
+        }
+    }
+
+    // =========================
+    // 向き更新
+    // =========================
+    void UpdateSpriteDirection(Vector3 dir)
+    {
+        if (spriteAnimator == null) return;
+
+        if (dir != Vector3.zero)
+        {
+            spriteAnimator.SetDirection(dir);
         }
     }
 
@@ -159,6 +182,11 @@ public class EnemyBossStraight : MonoBehaviour
         {
             state = State.Stop;
         }
+        // ===============================
+        // SpriteSheetAnimatorへ向きを通知
+        // ===============================
+
+        UpdateSpriteDirection(moveDir);
     }
 
     void Stop()
@@ -215,6 +243,11 @@ public class EnemyBossStraight : MonoBehaviour
 
         transform.Translate(dir * chargeSpeed * Time.deltaTime);
 
+        // =========================
+        // 向き更新
+        // =========================
+        UpdateSpriteDirection(dir);
+
         var cam = Camera.main;
         float h = cam.orthographicSize;
         float w = h * cam.aspect;
@@ -234,7 +267,14 @@ public class EnemyBossStraight : MonoBehaviour
 
     void Feint()
     {
-        transform.Translate(-moveDir * moveSpeed * Time.deltaTime);
+        Vector3 dir = -moveDir;
+
+        transform.Translate(dir * moveSpeed * Time.deltaTime);
+
+        // =========================
+        // 向き更新
+        // =========================
+        UpdateSpriteDirection(dir);
 
         if (Vector3.Distance(feintStart, transform.position) >= feintDistance)
         {
@@ -316,9 +356,14 @@ public class EnemyBossStraight : MonoBehaviour
     // =========================
     System.Collections.IEnumerator DamageFlash()
     {
-        rend.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        rend.material.color = originalColor;
+        if (rend != null)
+        {
+            rend.material.color = Color.red;
+
+            yield return new WaitForSeconds(0.1f);
+
+            rend.material.color = originalColor;
+        }
     }
 
     // 意図：ボス撃破後、5秒待ってタイトルへ遷移
@@ -346,7 +391,10 @@ public class EnemyBossStraight : MonoBehaviour
         Debug.Log("[BossStraight] ボス非表示");
 
         // 見た目と当たり判定だけ消す
-        GetComponent<Renderer>().enabled = false;
+        if (rend != null)
+        {
+            rend.enabled = false;
+        }
 
         var col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
