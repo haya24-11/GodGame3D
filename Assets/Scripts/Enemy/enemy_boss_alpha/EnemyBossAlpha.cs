@@ -100,6 +100,18 @@ public class EnemyBossAlpha : MonoBehaviour
     // 衝突（mini想定）
     private void OnTriggerEnter(Collider other)
     {
+        /*
+        if (!other.CompareTag("Mini")) return;
+
+        // 発進中のMiniかどうかチェック
+        var miniAttack = other.GetComponent<MiniAttackOnBoss>();
+        if (miniAttack == null || !miniAttack.IsActive) return;
+
+        int attack = miniAttack.Attack;
+        TakeDamage(attack);
+        */
+
+        /*
         if (other.CompareTag("Mini"))
         {
             // Mini側に攻撃力持たせてる想定
@@ -112,6 +124,7 @@ public class EnemyBossAlpha : MonoBehaviour
             }
             TakeDamage(attack);
         }
+        */
     }
 
     private Renderer rend;

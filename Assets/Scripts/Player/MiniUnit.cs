@@ -8,12 +8,14 @@ using UnityEngine;
 [RequireComponent(typeof(ArrivalDetector))]
 public class MiniUnit : MonoBehaviour
 {
-    public Mover        Mover    { get; private set; }
+    public Mover Mover { get; private set; }
     public ArrivalDetector Detector { get; private set; }
+    public MiniAttackOnBoss BossAttacker { get; private set; }
 
     void Awake()
     {
-        Mover    = GetComponent<Mover>();
+        Mover = GetComponent<Mover>();
         Detector = GetComponent<ArrivalDetector>();
+        BossAttacker = GetComponent<MiniAttackOnBoss>();
     }
 }
