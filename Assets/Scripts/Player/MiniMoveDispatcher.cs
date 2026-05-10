@@ -51,6 +51,8 @@ public class MiniMoveDispatcher : MonoBehaviour
         {
             unit.Detector.OnArrived -= onArrived;   // 自身を解除
 
+            unit.BossAttacker?.Deactivate();
+
             comboCounter?.RegisterHit();
             Destroy(unit.gameObject);
         };
@@ -58,6 +60,8 @@ public class MiniMoveDispatcher : MonoBehaviour
         unit.Detector.OnArrived += onArrived;
         unit.Detector.SetTarget(target);
         unit.Mover.SetTargetPosition(target);
+
+        unit.BossAttacker?.Activate();
     }
 
     IEnumerator SequenceCoroutine(List<MiniUnit> sorted, Vector3 target)

@@ -14,6 +14,9 @@ public class MiniAttack : MonoBehaviour
     // ★追加：衝突時にダメージを与える
     private void OnTriggerEnter(Collider other)
     {
+        var miniAttackOnBoss = GetComponent<MiniAttackOnBoss>();
+        if (miniAttackOnBoss == null || !miniAttackOnBoss.IsActive) return;
+
         // boss_straight用
         var bossStraight = other.GetComponentInParent<EnemyBossStraight>();
         if (bossStraight != null)

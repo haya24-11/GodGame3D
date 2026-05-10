@@ -21,8 +21,16 @@ public class MiniAttackOnBoss : MonoBehaviour
 
     public int Attack => attack;
 
+    bool isActive = false;
+    public bool IsActive => isActive;
+
+    public void Activate() => isActive = true;
+    public void Deactivate() => isActive = false;
+
     void OnTriggerEnter(Collider other)
     {
+        if (!isActive) return;
+
         // IBossTarget を実装したアダプタを持つボスか確認
         var bossTarget = other.GetComponent<IBossTarget>();
         if (bossTarget == null) return;

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -5435885885152491772}
   - component: {fileID: -5623001669489396327}
   - component: {fileID: 623244003184306769}
+  - component: {fileID: 3541342491058745963}
   m_Layer: 0
   m_Name: Mini
   m_TagString: Mini
@@ -158,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47641570f280ca94185756fc6689a5f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mover
-  moveSpeed: 5
+  moveSpeed: 20
 --- !u!114 &-5435885885152491772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,4 +197,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5322d936315d74785899a818c6dbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniAttack
+  attack: 2
+--- !u!114 &3541342491058745963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6877813210677450260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce2afd81a34562e48b4b50ca52f44569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MiniAttackOnBoss
   attack: 2

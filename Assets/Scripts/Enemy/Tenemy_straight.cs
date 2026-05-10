@@ -97,6 +97,19 @@ public class Tenemy_straight : MonoBehaviour
     // 衝突（mini想定）
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Mini")) return;
+
+        // 発進中のMiniかどうかチェック
+        var bossAttacker = other.GetComponent<MiniAttackOnBoss>();
+        if (bossAttacker == null || !bossAttacker.IsActive) return;
+
+        int attack = 2;
+        var mini = other.GetComponent<MiniAttackOnBoss>();
+        if (mini != null) attack = mini.Attack;
+
+        TakeDamage(attack);
+
+        /*
         if (other.CompareTag("Mini"))
         {
             // Mini側に攻撃力持たせてる想定
@@ -109,6 +122,7 @@ public class Tenemy_straight : MonoBehaviour
             }
             TakeDamage(attack);
         }
+        */
     }
 
     private Renderer rend;
