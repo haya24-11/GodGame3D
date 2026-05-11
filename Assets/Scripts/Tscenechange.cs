@@ -9,5 +9,6 @@ public class SceneLoader : MonoBehaviour
     {
         Debug.Log("ƒV[ƒ“‘JˆÚ‰Â");
         SceneManager.LoadScene(sceneName);
+        LoadingScreen.nextScene = "Samplescene";
     }
 }
