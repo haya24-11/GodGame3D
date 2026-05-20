@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 public class StageSelectCursor : MonoBehaviour
 {
-    
     [SerializeField] private RectTransform[] stageButtons;
     [SerializeField] private RectTransform cursorRect;
-
     private int currentIndex = 0;
+    private bool wasStickMoved = false;
 
     void Start()
     {
@@ -17,28 +15,37 @@ public class StageSelectCursor : MonoBehaviour
 
     void Update()
     {
-        // 右に移動
-        if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
-        {
-            if (currentIndex < stageButtons.Length - 1)
-            {
-                currentIndex++;
-                MoveCursor();
-            }
-        }
+        bool moveRight = false;
+        bool moveLeft = false;
+        bool decide = false;
 
-        // 左に移動
-        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
-        {
-            if (currentIndex > 0)
-            {
-                currentIndex--;
-                MoveCursor();
-            }
-        }
+        // ─── キーボード ───────────────────────────
+        if (Input.GetKeyDown(KeyCode.RightArrow)) moveRight = true;
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) moveLeft = true;
+        if (Input.GetKeyDown(KeyCode.Return)) decide = true;
 
-        // Enterで決定
-        if (Keyboard.current.enterKey.wasPressedThisFrame)
+        // ─── コントローラー（XInput） ─────────────
+        // 十字キー
+        float dpadX = Input.GetAxisRaw("Horizontal");
+        if (dpadX > 0.5f && !wasStickMoved) { moveRight = true; wasStickMoved = true; }
+        else if (dpadX < -0.5f && !wasStickMoved) { moveLeft = true; wasStickMoved = true; }
+        else if (Mathf.Abs(dpadX) < 0.3f) wasStickMoved = false;
+
+        // Aボタンで決定
+        if (Input.GetButtonDown("Submit")) decide = true;
+
+        // ─── 処理 ─────────────────────────────────
+        if (moveRight && currentIndex < stageButtons.Length - 1)
+        {
+            currentIndex++;
+            MoveCursor();
+        }
+        if (moveLeft && currentIndex > 0)
+        {
+            currentIndex--;
+            MoveCursor();
+        }
+        if (decide)
         {
             stageButtons[currentIndex].GetComponent<Button>().onClick.Invoke();
         }
@@ -47,7 +54,7 @@ public class StageSelectCursor : MonoBehaviour
     private void MoveCursor()
     {
         Vector3 targetPos = stageButtons[currentIndex].position;
-        targetPos.y -= 80f; // カーソルをボタンの下に表示
+        targetPos.y -= 80f;
         cursorRect.position = targetPos;
     }
 }
