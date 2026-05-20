@@ -48,6 +48,11 @@ public class LegionClone : MonoBehaviour
     // 毎フレームの挙動
     void Update()
     {
+        if (owner == null)
+        {
+            return;
+        }
+
         timer += Time.deltaTime;
 
         if (timer >= lifeTime)
@@ -95,7 +100,10 @@ public class LegionClone : MonoBehaviour
     // プールに返却
     void ReturnToPool()
     {
-        owner.NotifyCloneDead();
+        if (owner != null)
+        {
+            owner.NotifyCloneDead();
+        }
 
         Destroy(gameObject);
     }
