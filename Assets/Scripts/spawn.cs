@@ -1,49 +1,49 @@
 using UnityEngine;
 
-public class spown : MonoBehaviour
+public class SpawnBase : MonoBehaviour
 {
-
     [Header("スポーンするオブジェクト")]
     public GameObject prefab;
 
-    [Header("スポーン座標")]
-    public float spawnX = 0f;
-    public float spawnY = 0f;
-    public float spawnZ = 0f;
+    [Header("スポーン地点")]
+    public Transform[] spawnPoints;
 
     [Header("スポーン間隔")]
     public float spawnInterval = 2f;
 
     [Header("最大スポーン数")]
-    public int maxSpawnCount = 10;
+    public int spawnmaxcnt = 5;
+    //スポーンした回数
+    int spawncount = 0;
+    protected float timer = 0f;
 
-    private float timer = 0f;
-    private int currentSpawnCount = 0;
-
-    void Update()
+    protected virtual void Update()
     {
         timer += Time.deltaTime;
 
         if (timer >= spawnInterval)
         {
             timer = 0f;
-
-            if (currentSpawnCount < maxSpawnCount)
+            if (spawncount < spawnmaxcnt)
             {
-                SpawnObject();//
+                SpawnObject();
+                spawncount++;
+                Debug.Log("スポーンしました" 
+                   + "\n スポーンオブジェクト：" + prefab
+                     + "\n　スポーン回数：" + spawncount);
             }
         }
     }
 
-    void SpawnObject()
+    protected virtual void SpawnObject()
     {
-        //XYZ座標を事前に決めた場所にする
-        Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
-        //ポジションでスポーン
-        Instantiate(prefab, spawnPosition, Quaternion.identity);
-
-        Debug.Log("スポーンしました: " + obj.name);
-
-        currentSpawnCount++;
+        foreach (Transform point in spawnPoints)
+        {
+            Instantiate(
+                prefab,
+                point.position,
+                point.rotation
+            );
+        }
     }
 }
