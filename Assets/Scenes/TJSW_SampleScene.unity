@@ -380,6 +380,21 @@ MonoBehaviour:
   scrollDirection: {x: 1, y: 0}
   scrollSpeed: 0.5
   tiling: {x: 1, y: 1}
+  textures: []
+  autoChangeTextureOnLoop: 0
+  waitForFrontPosition: 1
+  enableDirectionChange: 1
+  directionSequence:
+  - {x: 0, y: 1}
+  - {x: 1, y: 0}
+  - {x: 0, y: -1}
+  - {x: -1, y: 0}
+  keyUp: UpArrow
+  keyDown: DownArrow
+  keyLeft: LeftArrow
+  keyRight: RightArrow
+  keyNextTexture: Tab
+  keyPrevTexture: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +598,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBossStraight
   maxHp: 13
   moveSpeed: 2
-  chargeSpeed: 5
 --- !u!114 &397820869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +611,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAccele
   maxHp: 13
+  addtimer: {fileID: 0}
+  addTimeOnDeath: 10
+  enemy_Direction: {fileID: 0}
   moveSpeed: 2
   accelSpeed: 4
 --- !u!54 &397820875
@@ -1549,8 +1566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemy_playback
   call_enemy_script: {fileID: 1183371466}
   enemyTypeTable:
-  - {fileID: 5236634696607220464, guid: 02e5926baaa273b4e89bf35b380d343a, type: 3}
-  - {fileID: 5049444824402838723, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
+  - {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
+  - {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
   - {fileID: 397820862}
   spawnTableSO:
   - {fileID: 11400000, guid: e4831f5ffee5e0d43a99e081c1b85e7e, type: 2}
@@ -1566,9 +1583,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb2b57ebf76c0a4fb15b6290449d05d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::call_enemy
-  enemy_straight: {fileID: 0}
+  enemy_straight: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
   boss_alpha: {fileID: 0}
-  enemy_accele: {fileID: 5049444824402838723, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
+  enemy_accele: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
 --- !u!4 &1183371467
 Transform:
   m_ObjectHideFlags: 0
