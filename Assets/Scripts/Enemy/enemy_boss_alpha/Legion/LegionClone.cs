@@ -1,13 +1,27 @@
 // ============================================
 // ファイル：LegionClone.cs
-// 役割：分身挙動
+// 役割：レギオン分身
+// 内容：
+// ・X軸往復
+// ・Z軸往復
+// ・時計回り回転
+// ・画面外へ出ない
+// ・寿命管理
 // ============================================
 
 using UnityEngine;
 
 public class LegionClone : MonoBehaviour
 {
+    // ============================================
+    // 所有者
+    // ============================================
+
     private BossLegion owner;
+
+    // ============================================
+    // ステータス
+    // ============================================
 
     private float speed;
 
@@ -15,37 +29,68 @@ public class LegionClone : MonoBehaviour
 
     private float timer;
 
-    private Vector3 moveDir;
+    // ============================================
+    // 移動
+    // ============================================
+
+    private Vector3 centerPos;
+
+    [SerializeField]
+    private float moveRange = 1f;
+
+    private float orbitAngle;
+
+    // ============================================
+    // 行動
+    // ============================================
 
     private enum MoveType
     {
-        PingPong,
+        PingPongX,
+        PingPongZ,
         Orbit
     }
 
-    // ランダムに移動パターンを選択
     private MoveType moveType;
 
+    // ============================================
     // 初期化
-    public void Init(BossLegion boss, float spd, float life)
+    // ============================================
+
+    public void Init(
+        BossLegion boss,
+        float spd,
+        float life,
+        Vector3 startPos
+    )
     {
         owner = boss;
+
         speed = spd;
+
         lifeTime = life;
 
         timer = 0f;
 
-        moveType =
-            (Random.value < 0.5f)
-            ? MoveType.PingPong
-            : MoveType.Orbit;
+        centerPos = startPos;
 
-        moveDir = Random.insideUnitSphere;
-        moveDir.y = 0;
-        moveDir.Normalize();
+        orbitAngle =
+            Random.Range(0f, 360f);
+
+        // ========================================
+        // 行動ランダム
+        // ========================================
+
+        int rand =
+            Random.Range(0, 3);
+
+        moveType = (MoveType)rand;
     }
 
-    // 毎フレームの挙動
+    // ============================================
+    // 更新
+    // ============================================
+
     void Update()
     {
         if (owner == null)
@@ -55,16 +100,25 @@ public class LegionClone : MonoBehaviour
 
         timer += Time.deltaTime;
 
+        // ========================================
+        // 寿命
+        // ========================================
+
         if (timer >= lifeTime)
         {
             ReturnToPool();
+
             return;
         }
-        
+
         switch (moveType)
         {
-            case MoveType.PingPong:
-                PingPongMove();
+            case MoveType.PingPongX:
+                PingPongX();
+                break;
+
+            case MoveType.PingPongZ:
+                PingPongZ();
                 break;
 
             case MoveType.Orbit:
@@ -73,31 +127,61 @@ public class LegionClone : MonoBehaviour
         }
     }
 
-    // ランダムに方向転換しながら直線移動
-    void PingPongMove()
-    {
-        transform.Translate(
-            moveDir * speed * Time.deltaTime,
-            Space.World
-        );
+    // ============================================
+    // X往復
+    // ============================================
 
-        if (Random.value < 0.01f)
-        {
-            moveDir = -moveDir;
-        }
+    void PingPongX()
+    {
+        float x =
+            Mathf.Sin(timer * speed)
+            * moveRange;
+
+        transform.position =
+            centerPos +
+            new Vector3(x, 0f, 0f);
     }
 
-    // ボスを中心に回転
+    // ============================================
+    // Z往復
+    // ============================================
+
+    void PingPongZ()
+    {
+        float z =
+            Mathf.Sin(timer * speed)
+            * moveRange;
+
+        transform.position =
+            centerPos +
+            new Vector3(0f, 0f, z);
+    }
+
+    // ============================================
+    // 時計回り回転
+    // ============================================
+
     void OrbitMove()
     {
-        transform.RotateAround(
-            Vector3.zero,
-            Vector3.up,
-            speed * 20f * Time.deltaTime
-        );
+        orbitAngle -=
+            speed * 60f * Time.deltaTime;
+
+        float rad =
+            orbitAngle * Mathf.Deg2Rad;
+
+        transform.position =
+            centerPos +
+            new Vector3(
+                Mathf.Cos(rad),
+                0f,
+                Mathf.Sin(rad)
+            ) * moveRange;
     }
 
-    // プールに返却
+    // ============================================
+    // プール返却
+    // ============================================
+
     void ReturnToPool()
     {
         if (owner != null)
@@ -108,7 +192,10 @@ public class LegionClone : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // ============================================
     // 被弾
+    // ============================================
+
     public void TakeDamage()
     {
         ReturnToPool();

@@ -334,4 +334,34 @@ public class BossMimesis : BossBase
             TakeDamage(10, transform.position);
         }
     }
+    public override void TakeDamage(
+    int damage,
+    Vector3 attackerPos
+)
+    {
+        bool canDamage = false;
+
+        switch (state)
+        {
+            case State.Charge:
+            case State.Area:
+            case State.Final:
+
+                canDamage = true;
+
+                break;
+        }
+
+        if (!canDamage)
+        {
+            return;
+        }
+
+        totalDamage += damage;
+
+        base.TakeDamage(
+            damage,
+            attackerPos
+        );
+    }
 }

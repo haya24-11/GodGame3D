@@ -7,7 +7,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class BossBase : MonoBehaviour
+public abstract class BossBase : MonoBehaviour,IDamageable
 {
     // ============================================
     // ステータス

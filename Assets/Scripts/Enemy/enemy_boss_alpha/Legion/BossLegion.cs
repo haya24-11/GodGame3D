@@ -1,6 +1,12 @@
 // ============================================
 // ファイル：BossLegion.cs
 // 役割：分身生成・管理ボス
+// 内容：
+// ・中央固定
+// ・Clone三角形配置
+// ・Clone再生成
+// ・Wave強化
+// ・本体無敵
 // ============================================
 
 using UnityEngine;
@@ -14,16 +20,24 @@ public class BossLegion : BossBase
     // ============================================
 
     [Header("Clone設定")]
-    [SerializeField] private GameObject clonePrefab;
 
-    [SerializeField] private int spawnCount = 3;
+    [SerializeField]
+    private GameObject clonePrefab;
 
-    [SerializeField] private float cloneLifetime = 10f;
+    [SerializeField]
+    private int spawnCount = 3;
 
-    [SerializeField] private float cloneSpeed = 3f;
+    [SerializeField]
+    private float cloneLifetime = 10f;
+
+    [SerializeField]
+    private float cloneSpeed = 3f;
+
+    [SerializeField]
+    private float triangleRadius = 3f;
 
     // ============================================
-    // 強化状態
+    // 状態
     // ============================================
 
     private int deadCloneCount = 0;
@@ -40,6 +54,13 @@ public class BossLegion : BossBase
     {
         base.Start();
 
+        // ========================================
+        // ボスを中央固定
+        // ========================================
+
+        transform.position =
+            new Vector3(0f, 1f, 0f);
+
         SpawnClones();
     }
 
@@ -49,39 +70,60 @@ public class BossLegion : BossBase
 
     void SpawnClones()
     {
-        Camera cam = Camera.main;
-
-        float h = cam.orthographicSize;
-        float w = h * cam.aspect;
-
         activeClones.Clear();
 
         for (int i = 0; i < spawnCount; i++)
         {
-            Vector3 pos = new Vector3(
-                Random.Range(-w, w),
-                1f,
-                Random.Range(-h, h)
-            );
+            // ====================================
+            // 三角形配置
+            // ====================================
+
+            float angle =
+                (360f / spawnCount) * i;
+
+            float rad =
+                angle * Mathf.Deg2Rad;
+
+            Vector3 pos =
+                transform.position +
+                new Vector3(
+                    Mathf.Cos(rad) * triangleRadius,
+                    0f,
+                    Mathf.Sin(rad) * triangleRadius
+                );
 
             GameObject clone =
-                Instantiate(clonePrefab, pos, Quaternion.identity);
+                Instantiate(
+                    clonePrefab,
+                    pos,
+                    Quaternion.identity
+                );
 
             LegionClone lc =
                 clone.GetComponent<LegionClone>();
 
             if (lc == null)
             {
-                Debug.LogError("LegionCloneがPrefabに付いてない");
+                Debug.LogError(
+                    "[Legion] LegionCloneが付いてない"
+                );
+
                 continue;
             }
 
-            lc.Init(this, cloneSpeed, cloneLifetime);
+            lc.Init(
+                this,
+                cloneSpeed,
+                cloneLifetime,
+                pos
+            );
 
             activeClones.Add(clone);
         }
 
-        Debug.Log($"[Legion] Clone生成:{spawnCount}");
+        Debug.Log(
+            $"[Legion] Clone生成:{spawnCount}"
+        );
     }
 
     // ============================================
@@ -94,14 +136,24 @@ public class BossLegion : BossBase
 
         AddTime(10);
 
+        Debug.Log(
+            $"[Legion] Clone撃破:{deadCloneCount}/{spawnCount}"
+        );
+
+        // ========================================
+        // 全滅
+        // ========================================
+
         if (deadCloneCount >= spawnCount)
         {
+            PowerUp();
+
             StartCoroutine(ReSpawnWave());
         }
     }
 
     // ============================================
-    // 再配置
+    // 再生成
     // ============================================
 
     IEnumerator ReSpawnWave()
@@ -116,27 +168,60 @@ public class BossLegion : BossBase
     }
 
     // ============================================
-    // 強化（全滅時）
+    // 強化
     // ============================================
 
     void PowerUp()
     {
         waveLevel++;
 
-        spawnCount++;
+        // ========================================
+        // 1回目全滅
+        // ========================================
 
-        cloneSpeed += (waveLevel == 1) ? 1f : 2f;
+        if (waveLevel == 1)
+        {
+            spawnCount++;
 
-        Debug.Log($"[Legion] 強化 Wave:{waveLevel}");
+            cloneSpeed = 4f;
+        }
+
+        // ========================================
+        // 2回目全滅
+        // ========================================
+
+        else if (waveLevel >= 2)
+        {
+            spawnCount++;
+
+            cloneSpeed = 6f;
+        }
+
+        Debug.Log(
+            $"[Legion] 強化 Wave:{waveLevel}"
+        );
     }
 
     // ============================================
-    // Clone死亡時の通知（拡張用）
+    // 本体無敵
     // ============================================
 
-    protected override void OnDamaged(int damage, Vector3 attackerPos)
+    public override void TakeDamage(
+        int damage,
+        Vector3 attackerPos
+    )
     {
-        // 本体は今は殴れない設計でもOK
-        // ここは拡張用
+        // 本体無敵
+    }
+
+    // ============================================
+    // 被弾拡張用
+    // ============================================
+
+    protected override void OnDamaged(
+        int damage,
+        Vector3 attackerPos
+    )
+    {
     }
 }

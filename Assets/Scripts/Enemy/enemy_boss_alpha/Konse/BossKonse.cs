@@ -325,4 +325,19 @@ public class BossKonse : BossBase
             StartCoroutine(RecoverRoutine());
         }
     }
+    public override void TakeDamage(
+    int damage,
+    Vector3 attackerPos
+)
+    {
+        if (!canTakeDamage)
+        {
+            return;
+        }
+
+        base.TakeDamage(
+            damage,
+            attackerPos
+        );
+    }
 }
