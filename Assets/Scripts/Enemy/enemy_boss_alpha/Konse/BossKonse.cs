@@ -140,6 +140,24 @@ public class BossKonse : BossBase
 
     void SpawnMinions()
     {
+        if (minionPrefab == null)
+        {
+            Debug.LogError(
+                "[Konse] minionPrefab ñ¢ê›íË"
+            );
+
+            return;
+        }
+
+        if (ObjectPool.Instance == null)
+        {
+            Debug.LogError(
+                "[Konse] ObjectPool.Instance Ç™ë∂ç›ÇµÇ»Ç¢"
+            );
+
+            return;
+        }
+
         activeMinions.Clear();
 
         aliveMinionCount = spawnCount;
@@ -202,9 +220,22 @@ public class BossKonse : BossBase
                 );
 
             KonseMinion minion =
-                obj.GetComponent<KonseMinion>();
+                                 obj.GetComponent<KonseMinion>();
 
-            minion.Init(this, minionPrefab, minionSpeed);
+            if (minion == null)
+            {
+                Debug.LogError(
+                    "[Konse] KonseMinion Ç™PrefabÇ…ïtÇ¢ÇƒÇ»Ç¢"
+                );
+
+                return;
+            }
+
+            minion.Init(
+                this,
+                minionPrefab,
+                minionSpeed
+            );
 
             activeMinions.Add(minion);
         }

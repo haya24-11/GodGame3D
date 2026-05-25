@@ -1,56 +1,102 @@
 // ============================================
 // ファイル：ObjectPool.cs
-// 役割：汎用オブジェクトプール
+// 役割：全体共通ObjectPool
+// 内容：生成済みオブジェクトを再利用する
 // ============================================
 
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ObjectPool : MonoBehaviour
 {
     // ============================================
-    // シングルトン
+    // Singleton
     // ============================================
 
     public static ObjectPool Instance;
 
-    private void Awake()
+    // ============================================
+    // Pool管理
+    // key   : prefab
+    // value : 非使用Object一覧
+    // ============================================
+
+    private Dictionary<GameObject, Queue<GameObject>>
+        poolDictionary
+        = new Dictionary<GameObject, Queue<GameObject>>();
+
+    // ============================================
+    // 初期化
+    // ============================================
+
+    void Awake()
     {
+        // ========================================
+        // Singleton化
+        // ========================================
+
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     // ============================================
-    // プール本体
+    // 取得
     // ============================================
 
-    private Dictionary<GameObject, Queue<GameObject>> pools
-        = new();
-
-    // ============================================
-    // 生成
-    // ============================================
-
-    public GameObject Get(GameObject prefab, Vector3 pos, Quaternion rot)
+    public GameObject Get(
+        GameObject prefab,
+        Vector3 position,
+        Quaternion rotation
+    )
     {
-        if (!pools.ContainsKey(prefab))
+        // ========================================
+        // Pool未生成
+        // ========================================
+
+        if (!poolDictionary.ContainsKey(prefab))
         {
-            pools[prefab] = new Queue<GameObject>();
+            poolDictionary[prefab]
+                = new Queue<GameObject>();
         }
+
+        Queue<GameObject> pool
+            = poolDictionary[prefab];
 
         GameObject obj;
 
-        if (pools[prefab].Count > 0)
+        // ========================================
+        // Poolに残ってる
+        // ========================================
+
+        if (pool.Count > 0)
         {
-            obj = pools[prefab].Dequeue();
-            obj.SetActive(true);
+            obj = pool.Dequeue();
+
+            if (obj == null)
+            {
+                obj = Instantiate(prefab);
+            }
         }
         else
         {
             obj = Instantiate(prefab);
         }
 
-        obj.transform.position = pos;
-        obj.transform.rotation = rot;
+        // ========================================
+        // 再利用設定
+        // ========================================
+
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
+
+        obj.SetActive(true);
 
         return obj;
     }
@@ -59,15 +105,26 @@ public class ObjectPool : MonoBehaviour
     // 返却
     // ============================================
 
-    public void Return(GameObject prefab, GameObject obj)
+    public void Return(
+        GameObject prefab,
+        GameObject obj
+    )
     {
-        obj.SetActive(false);
+        if (obj == null) return;
 
-        if (!pools.ContainsKey(prefab))
+        // ========================================
+        // Pool未生成
+        // ========================================
+
+        if (!poolDictionary.ContainsKey(prefab))
         {
-            pools[prefab] = new Queue<GameObject>();
+            poolDictionary[prefab]
+                = new Queue<GameObject>();
         }
 
-        pools[prefab].Enqueue(obj);
+        obj.SetActive(false);
+
+        poolDictionary[prefab]
+            .Enqueue(obj);
     }
 }
