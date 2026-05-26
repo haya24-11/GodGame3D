@@ -1635,18 +1635,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      propertyPath: maxHp
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 396036678596127086, guid: 3b1e010af30622e40a04916050c54e61, type: 3}
       propertyPath: m_Name
       value: Timer
@@ -1766,6 +1754,18 @@ PrefabInstance:
     - target: {fileID: 9219653667349631851, guid: 3b1e010af30622e40a04916050c54e61, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+      propertyPath: maxHp
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
@@ -2074,6 +2074,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1592636730}
   - component: {fileID: 1592636729}
+  - component: {fileID: 1592636731}
   m_Layer: 0
   m_Name: "\u30B9\u30DD\u30FC\u30F3\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8"
   m_TagString: Untagged
@@ -2088,7 +2089,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592636728}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ff33d37778267c45854be624d10bc07, type: 3}
   m_Name: 
@@ -2099,8 +2100,8 @@ MonoBehaviour:
   - {fileID: 771615241}
   - {fileID: 578014839}
   - {fileID: 1994934034}
-  spawnInterval: 1
-  spawnmaxcnt: 5
+  spawnInterval: 0.5
+  spawnmaxcnt: 15
 --- !u!4 &1592636730
 Transform:
   m_ObjectHideFlags: 0
@@ -2116,6 +2117,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1592636731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592636728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d39c2bc7f2dd304dbb3f18f1a7f3734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnBase2
+  prefab: {fileID: 696413216328529705, guid: e3408786fc067134d9b44994cb711b00, type: 3}
+  spawnPoints:
+  - {fileID: 570286178}
+  spawnInterval: 1
+  poolSize: 15
 --- !u!1 &1767682692
 GameObject:
   m_ObjectHideFlags: 0
