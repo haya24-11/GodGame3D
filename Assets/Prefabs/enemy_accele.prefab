@@ -141,7 +141,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &6978551484284041272
 MonoBehaviour:
@@ -156,6 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAccele
   maxHp: 10
+  addtimer: {fileID: 0}
+  addTimeOnDeath: 10
   enemy_Direction: {fileID: 478636951805989652}
   moveSpeed: 2
   accelSpeed: 4
