@@ -33,11 +33,11 @@ public class EnemyWaveData
     [Tooltip("向き: 度数法で0=真右方向, 90=真上方向 (敵オブジェクト自体の回転角度)")]
     public float direction = 180f;
 
-    [Tooltip("出現数")]
-    public int spawnCount = 1;
-
-    [Tooltip("出現座標リスト (spawnCountの数に合わせて設定)")]
+    [Tooltip("出現座標リスト (リストに追加した数が出現数になる)")]
     public List<EnemySpawnPoint> spawnPoints = new List<EnemySpawnPoint>();
+
+    /// <summary>出現数 (spawnPointsの件数を自動返却)</summary>
+    public int SpawnCount => spawnPoints != null ? spawnPoints.Count : 0;
 
     [Header("--- 消滅・プール設定 ---")]
 
