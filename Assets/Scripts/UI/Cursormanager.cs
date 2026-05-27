@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class StageSelectCursor : MonoBehaviour
 {
     [SerializeField] private RectTransform[] stageButtons;
     [SerializeField] private RectTransform cursorRect;
+
     private int currentIndex = 0;
-    private bool wasStickMoved = false;
 
     void Start()
     {
@@ -15,40 +16,29 @@ public class StageSelectCursor : MonoBehaviour
 
     void Update()
     {
-        bool moveRight = false;
-        bool moveLeft = false;
-        bool decide = false;
+        var gamepad = Gamepad.current;
+        if (gamepad == null) return;
 
-        // ─── キーボード ───────────────────────────
-        if (Input.GetKeyDown(KeyCode.RightArrow)) moveRight = true;
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) moveLeft = true;
-        if (Input.GetKeyDown(KeyCode.Return)) decide = true;
+        // 左右移動
+        if (gamepad.dpad.right.wasPressedThisFrame ||
+            gamepad.leftStick.right.wasPressedThisFrame)
+            MoveIndex(+1);
 
-        // ─── コントローラー（XInput） ─────────────
-        // 十字キー
-        float dpadX = Input.GetAxisRaw("Horizontal");
-        if (dpadX > 0.5f && !wasStickMoved) { moveRight = true; wasStickMoved = true; }
-        else if (dpadX < -0.5f && !wasStickMoved) { moveLeft = true; wasStickMoved = true; }
-        else if (Mathf.Abs(dpadX) < 0.3f) wasStickMoved = false;
+        if (gamepad.dpad.left.wasPressedThisFrame ||
+            gamepad.leftStick.left.wasPressedThisFrame)
+            MoveIndex(-1);
 
-        // Aボタンで決定
-        if (Input.GetButtonDown("Submit")) decide = true;
-
-        // ─── 処理 ─────────────────────────────────
-        if (moveRight && currentIndex < stageButtons.Length - 1)
-        {
-            currentIndex++;
-            MoveCursor();
-        }
-        if (moveLeft && currentIndex > 0)
-        {
-            currentIndex--;
-            MoveCursor();
-        }
-        if (decide)
-        {
+        // 決定
+        if (gamepad.buttonSouth.wasPressedThisFrame)
             stageButtons[currentIndex].GetComponent<Button>().onClick.Invoke();
-        }
+    }
+
+    private void MoveIndex(int dir)
+    {
+        int next = Mathf.Clamp(currentIndex + dir, 0, stageButtons.Length - 1);
+        if (next == currentIndex) return;
+        currentIndex = next;
+        MoveCursor();
     }
 
     private void MoveCursor()
@@ -58,3 +48,27 @@ public class StageSelectCursor : MonoBehaviour
         cursorRect.position = targetPos;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
