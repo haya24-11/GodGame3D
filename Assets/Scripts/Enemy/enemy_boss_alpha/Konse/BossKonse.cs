@@ -457,16 +457,19 @@ public class BossKonse : BossBase
     }
     void ClearActiveMinions()
     {
-        for (int i = 0; i < activeMinions.Count; i++)
+        List<KonseMinion> targets =
+            new List<KonseMinion>(activeMinions);
+
+        activeMinions.Clear();
+
+        for (int i = 0; i < targets.Count; i++)
         {
-            if (activeMinions[i] == null) continue;
+            if (targets[i] == null) continue;
 
             ObjectPool.Instance.Return(
                 minionPrefab,
-                activeMinions[i].gameObject
+                targets[i].gameObject
             );
         }
-
-        activeMinions.Clear();
     }
 }

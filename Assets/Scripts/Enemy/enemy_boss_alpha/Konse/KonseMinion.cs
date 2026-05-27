@@ -32,6 +32,8 @@ public class KonseMinion : MonoBehaviour
 
     private float waveTimer;    // 波移動用タイマー 波の位相として使用
 
+    private bool isReturning = false;   // Pool返却中フラグ
+
     // ============================================
     // 初期化
     // BossKonseから呼ばれる
@@ -56,6 +58,8 @@ public class KonseMinion : MonoBehaviour
 
         //  移動タイプをランダムに決定
         moveType = selectedMoveType;
+
+        isReturning = false;    //  Pool返却中フラグをリセット
     }
 
     // ============================================
@@ -149,9 +153,14 @@ public class KonseMinion : MonoBehaviour
     // ============================================
     void ReturnToPool()
     {
+        if (isReturning) return;
+
+        isReturning = true;
+
         if (owner != null)
         {
             owner.RequestRespawnFormation(1f);
+            return;
         }
 
         if (ObjectPool.Instance != null)
