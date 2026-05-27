@@ -2,10 +2,10 @@
 
 /// <summary>
 /// 出現から initialMoveDuration 秒かけて initialMoveDistance unit 移動 →
-/// stopDuration 秒停止 → dashSpeed で直進
-/// /// enemy_ramNeedle で使用
+// stopDuration 秒停止 → dashSpeed で直進
+/// enemy_ramNeedle で使用
 /// </summary>
-public class MoveAccele : MonoBehaviour, IEnemyComponent
+public class MoveAccele : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 {
 	[Header("移動設定")]
 	[SerializeField] private float entryAngle = 0f;
@@ -25,10 +25,20 @@ public class MoveAccele : MonoBehaviour, IEnemyComponent
 	public void OnEnemyInit(EnemyBaseBeta core)
 	{
 		this.core = core;   // core への参照を保存
-
-		float rad = entryAngle * Mathf.Deg2Rad;                                         // entryAngle から移動方向を計算（Y軸回転のみ）
-		moveDirection = new Vector3(Mathf.Sin(rad), 0f, Mathf.Cos(rad)).normalized;     // 正規化して単位ベクトルにする
 		initialStartPos = transform.position;                                           // 初期位置を保存
+		InitializeMovement(entryAngle);
+	}
+
+	public void Initialize(float direction)
+	{
+		// EnemySpawner から渡された方向で初期化
+		InitializeMovement(direction);
+	}
+
+	private void InitializeMovement(float angle)
+	{
+		float rad = angle * Mathf.Deg2Rad;                                         // entryAngle から移動方向を計算（Y軸回転のみ）
+		moveDirection = new Vector3(Mathf.Sin(rad), 0f, Mathf.Cos(rad)).normalized;     // 正規化して単位ベクトルにする
 	}
 
 	private void Update()

@@ -101,13 +101,12 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        int count = Mathf.Min(wave.spawnCount, wave.spawnPoints.Count);
+        int count = wave.SpawnCount;
 
-        if (wave.spawnPoints.Count < wave.spawnCount)
+        if (count == 0)
         {
-            Debug.LogWarning($"[EnemySpawner] Wave '{wave.waveName}' : " +
-                             $"spawnCount({wave.spawnCount}) > spawnPoints数({wave.spawnPoints.Count}) " +
-                             $"のため {wave.spawnPoints.Count} 体のみスポーンします。");
+            Debug.LogWarning($"[EnemySpawner] Wave '{wave.waveName}' : spawnPoints が空です。");
+            return;
         }
 
         for (int i = 0; i < count; i++)
@@ -129,7 +128,7 @@ public class EnemySpawner : MonoBehaviour
         obj.transform.position = wave.spawnPoints[index].spawnPosition;
 
         // 向き設定
-        // 度数法: Y軸回転　0の場合だと左向き 90だと奥に動く
+        // 度数法: 0=真右, 90=真上
         // Y軸回転に適用
         obj.transform.rotation = Quaternion.Euler(0f, wave.direction, 0f);
 
@@ -137,7 +136,7 @@ public class EnemySpawner : MonoBehaviour
         IEnemyInitializable initTarget = obj.GetComponent<IEnemyInitializable>();
         if (initTarget != null)
         {
-            initTarget.Initialize(wave.direction, wave.moveSpeed);
+            initTarget.Initialize(wave.direction);
         }
 
         // 消滅タイマー開始 (despawnTime 後にプールへ返却)
@@ -163,7 +162,6 @@ public interface IEnemyInitializable
     /// <summary>
     /// スポーン時に呼ばれる初期化メソッド
     /// </summary>
-    /// <param name="direction">向き (度数法: 0=真左, 90=奥)</param>
-    /// <param name="moveSpeed">移動速度</param>
-    void Initialize(float direction, float moveSpeed);
+    /// <param name="direction">向き (度数法: 0=真右, 90=真上)</param>
+    void Initialize(float direction);
 }
