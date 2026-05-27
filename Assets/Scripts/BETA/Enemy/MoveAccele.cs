@@ -29,9 +29,10 @@ public class MoveAccele : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 		InitializeMovement(entryAngle);
 	}
 
-	public void Initialize(float direction)
+	public void Initialize(float direction, float despawnTime)
 	{
-		// EnemySpawner から渡された方向で初期化
+		// EnemySpawner から渡された方向と消滅時間で初期化
+		// このコンポーネントでは despawnTime は使用しないが、インターフェース実装のため定義
 		InitializeMovement(direction);
 	}
 
