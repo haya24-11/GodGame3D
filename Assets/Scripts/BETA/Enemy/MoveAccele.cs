@@ -8,7 +8,7 @@
 public class MoveAccele : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 {
 	[Header("移動設定")]
-	[SerializeField] private float entryAngle = 0f;
+	//[SerializeField] private float entryAngle = 0f;
 	[SerializeField] private float initialMoveDistance = 2f;  // 最初に移動する距離 [unit]
 	[SerializeField] private float initialMoveDuration = 1f;  // 初期移動にかける時間 [秒]
 	[SerializeField] private float stopDuration = 1f;         // 停止時間 [秒]
@@ -26,12 +26,13 @@ public class MoveAccele : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 	{
 		this.core = core;   // core への参照を保存
 		initialStartPos = transform.position;                                           // 初期位置を保存
-		InitializeMovement(entryAngle);
+		//InitializeMovement(entryAngle);
 	}
 
-	public void Initialize(float direction)
+	public void Initialize(float direction, float despawnTime)
 	{
-		// EnemySpawner から渡された方向で初期化
+		// EnemySpawner から渡された方向と消滅時間で初期化
+		// このコンポーネントでは despawnTime は使用しないが、インターフェース実装のため定義
 		InitializeMovement(direction);
 	}
 
