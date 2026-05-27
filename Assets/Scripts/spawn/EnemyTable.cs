@@ -44,10 +44,7 @@ public class EnemyWaveData
     [Tooltip("消滅時間 (出現してから何秒後にプールへ戻すか)")]
     public float despawnTime = 5f;
 
-    [Header("--- 移動設定 ---")]
-
-    [Tooltip("敵の移動速度")]
-    public float moveSpeed = 3f;
+ 
 }
 
 // ========================================

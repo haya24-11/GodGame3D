@@ -136,7 +136,7 @@ public class EnemySpawner : MonoBehaviour
         IEnemyInitializable initTarget = obj.GetComponent<IEnemyInitializable>();
         if (initTarget != null)
         {
-            initTarget.Initialize(wave.direction, wave.moveSpeed);
+            initTarget.Initialize(wave.direction);
         }
 
         // 消滅タイマー開始 (despawnTime 後にプールへ返却)
@@ -163,6 +163,5 @@ public interface IEnemyInitializable
     /// スポーン時に呼ばれる初期化メソッド
     /// </summary>
     /// <param name="direction">向き (度数法: 0=真右, 90=真上)</param>
-    /// <param name="moveSpeed">移動速度</param>
-    void Initialize(float direction, float moveSpeed);
+    void Initialize(float direction);
 }
