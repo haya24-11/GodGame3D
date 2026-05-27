@@ -7,48 +7,51 @@ using UnityEngine;
 
 public class KonseMinion : MonoBehaviour
 {
-    private BossKonse owner;
+    private BossKonse owner;    // 親Boss
 
-    private GameObject prefab;
+    private GameObject prefab;  // 自身のPrefab参照
 
-    private float speed;
+    private float speed;    // 移動速度
 
-    private Vector3 moveDir;
+    private Vector3 moveDir;    // 移動方向
 
     private enum MoveType
-    {
+    {   // 移動タイプ
         Straight,
         Wave
     }
 
-    private MoveType moveType;
+    private MoveType moveType;  // 移動タイプ
 
-    private float waveTimer;
+    private float waveTimer;    // 波移動用タイマー 波の位相として使用
 
     // ============================================
     // 初期化
+    // BossKonseから呼ばれる
     // ============================================
 
     public void Init(
-        BossKonse boss,
-        GameObject prefabRef,
-        float moveSpeed
+        BossKonse boss, // 親Boss
+        GameObject prefabRef,   //  自身のPrefab参照
+        float moveSpeed, //  移動速度
+        Vector3 dir
     )
     {
-        owner = boss;
+        owner = boss;   //  親Bossをセット
 
-        prefab = prefabRef;
+        prefab = prefabRef; //  自身のPrefab参照をセット
 
-        speed = moveSpeed;
+        speed = moveSpeed;  //  移動速度をセット
 
-        waveTimer = 0f;
+        waveTimer = 0f; //  波移動用タイマーをリセット
 
+        moveDir = dir.normalized; //  移動方向をセット（Z軸負方向）
+
+        //  移動タイプをランダムに決定
         moveType =
             Random.value < 0.5f
             ? MoveType.Straight
             : MoveType.Wave;
-
-        moveDir = Vector3.back;
     }
 
     // ============================================
@@ -57,6 +60,7 @@ public class KonseMinion : MonoBehaviour
 
     void Update()
     {
+        // 移動タイプに応じた移動処理を実行
         switch (moveType)
         {
             case MoveType.Straight:
@@ -77,9 +81,9 @@ public class KonseMinion : MonoBehaviour
 
     void StraightMove()
     {
-        transform.Translate(
-            moveDir * speed * Time.deltaTime,
-            Space.World
+        transform.Translate(    //  移動
+            moveDir * speed * Time.deltaTime,   //  移動量
+            Space.World //  ワールド座標で移動
         );
     }
 

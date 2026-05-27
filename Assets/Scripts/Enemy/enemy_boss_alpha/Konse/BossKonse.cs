@@ -41,6 +41,18 @@ public class BossKonse : BossBase
 
     private int aliveMinionCount = 0;
 
+    //  Minionのサイズ（中心から端までの距離） 本体と重ならないようにするために必要
+    [SerializeField]
+    private float minionSize = 1f;
+
+    private enum SpawnSide
+    {   // Minionが出現する辺
+        Top,
+        Bottom,
+        Right,
+        Left
+    }
+
     // ============================================
     // 本体
     // ============================================
@@ -142,24 +154,17 @@ public class BossKonse : BossBase
     {
         if (minionPrefab == null)
         {
-            Debug.LogError(
-                "[Konse] minionPrefab 未設定"
-            );
-
+            Debug.LogError("[Konse] minionPrefab 未設定");
             return;
         }
 
         if (ObjectPool.Instance == null)
         {
-            Debug.LogError(
-                "[Konse] ObjectPool.Instance が存在しない"
-            );
-
+            Debug.LogError("[Konse] ObjectPool.Instance が存在しない");
             return;
         }
 
         activeMinions.Clear();
-
         aliveMinionCount = spawnCount;
 
         Camera cam = Camera.main;
@@ -167,74 +172,98 @@ public class BossKonse : BossBase
         float h = cam.orthographicSize;
         float w = h * cam.aspect;
 
+        // =========================
+        // 出現する辺を1回だけ決める
+        // =========================
+
+        SpawnSide side = (SpawnSide)Random.Range(0, 4);
+
+        // =========================
+        // ミニオン1体分の空白を空ける
+        // 中心間距離 = 本体1体分 + 空白1体分
+        // =========================
+
+        float spacing = minionSize * 2f;
+
+        float totalLength = spacing * (spawnCount - 1);
+        float startOffset = -totalLength * 0.5f;
+
+        float halfSize = minionSize * 0.5f;
+
+        Vector3 moveDir = Vector3.zero;
+
         for (int i = 0; i < spawnCount; i++)
         {
+            float offset = startOffset + spacing * i;
+
             Vector3 pos = Vector3.zero;
-
-            // ====================================
-            // 上下左右ランダム
-            // ====================================
-
-            int side = Random.Range(0, 4);
 
             switch (side)
             {
-                case 0:
+                case SpawnSide.Top:
+                    // 上端に横1列配置 → 下へ進む
                     pos = new Vector3(
-                        Random.Range(-w, w),
+                        offset,
                         1f,
-                        h
+                        h - halfSize
                     );
+
+                    moveDir = Vector3.back;
                     break;
 
-                case 1:
+                case SpawnSide.Bottom:
+                    // 下端に横1列配置 → 上へ進む
                     pos = new Vector3(
-                        Random.Range(-w, w),
+                        offset,
                         1f,
-                        -h
+                        -h + halfSize
                     );
+
+                    moveDir = Vector3.forward;
                     break;
 
-                case 2:
+                case SpawnSide.Right:
+                    // 右端に縦1列配置 → 左へ進む
                     pos = new Vector3(
-                        w,
+                        w - halfSize,
                         1f,
-                        Random.Range(-h, h)
+                        offset
                     );
+
+                    moveDir = Vector3.left;
                     break;
 
-                case 3:
+                case SpawnSide.Left:
+                    // 左端に縦1列配置 → 右へ進む
                     pos = new Vector3(
-                        -w,
+                        -w + halfSize,
                         1f,
-                        Random.Range(-h, h)
+                        offset
                     );
+
+                    moveDir = Vector3.right;
                     break;
             }
 
-            GameObject obj =
-                ObjectPool.Instance.Get(
-                    minionPrefab,
-                    pos,
-                    Quaternion.identity
-                );
+            GameObject obj = ObjectPool.Instance.Get(
+                minionPrefab,
+                pos,
+                Quaternion.identity
+            );
 
-            KonseMinion minion =
-                                 obj.GetComponent<KonseMinion>();
+            KonseMinion minion = obj.GetComponent<KonseMinion>();
 
             if (minion == null)
             {
-                Debug.LogError(
-                    "[Konse] KonseMinion がPrefabに付いてない"
-                );
-
+                Debug.LogError("[Konse] KonseMinion がPrefabに付いてない");
                 return;
             }
 
             minion.Init(
                 this,
                 minionPrefab,
-                minionSpeed
+                minionSpeed,
+                moveDir
             );
 
             activeMinions.Add(minion);

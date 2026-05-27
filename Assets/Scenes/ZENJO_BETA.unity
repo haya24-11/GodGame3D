@@ -2806,6 +2806,7 @@ MonoBehaviour:
   minionPrefab: {fileID: 4968646382159422661, guid: 2209ec244a9985e46adba77cd02bb109, type: 3}
   spawnCount: 3
   minionSpeed: 5
+  minionSize: 1
   orbitRadius: 2
   orbitSpeed: 60
 --- !u!54 &1698882695
