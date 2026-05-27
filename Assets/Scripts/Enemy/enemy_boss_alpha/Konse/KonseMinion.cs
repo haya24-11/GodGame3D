@@ -14,6 +14,13 @@ public class KonseMinion : MonoBehaviour
     private float speed;    // 移動速度
 
     private Vector3 moveDir;    // 移動方向
+    private Vector3 waveDir;    // 波移動の揺れ方向
+
+    [SerializeField] 
+    private float waveAmplitude = 1f;   //  波移動の振幅
+
+    [SerializeField]
+    private float waveFrequency = 5f;   //  波移動の周波数
 
     private enum MoveType
     {   // 移動タイプ
@@ -34,18 +41,18 @@ public class KonseMinion : MonoBehaviour
         BossKonse boss, // 親Boss
         GameObject prefabRef,   //  自身のPrefab参照
         float moveSpeed, //  移動速度
-        Vector3 dir
+        Vector3 dir,
+         Vector3 waveDirection
     )
     {
         owner = boss;   //  親Bossをセット
-
         prefab = prefabRef; //  自身のPrefab参照をセット
-
         speed = moveSpeed;  //  移動速度をセット
-
         waveTimer = 0f; //  波移動用タイマーをリセット
 
         moveDir = dir.normalized; //  移動方向をセット（Z軸負方向）
+
+        waveDir = waveDirection.normalized;
 
         //  移動タイプをランダムに決定
         moveType =
@@ -97,10 +104,16 @@ public class KonseMinion : MonoBehaviour
 
         Vector3 pos = transform.position;
 
+        // 前進
         pos += moveDir * speed * Time.deltaTime;
 
-        pos.x += Mathf.Sin(waveTimer * 5f)
-            * Time.deltaTime;
+        // 出現方向に応じた横揺れ
+        float waveVelocity =
+            Mathf.Cos(waveTimer * waveFrequency)
+            * waveAmplitude
+            * waveFrequency;
+
+        pos += waveDir * waveVelocity * Time.deltaTime;
 
         transform.position = pos;
     }

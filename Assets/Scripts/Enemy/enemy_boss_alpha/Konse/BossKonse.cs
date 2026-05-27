@@ -53,6 +53,13 @@ public class BossKonse : BossBase
         Left
     }
 
+    private enum SpawnLineType
+    {   //  Minionが出現するラインのタイプ
+        Center,
+        CornerA,
+        CornerB
+    }
+
     // ============================================
     // 本体
     // ============================================
@@ -188,6 +195,32 @@ public class BossKonse : BossBase
         float totalLength = spacing * (spawnCount - 1);
         float startOffset = -totalLength * 0.5f;
 
+        // =========================
+        // 中央だけでなく、角寄りにも配置する
+        // Center  : 中央
+        // CornerA : 左上 / 下左 / 右上 / 左上側
+        // CornerB : 右上 / 下右 / 右下 / 左下側
+        // =========================
+
+        SpawnLineType lineType = (SpawnLineType)Random.Range(0, 3);
+
+        float lineCenter = 0f;  // ラインの中心位置（0が中央、負が左上/下、正が右上/下）
+
+        switch (lineType)
+        {   //  今回は中央に配置することが多め
+            case SpawnLineType.Center:
+                lineCenter = 0f;
+                break;
+            //  角寄りに配置することもある
+            case SpawnLineType.CornerA:
+                lineCenter = -Mathf.Min(w, h) * 0.5f;
+                break;
+            //  角寄りに配置することもある
+            case SpawnLineType.CornerB:
+                lineCenter = Mathf.Min(w, h) * 0.5f;
+                break;
+        }
+
         float halfSize = minionSize * 0.5f;
 
         Vector3 moveDir = Vector3.zero;
@@ -198,50 +231,52 @@ public class BossKonse : BossBase
 
             Vector3 pos = Vector3.zero;
 
+            Vector3 waveDir = Vector3.zero;
+
             switch (side)
             {
                 case SpawnSide.Top:
-                    // 上端に横1列配置 → 下へ進む
                     pos = new Vector3(
-                        offset,
+                        Mathf.Clamp(lineCenter + offset, -w + halfSize, w - halfSize),
                         1f,
                         h - halfSize
                     );
 
                     moveDir = Vector3.back;
+                    waveDir = Vector3.right;
                     break;
 
                 case SpawnSide.Bottom:
-                    // 下端に横1列配置 → 上へ進む
                     pos = new Vector3(
-                        offset,
+                        Mathf.Clamp(lineCenter + offset, -w + halfSize, w - halfSize),
                         1f,
                         -h + halfSize
                     );
 
                     moveDir = Vector3.forward;
+                    waveDir = Vector3.right;
                     break;
 
                 case SpawnSide.Right:
-                    // 右端に縦1列配置 → 左へ進む
                     pos = new Vector3(
                         w - halfSize,
                         1f,
-                        offset
+                        Mathf.Clamp(lineCenter + offset, -h + halfSize, h - halfSize)
                     );
 
                     moveDir = Vector3.left;
+                    waveDir = Vector3.forward;
                     break;
 
                 case SpawnSide.Left:
-                    // 左端に縦1列配置 → 右へ進む
                     pos = new Vector3(
                         -w + halfSize,
                         1f,
-                        offset
+                        Mathf.Clamp(lineCenter + offset, -h + halfSize, h - halfSize)
                     );
 
                     moveDir = Vector3.right;
+                    waveDir = Vector3.forward;
                     break;
             }
 
@@ -263,7 +298,8 @@ public class BossKonse : BossBase
                 this,
                 minionPrefab,
                 minionSpeed,
-                moveDir
+                moveDir,
+                waveDir
             );
 
             activeMinions.Add(minion);
