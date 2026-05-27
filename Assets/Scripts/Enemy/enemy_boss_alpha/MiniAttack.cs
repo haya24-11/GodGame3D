@@ -1,60 +1,71 @@
-// どのファイルのどこを変更：MiniAttack.cs
-// 意図：ボスにダメージ＋方向を渡す
+// ============================================
+// ファイル：MiniAttack.cs
+// 役割：Miniの攻撃処理
+// 内容：IDamageableへダメージ送信
+// ============================================
 
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class MiniAttack : MonoBehaviour
 {
-    [Header("ステータス")]
-    [SerializeField] private int attack = 2;
+    // ============================================
+    // 攻撃力
+    // ============================================
+
+    [Header("攻撃力")]
+
+    [SerializeField]
+    private int attack = 2;
 
     public int Attack => attack;
 
-    // ★追加：衝突時にダメージを与える
+    // ============================================
+    // 衝突
+    // ============================================
+
     private void OnTriggerEnter(Collider other)
     {
-        var miniAttackOnBoss = GetComponent<MiniAttackOnBoss>();
-        if (miniAttackOnBoss == null || !miniAttackOnBoss.IsActive) return;
+        // ========================================
+        // MiniAttackOnBoss確認
+        // ========================================
 
-        // boss_straight用
-        var bossStraight = other.GetComponentInParent<EnemyBossStraight>();
-        if (bossStraight != null)
+        MiniAttackOnBoss attackState =
+            GetComponent<MiniAttackOnBoss>();
+
+        if (attackState == null)
         {
-            Debug.Log("[Mini] BossStraightにヒット");
-            bossStraight.TakeDamage(attack, transform.position);
-            return;
-        }
-
-        var cubehit = other.GetComponentInParent<enemy_hp>();
-        if (cubehit != null) {
-            Debug.Log("[Mini] cubehitにヒット");
-            cubehit.TakeDamage(attack);
             return;
         }
 
-       /* var enemyhit = other.GetComponentInParent<EnemyBase>();
-        if (enemyhit != null)
+        if (!attackState.IsActive)
         {
-            Debug.Log("[Mini] accelehitにヒット");
-            enemyhit.TakeDamage(attack);
-            return;
-        }
-       */
-        var accelehit = other.GetComponentInParent<EnemyAccele>();
-        if (accelehit != null)
-        {
-            Debug.Log("[Mini] accelehitにヒット");
-            accelehit.TakeDamage(attack);
             return;
         }
 
-        // boss_alpha用（既存維持）
-        var bossAlpha = other.GetComponent<EnemyBossAlpha>();
-        if (bossAlpha != null)
+        // ========================================
+        // IDamageable取得
+        // ========================================
+
+        IDamageable damageable =
+            other.GetComponentInParent<IDamageable>();
+
+        if (damageable == null)
         {
-            bossAlpha.TakeDamage(attack);
             return;
         }
+
+        // ========================================
+        // ダメージ
+        // ========================================
+
+        Debug.Log(
+            $"[Mini] {other.name} にヒット"
+        );
+
+        damageable.TakeDamage(
+            attack,
+            transform.position
+        );
     }
 }
