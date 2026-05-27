@@ -8,7 +8,7 @@
 public class MoveLinear : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 {
 	[Header("直進設定")]
-	[SerializeField] private float entryAngle = 0f;   // 画面への入射角（度）
+	//[SerializeField] private float entryAngle = 0f;   // 画面への入射角（度）
 	[SerializeField] private float moveSpeed = 5f;    // 速度 [unit/秒]
 
 	private Vector3 moveDirection;
@@ -17,7 +17,7 @@ public class MoveLinear : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 	public void OnEnemyInit(EnemyBaseBeta core)
 	{
 		this.core = core;   // コアへの参照を保持（移動停止のため）
-		InitializeMovement(entryAngle);
+		//InitializeMovement(entryAngle);
 	}
 
 	public void Initialize(float direction, float despawnTime)
