@@ -16,13 +16,13 @@ public class KonseMinion : MonoBehaviour
     private Vector3 moveDir;    // 移動方向
     private Vector3 waveDir;    // 波移動の揺れ方向
 
-    [SerializeField] 
+    [SerializeField]
     private float waveAmplitude = 1f;   //  波移動の振幅
 
     [SerializeField]
     private float waveFrequency = 5f;   //  波移動の周波数
 
-    private enum MoveType
+    public enum MoveType
     {   // 移動タイプ
         Straight,
         Wave
@@ -42,7 +42,8 @@ public class KonseMinion : MonoBehaviour
         GameObject prefabRef,   //  自身のPrefab参照
         float moveSpeed, //  移動速度
         Vector3 dir,
-         Vector3 waveDirection
+         Vector3 waveDirection,
+          MoveType selectedMoveType
     )
     {
         owner = boss;   //  親Bossをセット
@@ -51,14 +52,10 @@ public class KonseMinion : MonoBehaviour
         waveTimer = 0f; //  波移動用タイマーをリセット
 
         moveDir = dir.normalized; //  移動方向をセット（Z軸負方向）
-
         waveDir = waveDirection.normalized;
 
         //  移動タイプをランダムに決定
-        moveType =
-            Random.value < 0.5f
-            ? MoveType.Straight
-            : MoveType.Wave;
+        moveType = selectedMoveType;
     }
 
     // ============================================
@@ -150,14 +147,21 @@ public class KonseMinion : MonoBehaviour
     // ============================================
     // Pool返却
     // ============================================
-
     void ReturnToPool()
     {
         if (owner != null)
         {
-            owner.NotifyMinionDead();
+            owner.RequestRespawnFormation(1f);
         }
 
-        ObjectPool.Instance.Return(prefab, gameObject);
+        if (ObjectPool.Instance != null)
+        {
+            ObjectPool.Instance.Return(prefab, gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
+    

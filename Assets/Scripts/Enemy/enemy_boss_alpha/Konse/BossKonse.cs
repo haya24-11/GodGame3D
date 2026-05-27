@@ -12,7 +12,6 @@ public class BossKonse : BossBase
     // ============================================
     // 状態
     // ============================================
-
     private enum State
     {
         Protected,
@@ -41,6 +40,8 @@ public class BossKonse : BossBase
 
     private int aliveMinionCount = 0;
 
+    private bool isRespawningFormation = false;
+
     //  Minionのサイズ（中心から端までの距離） 本体と重ならないようにするために必要
     [SerializeField]
     private float minionSize = 1f;
@@ -52,7 +53,6 @@ public class BossKonse : BossBase
         Right,
         Left
     }
-
     private enum SpawnLineType
     {   //  Minionが出現するラインのタイプ
         Center,
@@ -110,7 +110,6 @@ public class BossKonse : BossBase
     // ============================================
     // 更新
     // ============================================
-
     void Update()
     {
         if (isDead) return;
@@ -135,7 +134,6 @@ public class BossKonse : BossBase
     // ============================================
     // 円移動
     // ============================================
-
     void OrbitMove()
     {
         orbitAngle += orbitSpeed * Time.deltaTime;
@@ -156,7 +154,6 @@ public class BossKonse : BossBase
     // ============================================
     // Minion生成
     // ============================================
-
     void SpawnMinions()
     {
         if (minionPrefab == null)
@@ -224,6 +221,11 @@ public class BossKonse : BossBase
         float halfSize = minionSize * 0.5f;
 
         Vector3 moveDir = Vector3.zero;
+
+        KonseMinion.MoveType formationMoveType =
+        Random.value < 0.5f
+        ? KonseMinion.MoveType.Straight
+        : KonseMinion.MoveType.Wave;
 
         for (int i = 0; i < spawnCount; i++)
         {
@@ -299,7 +301,8 @@ public class BossKonse : BossBase
                 minionPrefab,
                 minionSpeed,
                 moveDir,
-                waveDir
+                waveDir,
+                 formationMoveType
             );
 
             activeMinions.Add(minion);
@@ -311,7 +314,6 @@ public class BossKonse : BossBase
     // ============================================
     // Minion死亡通知
     // ============================================
-
     public void NotifyMinionDead()
     {
         aliveMinionCount--;
@@ -325,7 +327,6 @@ public class BossKonse : BossBase
     // ============================================
     // 露出開始
     // ============================================
-
     void EnterExposed()
     {
         state = State.Exposed;
@@ -342,7 +343,6 @@ public class BossKonse : BossBase
     // ============================================
     // 無敵状態
     // ============================================
-
     void UpdateProtected()
     {
     }
@@ -350,7 +350,6 @@ public class BossKonse : BossBase
     // ============================================
     // 露出状態
     // ============================================
-
     void UpdateExposed()
     {
         exposedTimer -= Time.deltaTime;
@@ -364,7 +363,6 @@ public class BossKonse : BossBase
     // ============================================
     // 回復フェーズ
     // ============================================
-
     IEnumerator RecoverRoutine()
     {
         state = State.Recover;
@@ -381,7 +379,6 @@ public class BossKonse : BossBase
     // ============================================
     // 被弾
     // ============================================
-
     protected override void OnDamaged(
         int damage,
         Vector3 attackerPos
@@ -401,7 +398,6 @@ public class BossKonse : BossBase
         // ========================================
         // 4ダメージで吹っ飛び
         // ========================================
-
         if (exposedDamage >= 4)
         {
             breakCount++;
@@ -435,5 +431,42 @@ public class BossKonse : BossBase
             damage,
             attackerPos
         );
+    }
+
+    public void RequestRespawnFormation(float delay)
+    {
+        if (state != State.Protected) return;
+        if (isRespawningFormation) return;
+
+        StartCoroutine(RespawnFormationAfterDelay(delay));
+    }
+    IEnumerator RespawnFormationAfterDelay(float delay)
+    {
+        isRespawningFormation = true;
+
+        ClearActiveMinions();
+
+        yield return new WaitForSeconds(delay);
+
+        if (state == State.Protected)
+        {
+            SpawnMinions();
+        }
+
+        isRespawningFormation = false;
+    }
+    void ClearActiveMinions()
+    {
+        for (int i = 0; i < activeMinions.Count; i++)
+        {
+            if (activeMinions[i] == null) continue;
+
+            ObjectPool.Instance.Return(
+                minionPrefab,
+                activeMinions[i].gameObject
+            );
+        }
+
+        activeMinions.Clear();
     }
 }
