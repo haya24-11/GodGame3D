@@ -1617,23 +1617,116 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTable
   waveDataArray:
-  - waveName: 2
-    enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
-    spawnTime: 2
-    direction: 180
+  - waveName: 1Z
+    enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
+    spawnTime: 3
+    direction: 90
     spawnPoints:
-    - spawnPosition: {x: 9, y: 1, z: 0}
-    - spawnPosition: {x: 9, y: 1, z: -0.5}
-    - spawnPosition: {x: 9, y: 1, z: 0.5}
+    - spawnPosition: {x: -11, y: 1, z: 1}
+    - spawnPosition: {x: -10, y: 1, z: 0}
+    - spawnPosition: {x: -11, y: 1, z: 1}
     despawnTime: 5
-  - waveName: 2
+  - waveName: 2G
+    enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
+    spawnTime: 17
+    direction: 330
+    spawnPoints:
+    - spawnPosition: {x: 2, y: 1, z: -5}
+    - spawnPosition: {x: 3, y: 1, z: -5}
+    despawnTime: 10
+  - waveName: 3G
+    enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
+    spawnTime: 22
+    direction: 90
+    spawnPoints:
+    - spawnPosition: {x: -10, y: 1, z: 1}
+    - spawnPosition: {x: -10, y: 1, z: 0}
+    - spawnPosition: {x: -10, y: 1, z: -1}
+    despawnTime: 10
+  - waveName: 4Z
+    enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
+    spawnTime: 28
+    direction: 90
+    spawnPoints:
+    - spawnPosition: {x: 1, y: 1, z: -4}
+    - spawnPosition: {x: 0, y: 1, z: -4}
+    - spawnPosition: {x: -1, y: 1, z: -4}
+    despawnTime: 10
+  - waveName: 5G
+    enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
+    spawnTime: 31
+    direction: 210
+    spawnPoints:
+    - spawnPosition: {x: 2, y: 1, z: 5}
+    - spawnPosition: {x: 3, y: 1, z: 5}
+    despawnTime: 10
+  - waveName: 6Z
+    enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
+    spawnTime: 37
+    direction: 90
+    spawnPoints:
+    - spawnPosition: {x: -10, y: 1, z: 0.5}
+    - spawnPosition: {x: -10, y: 1, z: -0.5}
+    despawnTime: 10
+  - waveName: 7Z
+    enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
+    spawnTime: 45
+    direction: 90
+    spawnPoints:
+    - spawnPosition: {x: 0, y: 1, z: -5}
+    - spawnPosition: {x: -1, y: 1, z: -5}
+    - spawnPosition: {x: 1, y: 1, z: -5}
+    despawnTime: 10
+  - waveName: 8G
+    enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
+    spawnTime: 50
+    direction: 330
+    spawnPoints:
+    - spawnPosition: {x: 2, y: 1, z: -5}
+    - spawnPosition: {x: 3, y: 1, z: -5}
+    despawnTime: 10
+  - waveName: 9G
+    enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
+    spawnTime: 57
+    direction: 30
+    spawnPoints:
+    - spawnPosition: {x: -2, y: 1, z: -5}
+    - spawnPosition: {x: -3, y: 1, z: -5}
+    despawnTime: 10
+  - waveName: 10Z-1
+    enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
+    spawnTime: 65
+    direction: 90
+    spawnPoints:
+    - spawnPosition: {x: 10, y: 1, z: 0.5}
+    - spawnPosition: {x: 10, y: 1, z: -0.5}
+    despawnTime: 10
+  - waveName: 10Z-2
+    enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
+    spawnTime: 65
+    direction: 90
+    spawnPoints:
+    - spawnPosition: {x: -10, y: 1, z: 0.5}
+    - spawnPosition: {x: -10, y: 1, z: -0.5}
+    despawnTime: 10
+  - waveName: 11G
+    enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
+    spawnTime: 70
+    direction: 0
+    spawnPoints:
+    - spawnPosition: {x: 0.5, y: 1, z: -5}
+    - spawnPosition: {x: 1.5, y: 1, z: -5}
+    - spawnPosition: {x: -0.5, y: 1, z: -5}
+    - spawnPosition: {x: -1.5, y: 1, z: -5}
+    despawnTime: 10
+  - waveName: 1
     enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
     spawnTime: 2
-    direction: 0
+    direction: 90
     spawnPoints:
     - spawnPosition: {x: 2, y: 1, z: -4}
     - spawnPosition: {x: 3, y: 1, z: -4}
-    despawnTime: 5
+    despawnTime: 10
   initialPoolSize: 5
 --- !u!4 &1717346241
 Transform:
