@@ -1350,7 +1350,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossMimesis
   maxHp: 10
   slimePrefab: {fileID: 1812011738}
+  slimeSpeed: 8
+  slimeSize: 1
+  slimeSpawnCount: 3
+  blueWarningPrefab: {fileID: 0}
+  areaWarningTime: 1
+  areaStayTimePhase2: 1
   chargeSpeed: 12
+  redWarningPrefab: {fileID: 0}
+  chargeWarningTime: 2
+  chargeSpeedPhase2: 15
 --- !u!54 &660635560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2074,18 +2083,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      propertyPath: maxHp
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 396036678596127086, guid: 3b1e010af30622e40a04916050c54e61, type: 3}
       propertyPath: m_Name
       value: Timer
@@ -2205,6 +2202,18 @@ PrefabInstance:
     - target: {fileID: 9219653667349631851, guid: 3b1e010af30622e40a04916050c54e61, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7085645525859958331, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+      propertyPath: maxHp
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7832187875630082585, guid: 19a31d869833d8e43b76b1e2d2eae6a5, type: 3}
@@ -2938,6 +2947,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d14bdc1878fc447a33ee106f414eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MimesisSlime
+  waveAmplitude: 1
+  waveFrequency: 5
 --- !u!54 &1812011740
 Rigidbody:
   m_ObjectHideFlags: 0

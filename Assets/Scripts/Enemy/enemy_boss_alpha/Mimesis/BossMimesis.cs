@@ -64,6 +64,19 @@ public class BossMimesis : BossBase
 
     private bool slimeActionFinished = false;
 
+    [Header("Area")]
+    [SerializeField] private GameObject blueWarningPrefab;
+    [SerializeField] private float areaWarningTime = 1f;
+    [SerializeField] private float areaStayTimePhase2 = 1f;
+
+    private GameObject activeAreaWarning;
+
+    [Header("Final")]
+    [SerializeField] private float finalEdgeMargin = 3f;
+    [SerializeField] private float finalOrbitSpeed = 90f;
+
+    private float finalAngle = 0f;
+
     // ============================================
     // Charge
     // ============================================
@@ -76,6 +89,17 @@ public class BossMimesis : BossBase
     private Vector3 chargeDir;
 
     private bool chargeHit = false;
+
+    [SerializeField]
+    private GameObject redWarningPrefab;
+
+    [SerializeField]
+    private float chargeWarningTime = 2f;
+
+    [SerializeField]
+    private float chargeSpeedPhase2 = 15f;
+
+    private GameObject activeWarning;
 
     // ============================================
     // Area
@@ -112,6 +136,10 @@ public class BossMimesis : BossBase
         {
             case State.Charge:
                 UpdateCharge();
+                break;
+
+            case State.Final:
+                UpdateFinal();
                 break;
         }
     }
@@ -204,18 +232,7 @@ public class BossMimesis : BossBase
 
     void StartCharge()
     {
-        state = State.Charge;
-
-        chargeHit = false;
-
-        Camera cam = Camera.main;
-
-        float h = cam.orthographicSize;
-
-        transform.position =
-            new Vector3(0f, 1f, h + 2f);
-
-        chargeDir = Vector3.back;
+        StartCoroutine(ChargeRoutine());
     }
 
     // ============================================
@@ -233,8 +250,10 @@ public class BossMimesis : BossBase
         Camera cam = Camera.main;
 
         float h = cam.orthographicSize;
+        float w = h * cam.aspect;
 
-        if (transform.position.z < -h - 3f)
+        if (Mathf.Abs(transform.position.x) > w + 3f ||
+            Mathf.Abs(transform.position.z) > h + 3f)
         {
             isActionChanging = true;
             state = State.Idle;
@@ -255,20 +274,69 @@ public class BossMimesis : BossBase
 
         while (areaLoopCount < 3)
         {
-            Vector3 pos = GetRandomAreaPosition();
+            Rect areaRect = GetRandomAreaRect();
 
-            transform.position = pos;
+            Vector3 warningPos = new Vector3(
+                areaRect.center.x,
+                0.05f,
+                areaRect.center.y
+            );
+
+            // =========================
+            // Â—\•\Ž¦
+            // =========================
+
+            if (blueWarningPrefab != null)
+            {
+                activeAreaWarning = Instantiate(
+                    blueWarningPrefab,
+                    warningPos,
+                    Quaternion.identity
+                );
+
+                activeAreaWarning.transform.localScale =
+                    new Vector3(areaRect.width, 1f, areaRect.height);
+            }
+
+            yield return new WaitForSeconds(areaWarningTime);
+
+            if (activeAreaWarning != null)
+            {
+                Destroy(activeAreaWarning);
+            }
+
+            // =========================
+            // —\”ÍˆÍ“à‚ÉoŒ»
+            // =========================
+
+            transform.position = new Vector3(
+                Random.Range(areaRect.xMin, areaRect.xMax),
+                1f,
+                Random.Range(areaRect.yMin, areaRect.yMax)
+            );
+
+            float stayTime =
+                totalDamage >= 30
+                ? areaStayTimePhase2
+                : areaStayTime;
 
             float timer = 0f;
 
-            while (timer < areaStayTime)
+            while (timer < stayTime)
             {
+                if (state != State.Area)
+                {
+                    yield break;
+                }
+
                 timer += Time.deltaTime;
                 yield return null;
             }
 
             areaLoopCount++;
         }
+
+        state = State.Idle;
 
         yield return new WaitForSeconds(1f);
 
@@ -321,6 +389,10 @@ public class BossMimesis : BossBase
     {
         state = State.Final;
 
+        isActionChanging = true;
+
+        finalAngle = 0f;
+
         Debug.Log("[Mimesis] FINAL PHASE");
     }
 
@@ -340,9 +412,9 @@ public class BossMimesis : BossBase
     // ============================================
 
     protected override void OnDamaged(
-        int damage,
-        Vector3 attackerPos
-    )
+     int damage,
+     Vector3 attackerPos
+ )
     {
         if (isActionChanging) return;
 
@@ -517,5 +589,131 @@ public class BossMimesis : BossBase
         }
 
         Debug.Log("[Mimesis] Slime‘à—ñ¶¬");
+    }
+
+    IEnumerator ChargeRoutine()
+    {
+        state = State.Idle;
+        isActionChanging = true;
+
+        Camera cam = Camera.main;
+
+        float h = cam.orthographicSize;
+        float w = h * cam.aspect;
+
+        int side = Random.Range(0, 4);
+
+        Vector3 startPos = Vector3.zero;
+        Vector3 dir = Vector3.zero;
+        Vector3 warningPos = Vector3.zero;
+
+        switch (side)
+        {
+            case 0:
+                startPos = new Vector3(Random.Range(-w, w), 1f, h + 2f);
+                dir = Vector3.back;
+                warningPos = new Vector3(startPos.x, 0.05f, 0f);
+                break;
+
+            case 1:
+                startPos = new Vector3(Random.Range(-w, w), 1f, -h - 2f);
+                dir = Vector3.forward;
+                warningPos = new Vector3(startPos.x, 0.05f, 0f);
+                break;
+
+            case 2:
+                startPos = new Vector3(w + 2f, 1f, Random.Range(-h, h));
+                dir = Vector3.left;
+                warningPos = new Vector3(0f, 0.05f, startPos.z);
+                break;
+
+            case 3:
+                startPos = new Vector3(-w - 2f, 1f, Random.Range(-h, h));
+                dir = Vector3.right;
+                warningPos = new Vector3(0f, 0.05f, startPos.z);
+                break;
+        }
+
+        float warningTime =
+            totalDamage >= 30
+            ? 1f
+            : chargeWarningTime;
+
+        if (redWarningPrefab != null)
+        {
+            activeWarning = Instantiate(
+                redWarningPrefab,
+                warningPos,
+                Quaternion.identity
+            );
+        }
+
+        yield return new WaitForSeconds(warningTime);
+
+        if (activeWarning != null)
+        {
+            Destroy(activeWarning);
+        }
+
+        transform.position = startPos;
+        chargeDir = dir;
+
+        chargeSpeed =
+            totalDamage >= 30
+            ? chargeSpeedPhase2
+            : 12f;
+
+        chargeHit = false;
+        isActionChanging = false;
+        state = State.Charge;
+    }
+
+    Rect GetRandomAreaRect()
+    {
+        Camera cam = Camera.main;
+
+        float h = cam.orthographicSize;
+        float w = h * cam.aspect;
+
+        int areaIndex = Random.Range(0, 4);
+
+        bool right = areaIndex % 2 == 1;
+        bool top = areaIndex >= 2;
+
+        float xMin = right ? 0f : -w;
+        float xMax = right ? w : 0f;
+
+        float zMin = top ? 0f : -h;
+        float zMax = top ? h : 0f;
+
+        return Rect.MinMaxRect(
+            xMin,
+            zMin,
+            xMax,
+            zMax
+        );
+    }
+
+    void UpdateFinal()
+    {
+        Camera cam = Camera.main;
+
+        float h = cam.orthographicSize;
+        float w = h * cam.aspect;
+
+        float radiusX = Mathf.Max(0f, w - finalEdgeMargin);
+        float radiusZ = Mathf.Max(0f, h - finalEdgeMargin);
+
+        finalAngle += finalOrbitSpeed * Time.deltaTime;
+
+        float rad = finalAngle * Mathf.Deg2Rad;
+
+        Vector3 pos = new Vector3(
+            Mathf.Cos(rad) * radiusX,
+            1f,
+            Mathf.Sin(rad) * radiusZ
+        );
+
+        transform.position = pos;
     }
 }
