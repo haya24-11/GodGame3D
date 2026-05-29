@@ -854,7 +854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2852372480759209195, guid: fdd7624a88ea8974991c72d7258920ca, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4078192114511365199, guid: fdd7624a88ea8974991c72d7258920ca, type: 3}
       propertyPath: m_Enabled
@@ -2662,6 +2662,17 @@ RectTransform:
   m_AnchoredPosition: {x: -450, y: 0}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &1457856470 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3160196187979970894, guid: 9e92ef78e7ba29745b1c2660ef9261fe, type: 3}
+  m_PrefabInstance: {fileID: 4226125869838222333}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 420b94f917a1146489078cdb258d3fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossKonse
 --- !u!1 &1464179602
 GameObject:
   m_ObjectHideFlags: 0
@@ -2691,9 +2702,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983839aabf4745b49857752de94f5f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageClearManager
-  targetBoss: {fileID: 1654822613}
-  resultSceneName: Result
-  gameOverSceneName: GameOver
+  targetBoss: {fileID: 1457856470}
+  resultSceneName: Title
+  gameOverSceneName: Title
   resultDelay: 3
   gameOverDelay: 0
 --- !u!4 &1464179604
@@ -2829,17 +2840,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5049444824402838723, guid: 15ed65d6e27846f419bb50c316c09fce, type: 3}
   m_PrefabInstance: {fileID: 5348548002009210779}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1654822613 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3695727369353832970, guid: fdd7624a88ea8974991c72d7258920ca, type: 3}
-  m_PrefabInstance: {fileID: 405873562}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36e6109edb440694384b6640c7d0a3d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossWiper
 --- !u!1001 &1741233753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3507,7 +3507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2119133482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3610,7 +3610,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816552023151518812, guid: 9e92ef78e7ba29745b1c2660ef9261fe, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1289087543714067151, guid: 9e92ef78e7ba29745b1c2660ef9261fe, type: 3}
       propertyPath: m_Enabled
