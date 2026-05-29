@@ -40,6 +40,7 @@ public abstract class BossBase : MonoBehaviour,IDamageable
 
     public int CurrentHp => currentHp;
 
+    public System.Action OnBossDead;
     // ============================================
     // èâä˙âª
     // ============================================
@@ -187,6 +188,8 @@ public abstract class BossBase : MonoBehaviour,IDamageable
         }
 
         isDead = true;
+
+        OnBossDead?.Invoke();
 
         StartCoroutine(DeathSequence());
     }

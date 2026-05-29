@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
+
 public class Ttimer : MonoBehaviour
 {
-
+    [Header("時間")]
     public int cnttime = 100; // 初期値
     public float interval = 1f;     // 減る間隔（秒）
 
-    private float timer = 0f;
+    [Header("UI")]
     public TextMeshProUGUI timerText;
 
+    private float timer = 0f;
+    private bool isTimeOver = false;
+
     public string nextSceneName; // ← 遷移先（Inspectorで設定）
-    private bool isFinished = false; // ← 1回だけ実行するため
 
     //時間追加系？
     public void AddTime(int value)
@@ -28,6 +30,8 @@ public class Ttimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isTimeOver) return;
+
         timer += Time.deltaTime;
 
         if (timer >= interval)
@@ -40,18 +44,26 @@ public class Ttimer : MonoBehaviour
             }
         }
 
-        // 3桁文字列にする
-        string str = cnttime.ToString("D3");
-
-        // 先頭1桁 + ":" + 後ろ3桁
-        string formatted = str.Substring(0, 3);
-
-        timerText.text = formatted; timerText.text = formatted;
-
-        if (cnttime == 0)
+        if (timerText != null)
         {
-            isFinished = true;
-            SceneManager.LoadScene(nextSceneName);
+            timerText.text = cnttime.ToString("D3");
+        }
+
+        if (cnttime <= 0)
+        {
+            isTimeOver = true;
+
+            StageClearManager manager =
+                FindObjectOfType<StageClearManager>();
+
+            if (manager != null)
+            {
+                manager.OnTimeOver();
+            }
+            else
+            {
+                Debug.LogError("[Ttimer] StageClearManager が見つからない");
+            }
         }
     }
 }
