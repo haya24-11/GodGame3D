@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 3342823730239716703}
   - component: {fileID: 536909322819781660}
   - component: {fileID: 4138171803177200355}
-  - component: {fileID: 7450277275528986465}
   - component: {fileID: -4585685963059381963}
   m_Layer: 0
   m_Name: tridera
@@ -159,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76b41bdca476ce469426da099eaa4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveLinear
-  entryAngle: 0
   moveSpeed: 5
 --- !u!114 &536909322819781660
 MonoBehaviour:
@@ -190,19 +188,7 @@ MonoBehaviour:
   unitMoveSpeed: 3
   unitTravelDistance: 1
   unitFadeDuration: 0.2
-  unitPrefab: {fileID: 0}
---- !u!114 &7450277275528986465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4892139767280924238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e676b4fccd16a654da09873a3f269001, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DoubleUnit
+  unitPrefab: {fileID: 7918804416577806375, guid: 4b7844b66711d0f41942496f57fc4663, type: 3}
 --- !u!114 &-4585685963059381963
 MonoBehaviour:
   m_ObjectHideFlags: 0

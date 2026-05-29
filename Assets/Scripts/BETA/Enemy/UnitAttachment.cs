@@ -12,9 +12,7 @@ public class UnitAttachment : MonoBehaviour, IEnemyComponent
 	// ―――――――――――――――――――――――――――――――
 
 	[Header("Unit 設定")]
-	[Tooltip("true = 上下(Y軸)方向に配置, false = 左右(X軸)方向に配置")]
-	[SerializeField] private bool alignVertical = true;
-
+	
 	[Tooltip("Unit の往復速度 [unit/秒]")]
 	[SerializeField] private float unitMoveSpeed = 3f;
 
@@ -35,8 +33,11 @@ public class UnitAttachment : MonoBehaviour, IEnemyComponent
 	private DoubleUnit unit1;
 	private DoubleUnit unit2;
 
-	// Unit ごとの往復位相（0 = 本体に最近接, 1 = 最遠）
-	private float phase1 = 0f;
+    // 進行方向に対する左右ベクトル（OnEnemyInit で確定）
+    private Vector3 rightDir;
+
+    // Unit ごとの往復位相（0 = 本体に最近接, 1 = 最遠）
+    private float phase1 = 1f;
 	private float phase2 = 1f; // 逆位相でスタート
 
 	private bool dir1 = true;  // true = 離れる方向
@@ -50,29 +51,48 @@ public class UnitAttachment : MonoBehaviour, IEnemyComponent
 	{
 		this.core = core;   // core への参照を保存
 
-        Vector3 offsetDir = alignVertical ? Vector3.up : Vector3.right; // 配置方向を決定
+        rightDir = transform.right;
 
         // 初期位置に Unit を生成
-        unit1 = SpawnUnit(offsetDir * unitTravelDistance);
-		unit2 = SpawnUnit(-offsetDir * unitTravelDistance);
+        unit1 = SpawnUnit(rightDir * unitTravelDistance);
+		unit2 = SpawnUnit(-rightDir * unitTravelDistance);
 
 		// 死亡時に残存 Unit を掃除
 		core.OnDeath += CleanupUnits;
 	}
 
-	// ―――――――――――――――――――――――――――――――
-	// 毎フレーム処理
-	// ―――――――――――――――――――――――――――――――
+    // ――――――――――――――――――――――――――――――――――――
+    // Unity ライフサイクル
+    // ――――――――――――――――――――――――――――――――――――
 
-	private void Update()
+    /// <summary>
+    /// 本体が死亡・プール返却どちらの場合でも
+    /// GameObject が非アクティブになると呼ばれる。
+    /// Unit の残留を防ぐためここで掃除する。
+    /// </summary>
+    private void OnDisable()
+    {
+        CleanupUnits();
+
+        // イベント購読も解除（プール再利用時の二重購読防止）
+        if (core != null)
+        {
+            core.OnDeath -= CleanupUnits;
+            core = null;
+        }
+    }
+
+    // ―――――――――――――――――――――――――――――――
+    // 毎フレーム処理
+    // ―――――――――――――――――――――――――――――――
+
+    private void Update()
 	{
 		if (core == null || core.IsDead) return;
 
-		Vector3 offsetDir = alignVertical ? Vector3.up : Vector3.right; // 配置方向を決定
-
         // Unit を往復移動させる
-        if (unit1 != null) UpdateUnitPosition(unit1.transform, offsetDir, ref phase1, ref dir1);
-		if (unit2 != null) UpdateUnitPosition(unit2.transform, -offsetDir, ref phase2, ref dir2);
+        if (unit1 != null) UpdateUnitPosition(unit1.transform, rightDir, ref phase1, ref dir1);
+		if (unit2 != null) UpdateUnitPosition(unit2.transform, -rightDir, ref phase2, ref dir2);
 	}
 
 	/// <summary>

@@ -1055,7 +1055,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea079219e017ca40a6e97fadce1ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTable
-  waveDataArray: []
+  waveDataArray:
+  - waveName: 1
+    enemyPrefab: {fileID: 4892139767280924238, guid: a14b15976535d6b49a283cefdd955bb3, type: 3}
+    spawnTime: 0
+    direction: 0
+    spawnPoints:
+    - spawnPosition: {x: 0, y: 1, z: 0}
+    despawnTime: 5
   initialPoolSize: 5
 --- !u!4 &932550980
 Transform:
