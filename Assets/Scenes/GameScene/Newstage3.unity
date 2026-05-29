@@ -284,7 +284,7 @@ PrefabInstance:
     - target: {fileID: 4529958957497215956, guid: 40f44f4633bdca347abab82b563ef3f5, type: 3}
       propertyPath: waveDataArray.Array.data[13].enemyPrefab
       value: 
-      objectReference: {fileID: 520873333356175051, guid: fccb45a20a4b0b5489364d4916c1bf3e, type: 3}
+      objectReference: {fileID: 5885949564256095128, guid: 03af819866616cb48bc9e2e10d2c895d, type: 3}
     - target: {fileID: 4529958957497215956, guid: 40f44f4633bdca347abab82b563ef3f5, type: 3}
       propertyPath: waveDataArray.Array.data[12].spawnPoints.Array.data[0].spawnPosition.x
       value: -5

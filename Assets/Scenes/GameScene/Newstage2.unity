@@ -253,6 +253,10 @@ PrefabInstance:
       propertyPath: waveDataArray.Array.data[14].enemyPrefab
       value: 
       objectReference: {fileID: 6640124239360762001, guid: 0c76f74583c415c408c838e137b048e4, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[15].enemyPrefab
+      value: 
+      objectReference: {fileID: 9105126596939227049, guid: 30663f696c5d6bc46a07bdd1068f0794, type: 3}
     - target: {fileID: 7445211496602717991, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
       propertyPath: m_Name
       value: spawnerStage2
