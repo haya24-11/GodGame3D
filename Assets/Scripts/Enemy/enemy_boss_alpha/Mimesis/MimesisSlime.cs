@@ -6,7 +6,7 @@
 
 using UnityEngine;
 
-public class MimesisSlime : MonoBehaviour
+public class MimesisSlime : MonoBehaviour, IDamageable
 {
     private BossMimesis owner;
     private GameObject prefab;
@@ -115,7 +115,10 @@ public class MimesisSlime : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(
+     int damage,
+     Vector3 attackerPos
+ )
     {
         if (isReturned) return;
 
@@ -128,7 +131,6 @@ public class MimesisSlime : MonoBehaviour
 
         ReturnToPool();
     }
-
     void ReturnToPoolByOutScreen()
     {
         if (isReturned) return;

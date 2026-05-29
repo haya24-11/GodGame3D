@@ -1335,7 +1335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &660635559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1348,7 +1348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78aa3cd8f681e1a478fcb5fd38ec9b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossMimesis
-  maxHp: 10
+  maxHp: 100
   slimePrefab: {fileID: 1812011738}
   slimeSpeed: 8
   slimeSize: 1
@@ -2794,7 +2794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3747561208246868672, guid: bcfe4480061710940bde219bcb1d165e, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4090730747435147529, guid: bcfe4480061710940bde219bcb1d165e, type: 3}
       propertyPath: m_Name
@@ -2802,7 +2802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4090730747435147529, guid: bcfe4480061710940bde219bcb1d165e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5960089206953396267, guid: bcfe4480061710940bde219bcb1d165e, type: 3}
       propertyPath: m_Enabled

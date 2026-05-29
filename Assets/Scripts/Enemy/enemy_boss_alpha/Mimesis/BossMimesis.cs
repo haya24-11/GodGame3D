@@ -214,7 +214,7 @@ public class BossMimesis : BossBase
         {
             slimeActionFinished = true;
 
-            TakeDamage(10, transform.position);
+            ApplyFixedDamage(10);
         }
     }
 
@@ -411,51 +411,36 @@ public class BossMimesis : BossBase
     // îÌíe
     // ============================================
 
-    protected override void OnDamaged(
+    public override void TakeDamage(
      int damage,
      Vector3 attackerPos
  )
     {
-        if (isActionChanging) return;
-
-        if (state == State.Charge ||
-            state == State.Area)
-        {
-            isActionChanging = true;
-            state = State.Idle;
-
-            StartCoroutine(NextActionDelay());
-        }
-    }
-    public override void TakeDamage(
-    int damage,
-    Vector3 attackerPos
-)
-    {
-        bool canDamage = false;
+        if (isDead) return;
 
         switch (state)
         {
             case State.Charge:
             case State.Area:
-            case State.Final:
+                ApplyFixedDamage(10);
 
-                canDamage = true;
+                if (!isActionChanging)
+                {
+                    isActionChanging = true;
+                    state = State.Idle;
+                    StartCoroutine(NextActionDelay());
+                }
 
                 break;
+
+            case State.Final:
+                ApplyFixedDamage(damage);
+                break;
+
+            default:
+                Debug.Log("[Mimesis] åªç›ÇÕñ≥ìG");
+                break;
         }
-
-        if (!canDamage)
-        {
-            return;
-        }
-
-        totalDamage += damage;
-
-        base.TakeDamage(
-            damage,
-            attackerPos
-        );
     }
 
     void SpawnSlimeFormation()
@@ -715,5 +700,25 @@ public class BossMimesis : BossBase
         );
 
         transform.position = pos;
+    }
+
+    void ApplyFixedDamage(int damage)
+    {
+        if (isDead) return;
+
+        totalDamage += damage;
+
+        int beforeHp = currentHp;
+        currentHp -= damage;
+
+        Debug.Log(
+            $"[Mimesis] å≈íËÉ_ÉÅÅ[ÉW:{damage} / HP:{beforeHp} Å® {currentHp}"
+        );
+
+        if (currentHp <= 0)
+        {
+            currentHp = 0;
+            Die();
+        }
     }
 }
