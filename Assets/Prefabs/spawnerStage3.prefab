@@ -144,13 +144,13 @@ MonoBehaviour:
     - spawnPosition: {x: 1, y: 1, z: -6}
     - spawnPosition: {x: -1, y: 1, z: -6}
     despawnTime: 6
-  - waveName: 12R-L
-    enemyPrefab: {fileID: 5363228360342046492, guid: 2fe4ebe777a33e244b2ab933e683b199, type: 3}
-    spawnTime: 2
-    direction: 330
+  - waveName: boss
+    enemyPrefab: {fileID: 520873333356175051, guid: fccb45a20a4b0b5489364d4916c1bf3e, type: 3}
+    spawnTime: 70
+    direction: 0
     spawnPoints:
-    - spawnPosition: {x: 5, y: 1, z: -6}
-    despawnTime: 6
+    - spawnPosition: {x: 0, y: 1, z: 0}
+    despawnTime: 999
   - waveName: 12R-R
     enemyPrefab: {fileID: 5363228360342046492, guid: 2fe4ebe777a33e244b2ab933e683b199, type: 3}
     spawnTime: 2

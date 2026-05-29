@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossMimesis
   maxHp: 100
-  slimePrefab: {fileID: 0}
+  slimePrefab: {fileID: 1806520586723990123, guid: 9059627ab3b6aaa41b5cf5f090233314, type: 3}
   slimeSpeed: 8
   slimeSize: 1
   slimeSpawnCount: 3

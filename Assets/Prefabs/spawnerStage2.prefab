@@ -166,6 +166,13 @@ MonoBehaviour:
     spawnPoints:
     - spawnPosition: {x: -10, y: 1, z: 0}
     despawnTime: 5
+  - waveName: boss
+    enemyPrefab: {fileID: 816552023151518812, guid: 9e92ef78e7ba29745b1c2660ef9261fe, type: 3}
+    spawnTime: 70
+    direction: 0
+    spawnPoints:
+    - spawnPosition: {x: 0, y: 1, z: 0}
+    despawnTime: 999
   initialPoolSize: 5
 --- !u!114 &7141101134100272210
 MonoBehaviour:

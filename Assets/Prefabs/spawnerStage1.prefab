@@ -149,7 +149,7 @@ MonoBehaviour:
     - spawnPosition: {x: -1.5, y: 1, z: -5}
     despawnTime: 10
   - waveName: boss
-    enemyPrefab: {fileID: 520873333356175051, guid: fccb45a20a4b0b5489364d4916c1bf3e, type: 3}
+    enemyPrefab: {fileID: 4090730747435147529, guid: bcfe4480061710940bde219bcb1d165e, type: 3}
     spawnTime: 70
     direction: 0
     spawnPoints:
