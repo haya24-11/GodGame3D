@@ -1662,7 +1662,7 @@ MonoBehaviour:
     despawnTime: 10
   - waveName: 6Z
     enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
-    spawnTime: 37
+    spawnTime: 31
     direction: 0
     spawnPoints:
     - spawnPosition: {x: -10, y: 1, z: 0.5}
@@ -1670,7 +1670,7 @@ MonoBehaviour:
     despawnTime: 10
   - waveName: 7Z
     enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
-    spawnTime: 45
+    spawnTime: 37
     direction: 180
     spawnPoints:
     - spawnPosition: {x: 0, y: 1, z: -5}
@@ -1679,7 +1679,7 @@ MonoBehaviour:
     despawnTime: 10
   - waveName: 8G
     enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
-    spawnTime: 50
+    spawnTime: 45
     direction: 330
     spawnPoints:
     - spawnPosition: {x: 2, y: 1, z: -5}
@@ -1687,7 +1687,7 @@ MonoBehaviour:
     despawnTime: 10
   - waveName: 9G
     enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
-    spawnTime: 57
+    spawnTime: 50
     direction: 30
     spawnPoints:
     - spawnPosition: {x: -2, y: 1, z: -5}
@@ -1695,7 +1695,7 @@ MonoBehaviour:
     despawnTime: 10
   - waveName: 10Z-1
     enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
-    spawnTime: 65
+    spawnTime: 57
     direction: 90
     spawnPoints:
     - spawnPosition: {x: 10, y: 1, z: 0.5}
@@ -1703,7 +1703,7 @@ MonoBehaviour:
     despawnTime: 10
   - waveName: 10Z-2
     enemyPrefab: {fileID: 4100074607460135331, guid: 197938af9ec72524a9dabcc60b0b6140, type: 3}
-    spawnTime: 65
+    spawnTime: 57
     direction: 270
     spawnPoints:
     - spawnPosition: {x: -10, y: 1, z: 0.5}
@@ -1711,7 +1711,7 @@ MonoBehaviour:
     despawnTime: 10
   - waveName: 11G
     enemyPrefab: {fileID: 7287486308906686904, guid: 69f6307f3c82aa9499fecf65962d17b9, type: 3}
-    spawnTime: 70
+    spawnTime: 65
     direction: 0
     spawnPoints:
     - spawnPosition: {x: 0.5, y: 1, z: -5}
