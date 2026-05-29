@@ -193,6 +193,66 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[0].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[1].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[2].enemyPrefab
+      value: 
+      objectReference: {fileID: 2361824421183892253, guid: 913abd35bdf3e5c45922a4596e726468, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[3].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[4].enemyPrefab
+      value: 
+      objectReference: {fileID: 2361824421183892253, guid: 913abd35bdf3e5c45922a4596e726468, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[5].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[6].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[7].enemyPrefab
+      value: 
+      objectReference: {fileID: 333097067686952438, guid: e387155e171add24d81aadad4d612547, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[8].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[9].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[10].enemyPrefab
+      value: 
+      objectReference: {fileID: 9142441526748096778, guid: 040294dbc0dbd4142aa1845eba73885a, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[11].enemyPrefab
+      value: 
+      objectReference: {fileID: 9142441526748096778, guid: 040294dbc0dbd4142aa1845eba73885a, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[12].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[13].enemyPrefab
+      value: 
+      objectReference: {fileID: 529836752255182640, guid: 380db6d1a8aa7bb4bbe4b36c479b689f, type: 3}
+    - target: {fileID: 6162601099027466604, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
+      propertyPath: waveDataArray.Array.data[14].enemyPrefab
+      value: 
+      objectReference: {fileID: 6640124239360762001, guid: 0c76f74583c415c408c838e137b048e4, type: 3}
     - target: {fileID: 7445211496602717991, guid: 51c7df87bd582ee46998dbd6afc0c607, type: 3}
       propertyPath: m_Name
       value: spawnerStage2
