@@ -41,6 +41,7 @@ public class BossKonse : BossBase
     private int aliveMinionCount = 0;
 
     private bool isRespawningFormation = false;
+    private bool isRecovering = false;
 
     //  Minionのサイズ（中心から端までの距離） 本体と重ならないようにするために必要
     [SerializeField]
@@ -314,9 +315,18 @@ public class BossKonse : BossBase
     // ============================================
     // Minion死亡通知
     // ============================================
-    public void NotifyMinionDead()
+    public void NotifyMinionDead(KonseMinion minion)
     {
+        if (state != State.Protected) return;
+
+        if (activeMinions.Contains(minion))
+        {
+            activeMinions.Remove(minion);
+        }
+
         aliveMinionCount--;
+
+        Debug.Log($"[Konse] Minion撃破 残り:{aliveMinionCount}");
 
         if (aliveMinionCount <= 0)
         {
@@ -332,10 +342,12 @@ public class BossKonse : BossBase
         state = State.Exposed;
 
         canTakeDamage = true;
+        isRecovering = false;
 
         exposedTimer = 10f;
-
         exposedDamage = 0;
+
+        activeMinions.Clear();
 
         Debug.Log("[Konse] 本体露出");
     }
@@ -356,7 +368,7 @@ public class BossKonse : BossBase
 
         if (exposedTimer <= 0f)
         {
-            StartCoroutine(RecoverRoutine());
+            StartRecover();
         }
     }
 
@@ -367,15 +379,13 @@ public class BossKonse : BossBase
     {
         state = State.Recover;
 
-        canTakeDamage = false;
-
         yield return new WaitForSeconds(1f);
 
         SpawnMinions();
 
         state = State.Protected;
+        isRecovering = false;
     }
-
     // ============================================
     // 被弾
     // ============================================
@@ -404,7 +414,6 @@ public class BossKonse : BossBase
 
             AddTime(10);
 
-            // 強化
             if (breakCount == 1)
             {
                 minionSpeed = 7f;
@@ -414,7 +423,7 @@ public class BossKonse : BossBase
                 spawnCount++;
             }
 
-            StartCoroutine(RecoverRoutine());
+            StartRecover();
         }
     }
     public override void TakeDamage(
@@ -472,5 +481,15 @@ public class BossKonse : BossBase
                 targets[i].gameObject
             );
         }
+    }
+
+    void StartRecover()
+    {
+        if (isRecovering) return;
+
+        isRecovering = true;
+        canTakeDamage = false;
+
+        StartCoroutine(RecoverRoutine());
     }
 }

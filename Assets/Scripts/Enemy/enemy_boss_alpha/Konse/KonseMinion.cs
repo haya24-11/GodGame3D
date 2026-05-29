@@ -5,7 +5,7 @@
 
 using UnityEngine;
 
-public class KonseMinion : MonoBehaviour
+public class KonseMinion : MonoBehaviour, IDamageable
 {
     private BossKonse owner;    // êeBoss
 
@@ -142,13 +142,33 @@ public class KonseMinion : MonoBehaviour
     // ============================================
     // îÌíe
     // ============================================
-
     public void TakeDamage(
-     int damage,
-     Vector3 attackerPos
- )
+    int damage,
+    Vector3 attackerPos
+)
     {
-        ReturnToPool();
+        Debug.Log("[KonseMinion] îÌíe");
+        ReturnByDamage();
+    }
+    void ReturnByDamage()
+    {
+        if (isReturning) return;
+
+        isReturning = true;
+
+        if (owner != null)
+        {
+            owner.NotifyMinionDead(this);
+        }
+
+        if (ObjectPool.Instance != null)
+        {
+            ObjectPool.Instance.Return(prefab, gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     // ============================================
