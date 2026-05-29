@@ -7,8 +7,5 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(
-        int damage,
-        Vector3 attackerPos
-    );
+    void TakeDamage(int damage, Vector3 attackerPos);
 }
