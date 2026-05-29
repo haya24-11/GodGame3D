@@ -424,6 +424,7 @@ public class BossKonse : BossBase
     {
         if (!canTakeDamage)
         {
+            Debug.Log("[Konse] –³“G’†");
             return;
         }
 

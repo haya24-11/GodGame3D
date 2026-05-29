@@ -143,7 +143,10 @@ public class KonseMinion : MonoBehaviour
     // ”í’e
     // ============================================
 
-    public void TakeDamage()
+    public void TakeDamage(
+     int damage,
+     Vector3 attackerPos
+ )
     {
         ReturnToPool();
     }
