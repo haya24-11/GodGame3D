@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4968646382159422661
+--- !u!1 &816552023151518812
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3553318189060484732}
-  - component: {fileID: 8475670847888159104}
-  - component: {fileID: 2873481029571751115}
-  - component: {fileID: 3235936998950941282}
-  - component: {fileID: 7529994838030817112}
-  - component: {fileID: 3999218280564205542}
+  - component: {fileID: 3100510501006922601}
+  - component: {fileID: 3915678223044880971}
+  - component: {fileID: 1227690765404885740}
+  - component: {fileID: 1289087543714067151}
+  - component: {fileID: 6607167976257172204}
+  - component: {fileID: 3160196187979970894}
   m_Layer: 0
-  m_Name: konseMinion
+  m_Name: bossKonse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3553318189060484732
+--- !u!4 &3100510501006922601
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4968646382159422661}
+  m_GameObject: {fileID: 816552023151518812}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.167, y: 1, z: 1.67675}
+  m_LocalPosition: {x: 2.66247, y: 1, z: 1.295}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8475670847888159104
+--- !u!33 &3915678223044880971
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4968646382159422661}
+  m_GameObject: {fileID: 816552023151518812}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2873481029571751115
+--- !u!23 &1227690765404885740
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4968646382159422661}
+  m_GameObject: {fileID: 816552023151518812}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -93,13 +93,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3235936998950941282
+--- !u!136 &1289087543714067151
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4968646382159422661}
+  m_GameObject: {fileID: 816552023151518812}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -116,13 +116,13 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7529994838030817112
+--- !u!54 &6607167976257172204
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4968646382159422661}
+  m_GameObject: {fileID: 816552023151518812}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -138,22 +138,27 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &3999218280564205542
+--- !u!114 &3160196187979970894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4968646382159422661}
+  m_GameObject: {fileID: 816552023151518812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16220a36fee606f4e9b9e305cda0c362, type: 3}
+  m_Script: {fileID: 11500000, guid: 420b94f917a1146489078cdb258d3fbb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KonseMinion
-  waveAmplitude: 1
-  waveFrequency: 5
+  m_EditorClassIdentifier: Assembly-CSharp::BossKonse
+  maxHp: 10
+  minionPrefab: {fileID: 4968646382159422661, guid: 2209ec244a9985e46adba77cd02bb109, type: 3}
+  spawnCount: 3
+  minionSpeed: 5
+  minionSize: 1
+  orbitRadius: 2
+  orbitSpeed: 60

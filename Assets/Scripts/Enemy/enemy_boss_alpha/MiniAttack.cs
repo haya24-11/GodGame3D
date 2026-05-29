@@ -1,71 +1,33 @@
-// ============================================
-// ファイル：MiniAttack.cs
-// 役割：Miniの攻撃処理
-// 内容：IDamageableへダメージ送信
-// ============================================
-
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class MiniAttack : MonoBehaviour
 {
-    // ============================================
-    // 攻撃力
-    // ============================================
+    [SerializeField] private int attack = 2;
 
-    [Header("攻撃力")]
+    private bool hasHit = false;
 
-    [SerializeField]
-    private int attack = 2;
-
-    public int Attack => attack;
-
-    // ============================================
-    // 衝突
-    // ============================================
+    private void OnEnable()
+    {
+        hasHit = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        // ========================================
-        // MiniAttackOnBoss確認
-        // ========================================
+        if (hasHit) return;
 
-        MiniAttackOnBoss attackState =
-            GetComponent<MiniAttackOnBoss>();
-
-        if (attackState == null)
-        {
-            return;
-        }
-
-        if (!attackState.IsActive)
-        {
-            return;
-        }
-
-        // ========================================
-        // IDamageable取得
-        // ========================================
-
-        IDamageable damageable =
+        IDamageable target =
             other.GetComponentInParent<IDamageable>();
 
-        if (damageable == null)
-        {
-            return;
-        }
+        if (target == null) return;
 
-        // ========================================
-        // ダメージ
-        // ========================================
+        hasHit = true;
 
-        Debug.Log(
-            $"[Mini] {other.name} にヒット"
-        );
-
-        damageable.TakeDamage(
+        target.TakeDamage(
             attack,
             transform.position
         );
+
+        Debug.Log($"[MiniAttack] Hit : {other.name}");
     }
 }

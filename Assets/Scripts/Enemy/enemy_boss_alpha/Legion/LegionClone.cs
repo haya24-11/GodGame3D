@@ -11,22 +11,21 @@
 
 using UnityEngine;
 
-public class LegionClone : MonoBehaviour
+public class LegionClone : MonoBehaviour, IDamageable
 {
     // ============================================
     // 所有者
     // ============================================
 
     private BossLegion owner;
+    private GameObject prefab;
 
     // ============================================
     // ステータス
     // ============================================
 
     private float speed;
-
     private float lifeTime;
-
     private float timer;
 
     // ============================================
@@ -39,7 +38,7 @@ public class LegionClone : MonoBehaviour
     private float moveRange = 1f;
 
     private float orbitAngle;
-
+    private bool isReturning = false;
     // ============================================
     // 行動
     // ============================================
@@ -58,25 +57,25 @@ public class LegionClone : MonoBehaviour
     // ============================================
 
     public void Init(
-        BossLegion boss,
-        float spd,
-        float life,
-        Vector3 startPos
-    )
+          BossLegion boss,
+          GameObject prefabRef,
+          float spd,
+          float life,
+          Vector3 startPos
+      )
     {
         owner = boss;
+        prefab = prefabRef;
 
         speed = spd;
-
         lifeTime = life;
-
         timer = 0f;
 
         centerPos = startPos;
-
         orbitAngle =
             Random.Range(0f, 360f);
 
+        isReturning = false;
         // ========================================
         // 行動ランダム
         // ========================================
@@ -93,10 +92,8 @@ public class LegionClone : MonoBehaviour
 
     void Update()
     {
-        if (owner == null)
-        {
-            return;
-        }
+        if (owner == null) return;
+        if (isReturning) return;
 
         timer += Time.deltaTime;
 
@@ -107,7 +104,6 @@ public class LegionClone : MonoBehaviour
         if (timer >= lifeTime)
         {
             ReturnToPool();
-
             return;
         }
 
@@ -133,13 +129,10 @@ public class LegionClone : MonoBehaviour
 
     void PingPongX()
     {
-        float x =
-            Mathf.Sin(timer * speed)
-            * moveRange;
+        float x = Mathf.Sin(timer * speed) * moveRange;
 
         transform.position =
-            centerPos +
-            new Vector3(x, 0f, 0f);
+            centerPos + new Vector3(x, 0f, 0f);
     }
 
     // ============================================
@@ -148,26 +141,20 @@ public class LegionClone : MonoBehaviour
 
     void PingPongZ()
     {
-        float z =
-            Mathf.Sin(timer * speed)
-            * moveRange;
+        float z = Mathf.Sin(timer * speed) * moveRange;
 
         transform.position =
-            centerPos +
-            new Vector3(0f, 0f, z);
+            centerPos + new Vector3(0f, 0f, z);
     }
 
     // ============================================
     // 時計回り回転
     // ============================================
-
     void OrbitMove()
     {
-        orbitAngle -=
-            speed * 60f * Time.deltaTime;
+        orbitAngle -= speed * 60f * Time.deltaTime;
 
-        float rad =
-            orbitAngle * Mathf.Deg2Rad;
+        float rad = orbitAngle * Mathf.Deg2Rad;
 
         transform.position =
             centerPos +
@@ -178,26 +165,59 @@ public class LegionClone : MonoBehaviour
             ) * moveRange;
     }
 
+
+    // ============================================
+    // 被弾
+    // ============================================
+
+    public void TakeDamage(
+        int damage,
+        Vector3 attackerPos
+    )
+    {
+        ReturnByDamage();
+    }
+
+    void ReturnByDamage()
+    {
+        if (isReturning) return;
+
+        isReturning = true;
+
+        if (owner != null)
+        {
+            owner.NotifyCloneKilled(this);
+        }
+
+        ReturnToPool();
+    }
+    void ReturnByExpire()
+    {
+        if (isReturning) return;
+
+        isReturning = true;
+
+        if (owner != null)
+        {
+            owner.NotifyCloneExpired(this);
+        }
+
+        ReturnToPool();
+    }
+
     // ============================================
     // プール返却
     // ============================================
 
     void ReturnToPool()
     {
-        if (owner != null)
+        if (ObjectPool.Instance != null)
         {
-            owner.NotifyCloneDead();
+            ObjectPool.Instance.Return(prefab, gameObject);
         }
-
-        Destroy(gameObject);
-    }
-
-    // ============================================
-    // 被弾
-    // ============================================
-
-    public void TakeDamage()
-    {
-        ReturnToPool();
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

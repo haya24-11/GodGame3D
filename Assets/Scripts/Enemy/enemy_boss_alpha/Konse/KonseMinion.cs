@@ -5,7 +5,7 @@
 
 using UnityEngine;
 
-public class KonseMinion : MonoBehaviour
+public class KonseMinion : MonoBehaviour, IDamageable
 {
     private BossKonse owner;    // 親Boss
 
@@ -14,8 +14,15 @@ public class KonseMinion : MonoBehaviour
     private float speed;    // 移動速度
 
     private Vector3 moveDir;    // 移動方向
+    private Vector3 waveDir;    // 波移動の揺れ方向
 
-    private enum MoveType
+    [SerializeField]
+    private float waveAmplitude = 1f;   //  波移動の振幅
+
+    [SerializeField]
+    private float waveFrequency = 5f;   //  波移動の周波数
+
+    public enum MoveType
     {   // 移動タイプ
         Straight,
         Wave
@@ -24,6 +31,8 @@ public class KonseMinion : MonoBehaviour
     private MoveType moveType;  // 移動タイプ
 
     private float waveTimer;    // 波移動用タイマー 波の位相として使用
+
+    private bool isReturning = false;   // Pool返却中フラグ
 
     // ============================================
     // 初期化
@@ -34,24 +43,23 @@ public class KonseMinion : MonoBehaviour
         BossKonse boss, // 親Boss
         GameObject prefabRef,   //  自身のPrefab参照
         float moveSpeed, //  移動速度
-        Vector3 dir
+        Vector3 dir,
+         Vector3 waveDirection,
+          MoveType selectedMoveType
     )
     {
         owner = boss;   //  親Bossをセット
-
         prefab = prefabRef; //  自身のPrefab参照をセット
-
         speed = moveSpeed;  //  移動速度をセット
-
         waveTimer = 0f; //  波移動用タイマーをリセット
 
         moveDir = dir.normalized; //  移動方向をセット（Z軸負方向）
+        waveDir = waveDirection.normalized;
 
         //  移動タイプをランダムに決定
-        moveType =
-            Random.value < 0.5f
-            ? MoveType.Straight
-            : MoveType.Wave;
+        moveType = selectedMoveType;
+
+        isReturning = false;    //  Pool返却中フラグをリセット
     }
 
     // ============================================
@@ -97,10 +105,16 @@ public class KonseMinion : MonoBehaviour
 
         Vector3 pos = transform.position;
 
+        // 前進
         pos += moveDir * speed * Time.deltaTime;
 
-        pos.x += Mathf.Sin(waveTimer * 5f)
-            * Time.deltaTime;
+        // 出現方向に応じた横揺れ
+        float waveVelocity =
+            Mathf.Cos(waveTimer * waveFrequency)
+            * waveAmplitude
+            * waveFrequency;
+
+        pos += waveDir * waveVelocity * Time.deltaTime;
 
         transform.position = pos;
     }
@@ -128,23 +142,58 @@ public class KonseMinion : MonoBehaviour
     // ============================================
     // 被弾
     // ============================================
-
-    public void TakeDamage()
+    public void TakeDamage(
+    int damage,
+    Vector3 attackerPos
+)
     {
-        ReturnToPool();
+        Debug.Log("[KonseMinion] 被弾");
+        ReturnByDamage();
+    }
+    void ReturnByDamage()
+    {
+        if (isReturning) return;
+
+        isReturning = true;
+
+        if (owner != null)
+        {
+            owner.NotifyMinionDead(this);
+        }
+
+        if (ObjectPool.Instance != null)
+        {
+            ObjectPool.Instance.Return(prefab, gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     // ============================================
     // Pool返却
     // ============================================
-
     void ReturnToPool()
     {
+        if (isReturning) return;
+
+        isReturning = true;
+
         if (owner != null)
         {
-            owner.NotifyMinionDead();
+            owner.RequestRespawnFormation(1f);
+            return;
         }
 
-        ObjectPool.Instance.Return(prefab, gameObject);
+        if (ObjectPool.Instance != null)
+        {
+            ObjectPool.Instance.Return(prefab, gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
+    
