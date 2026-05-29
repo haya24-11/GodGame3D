@@ -59,6 +59,8 @@ public class StageClearManager : MonoBehaviour
     {
         if (isFinished) return;
 
+        Debug.Log("[StageClearManager] ボス撃破通知を受信");
+
         isFinished = true;
 
         StartCoroutine(LoadSceneAfterDelay(

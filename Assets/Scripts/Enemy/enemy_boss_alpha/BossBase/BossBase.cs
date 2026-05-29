@@ -123,9 +123,7 @@ public abstract class BossBase : MonoBehaviour,IDamageable
         {
             currentHp = 0;
 
-            isDead = true;
-
-            StartCoroutine(DeathSequence());
+            Die();
         }
     }
 
@@ -184,10 +182,13 @@ public abstract class BossBase : MonoBehaviour,IDamageable
     {
         if (isDead)
         {
+            Debug.Log($"[{gameObject.name}] DieÇÕä˘Ç…é¿çsçœÇ›");
             return;
         }
 
         isDead = true;
+
+        Debug.Log($"[{gameObject.name}] OnBossDead î≠âŒ");
 
         OnBossDead?.Invoke();
 
