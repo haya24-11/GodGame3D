@@ -6,14 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/ZENJO_BETA.unity
+    guid: 2e71a93a426fd184581a86c8b46460df
+  - enabled: 1
     path: Assets/Scenes/Title.unity
     guid: f4a5fe50e57dd1f4a8303bad9b7bcc33
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/loadScreen.unity
     guid: 12583eeb36dee3047b84cb11fbf4b5ab
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/StageSelectScene.unity
+    guid: 2c3a7bae62f9c524b9c4654cfd7d7d16
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
