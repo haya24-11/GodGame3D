@@ -355,6 +355,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageClearManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6840645576194009747, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
+      propertyPath: resultSceneName
+      value: Newstage4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840645576194009747, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
+      propertyPath: gameOverSceneName
+      value: Newstage4
+      objectReference: {fileID: 0}
     - target: {fileID: 8360770004867111493, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.42334

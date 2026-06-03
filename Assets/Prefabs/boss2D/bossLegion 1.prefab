@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossLegion
   maxHp: 10
-  clonePrefab: {fileID: 2759753810610873, guid: 37462159d668c2142a30ebce263ee226, type: 3}
+  clonePrefab: {fileID: 9045633392375560039, guid: d820884fc9209b34f9e214eabb7c6559, type: 3}
   spawnCount: 3
   cloneLifetime: 10
   cloneSpeed: 3
