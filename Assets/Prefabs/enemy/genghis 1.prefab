@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7132418775073020958}
   - component: {fileID: 6603604931995964249}
   - component: {fileID: 8784756621971548053}
+  - component: {fileID: 3527946305909926529}
   m_Layer: 0
   m_Name: genghis 1
   m_TagString: Untagged
@@ -72,8 +73,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 6580b1671874ae747ab2b41a60723e11, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -186,6 +186,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBaseBeta
   maxHp: 2
+--- !u!114 &3527946305909926529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529836752255182640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d95e04ebfa656a49a84bca048230e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FieldVisibility
+  fieldTag: Field
+  initialCheckRadius: 0.5
+  hideDelay: 0.1
 --- !u!1 &1513312008982473598
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5992303102330579324}
   - component: {fileID: 6746922849591824158}
   - component: {fileID: 6062073114124363216}
+  - component: {fileID: -6322709935044459682}
   m_Layer: 0
   m_Name: ramneedle 1
   m_TagString: Untagged
@@ -72,8 +73,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 43a3b11f5a9ee8642b47bb75c8b157f8, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,6 +189,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBaseBeta
   maxHp: 2
+--- !u!114 &-6322709935044459682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361824421183892253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d95e04ebfa656a49a84bca048230e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FieldVisibility
+  fieldTag: Field
+  initialCheckRadius: 0.5
+  hideDelay: 0.1
 --- !u!1 &4838348946760864649
 GameObject:
   m_ObjectHideFlags: 0
