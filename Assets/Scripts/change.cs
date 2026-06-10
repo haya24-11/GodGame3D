@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class change : MonoBehaviour
+/// <summary>
+/// ゲームの最初のシーンに置く初期化用オブジェクト。
+/// SceneHistory シングルトンをここで生成します。
+/// </summary>
+public class SceneHistoryInitializer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
-    }
+        // すでに存在する場合は生成しない
+        if (SceneHistory.Instance != null) return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var go = new GameObject("SceneHistory");
+        go.AddComponent<SceneHistory>();
     }
 }
