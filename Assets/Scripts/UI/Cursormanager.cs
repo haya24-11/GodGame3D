@@ -44,7 +44,7 @@ public class StageSelectCursor : MonoBehaviour
     private void MoveCursor()
     {
         Vector3 targetPos = stageButtons[currentIndex].position;
-        targetPos.y -= 80f;
+        targetPos.y -= 180f;
         cursorRect.position = targetPos;
     }
 }
