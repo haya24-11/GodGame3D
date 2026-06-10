@@ -356,6 +356,10 @@ PrefabInstance:
       value: StageClearManager
       objectReference: {fileID: 0}
     - target: {fileID: 6840645576194009747, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
+      propertyPath: targetBoss
+      value: 
+      objectReference: {fileID: 939262770931838309, guid: 03af819866616cb48bc9e2e10d2c895d, type: 3}
+    - target: {fileID: 6840645576194009747, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
       propertyPath: resultSceneName
       value: Newstage4
       objectReference: {fileID: 0}
