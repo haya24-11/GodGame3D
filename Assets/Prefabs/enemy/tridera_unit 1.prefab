@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1761290488354326891}
   - component: {fileID: 5849128099553761968}
   - component: {fileID: 3002038617855135608}
+  - component: {fileID: 7977838012406904364}
   m_Layer: 0
   m_Name: tridera_unit 1
   m_TagString: Untagged
@@ -68,8 +69,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 9d87bbd8d24af364286a375d252de0a9, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -116,6 +116,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7977838012406904364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333097067686952438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d95e04ebfa656a49a84bca048230e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FieldVisibility
+  fieldTag: Field
+  initialCheckRadius: 0.5
+  hideDelay: 0.1
 --- !u!1 &1794096708349676805
 GameObject:
   m_ObjectHideFlags: 0

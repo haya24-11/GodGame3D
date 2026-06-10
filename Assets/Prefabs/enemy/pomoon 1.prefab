@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 2353060600145065100}
   - component: {fileID: 8824788014451156255}
   - component: {fileID: 2108849725187968470}
+  - component: {fileID: -2228355971272705533}
   m_Layer: 0
   m_Name: pomoon 1
   m_TagString: Untagged
@@ -344,8 +345,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a191ef524d47c0a4a86e7e0e12c6b6c2, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -473,3 +473,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBaseBeta
   maxHp: 8
+--- !u!114 &-2228355971272705533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4546442798878263360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d95e04ebfa656a49a84bca048230e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FieldVisibility
+  fieldTag: Field
+  initialCheckRadius: 0.5
+  hideDelay: 0.1
