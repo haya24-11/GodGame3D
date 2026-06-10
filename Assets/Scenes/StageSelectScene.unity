@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f2aff21f9649840b303820bb1e8998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChange
-  sceneName: ueda
+  sceneName: Newstage2
 --- !u!1 &84466058
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,8 +363,6 @@ RectTransform:
   - {fileID: 1842675687}
   - {fileID: 1738423588}
   - {fileID: 27473907}
-  - {fileID: 684720411}
-  - {fileID: 1820960673}
   - {fileID: 1011489926}
   - {fileID: 166412208}
   - {fileID: 678899954}
@@ -559,7 +557,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 684720411}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1517,7 +1515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f2aff21f9649840b303820bb1e8998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChange
-  sceneName: SampleScene
+  sceneName: Newstage1
 --- !u!1 &1842675686
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,3 +1599,4 @@ SceneRoots:
   - {fileID: 550243405}
   - {fileID: 84466062}
   - {fileID: 283095010}
+  - {fileID: 375422016}
