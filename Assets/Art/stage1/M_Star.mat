@@ -30,13 +30,13 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3050
+  m_CustomRenderQueue: 2950
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
-  - MOTIONVECTORS
-  - DepthOnly
   - SHADOWCASTER
+  - DepthOnly
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -121,7 +121,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _QueueOffset: 50
+    - _QueueOffset: -50
     - _ReceiveShadows: 1
     - _SampleGI: 0
     - _Smoothness: 0.5
