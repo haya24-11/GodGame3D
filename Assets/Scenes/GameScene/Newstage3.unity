@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 115514e3c25937448966ee75a25d2fa7, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: be7f41f1375d12f43b6cb59b2a242c5d, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -764,9 +764,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7373589053897833224, guid: e0d1bddbf7d54974eb0dfe4a28a618c7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 447938de27bcd1f47a4410027f3c28c7, type: 2}
     - target: {fileID: 7432201090126913263, guid: e0d1bddbf7d54974eb0dfe4a28a618c7, type: 3}
       propertyPath: m_Name
-      value: stage1Quad
+      value: DesertWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1502,6 +1506,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5089280491115359989, guid: c71f9e6bccca90b48a55af5f9689f624, type: 3}
+      propertyPath: scrollSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087673241316969278, guid: c71f9e6bccca90b48a55af5f9689f624, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f1ce0874a149eee49975fd0313b950ab, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
