@@ -103,7 +103,7 @@ public class LegionClone : MonoBehaviour, IDamageable
 
         if (timer >= lifeTime)
         {
-            ReturnToPool();
+            ReturnByExpire();
             return;
         }
 
