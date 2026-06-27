@@ -32,18 +32,15 @@ public class StageClearManager : MonoBehaviour
 
     void Start()
     {
-        if (targetBoss == null)
-        {
-            targetBoss = FindObjectOfType<BossBase>();
-        }
-
+        // Prefab生成型の場合、ここでは無理にFindしない
+        // スポナー側からSetTargetBoss()で登録する
         if (targetBoss != null)
         {
-            targetBoss.OnBossDead += OnBossDead;
+            SetTargetBoss(targetBoss);
         }
         else
         {
-            Debug.LogError("[StageClearManager] BossBaseが見つからない");
+            Debug.Log("[StageClearManager] ボス登録待機中");
         }
     }
 
@@ -53,6 +50,32 @@ public class StageClearManager : MonoBehaviour
         {
             targetBoss.OnBossDead -= OnBossDead;
         }
+    }
+
+    // ============================================
+    // 生成されたボスを登録
+    // 意図：Prefabではなく、実際に生成されたBoss(Clone)を監視する
+    // ============================================
+    public void SetTargetBoss(BossBase boss)
+    {
+        if (boss == null)
+        {
+            Debug.LogError("[StageClearManager] 登録するBossがnull");
+            return;
+        }
+
+        if (targetBoss != null)
+        {
+            targetBoss.OnBossDead -= OnBossDead;
+        }
+
+        targetBoss = boss;
+
+        targetBoss.OnBossDead += OnBossDead;
+
+        Debug.Log(
+            $"[StageClearManager] 監視対象登録:{targetBoss.gameObject.name}"
+        );
     }
 
     void OnBossDead()
@@ -73,6 +96,8 @@ public class StageClearManager : MonoBehaviour
     {
         if (isFinished) return;
 
+        Debug.Log("[StageClearManager] タイムオーバー");
+
         isFinished = true;
 
         StartCoroutine(LoadSceneAfterDelay(
@@ -87,6 +112,8 @@ public class StageClearManager : MonoBehaviour
     )
     {
         yield return new WaitForSeconds(delay);
+
+        Debug.Log($"[StageClearManager] シーン遷移:{sceneName}");
 
         SceneManager.LoadScene(sceneName);
     }
