@@ -116,6 +116,8 @@ public class GameManager : MonoBehaviour
 
     void StartCall(Vector3 targetPos, bool isSequential)
     {
+        EffectManager.Instance.PlayCallElectronic(targetPos);
+
         isCalling = true;
         canForm = false;
 

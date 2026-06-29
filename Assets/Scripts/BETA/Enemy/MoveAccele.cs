@@ -21,8 +21,9 @@ public class MoveAccele : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 	private Vector3 moveDirection;
 	private Vector3 initialStartPos;
 	private float stateTimer = 0f;
+    private bool speedEffectStarted = false;
 
-	public void OnEnemyInit(EnemyBaseBeta core)
+    public void OnEnemyInit(EnemyBaseBeta core)
 	{
 		this.core = core;   // core への参照を保存
 		initialStartPos = transform.position;                                           // 初期位置を保存
@@ -75,8 +76,31 @@ public class MoveAccele : MonoBehaviour, IEnemyComponent, IEnemyInitializable
 
             // ダッシュ
             case AcceleState.Dashing:
-				transform.position += moveDirection * dashSpeed * Time.deltaTime;   // 直線移動
+                if (!speedEffectStarted)
+                {
+                    if (EffectManager.Instance != null)
+                    {
+                        EffectManager.Instance.StartRamNeedleSpeed(transform);
+                    }
+
+                    speedEffectStarted = true;
+                }
+
+                transform.position += moveDirection * dashSpeed * Time.deltaTime;
                 break;
-		}
-	}
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (speedEffectStarted)
+        {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.StopRamNeedleSpeed();
+            }
+
+            speedEffectStarted = false;
+        }
+    }
 }

@@ -11,10 +11,19 @@ public class BombEffect : MonoBehaviour, IEnemyComponent
 
 	public void OnEnemyInit(EnemyBaseBeta core)
 	{
-		core.OnDamaged += _ => DestroyAllEnemiesOnScreen(); // 被弾時に全敵を破壊
-	}
 
-	private void DestroyAllEnemiesOnScreen()
+        core.OnDamaged += _ =>
+        {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.PlayPomoonDeath(transform.position);
+            }
+
+            DestroyAllEnemiesOnScreen();
+        };
+    }
+
+    private void DestroyAllEnemiesOnScreen()
 	{
 		Camera cam = Camera.main;   // 画面内判定用（null の場合は全て破壊）
 
