@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using UnityEngine;
+
+/// <summary>
 /// EnemyBaseBeta にアタッチされる全コンポーネントの基底インターフェース
 /// EnemyBaseBeta が初期化・イベント登録のタイミングを統一するために使用する
 /// </summary>
