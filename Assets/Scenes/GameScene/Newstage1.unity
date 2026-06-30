@@ -220,7 +220,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4032882333429058169, guid: 4097bf0efeba1f141bc22c531291c330, type: 3}
   m_PrefabInstance: {fileID: 2919053520364232127}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &492296074
+--- !u!1 &850416435
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,12 +232,16 @@ GameObject:
   - component: {fileID: 492296075}
   m_Layer: 0
   m_Name: BossHPBarShowTimer
+  - component: {fileID: 850416437}
+  - component: {fileID: 850416436}
+  m_Layer: 0
+  m_Name: EffectManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &492296075
+--- !u!114 &850416436
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,6 +256,29 @@ MonoBehaviour:
   bossHPBarUI: {fileID: 5533826346547439633}
   showTime: 70
 --- !u!4 &492296076
+  m_GameObject: {fileID: 850416435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9169da777be02b40a0290473c8d2be2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectManager
+  effectFocusPrefab: {fileID: 0}
+  effectBossAlartPrefab: {fileID: 0}
+  effectTimePlusPrefab: {fileID: 0}
+  effectReadyPrefab: {fileID: 0}
+  effectGoPrefab: {fileID: 0}
+  effectCallElectronicPrefab: {fileID: 6611133166075936371, guid: ac050929db2ea614095a2e16747967a5, type: 3}
+  effectEnemyDeathPrefab: {fileID: 6093091153952768911, guid: 771303f9f58d7c54e8ea4b7a607f73e6, type: 3}
+  effectWeekpointPrefab: {fileID: 5811952454168074165, guid: 99f651031dccc9d4080908e66efe3304, type: 3}
+  effectTrideraUnitDeathPrefab: {fileID: 9044624100659537961, guid: dc43558df247e6c4cb220a04eb905490, type: 3}
+  effectRamNeedleSpeedPrefab: {fileID: 749174720522526860, guid: b186ff166f90ead478362f7c3d3b4126, type: 3}
+  effectPomoonDeathPrefab: {fileID: 4114694142067000062, guid: 22821b37f44da7b4bb64f30a9c3e222c, type: 3}
+  effectBossLandingPrefab: {fileID: 4272862376358347038, guid: 05ab48f1e84b2a548a192a614c3dd763, type: 3}
+  effectBossSpeedPrefab: {fileID: 2039531155757457808, guid: e94f382aa292fb842be19299deb49d27, type: 3}
+  effectControllerPrefab: {fileID: 0}
+  readyDuration: 1
+  goFadeDuration: 0.5
+--- !u!4 &850416437
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,6 +288,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 959.60406, y: 0, z: 191.25485}
+  m_GameObject: {fileID: 850416435}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.48203, y: -0, z: 3.67249}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2243,3 +2274,4 @@ SceneRoots:
   - {fileID: 7969361993829681230}
   - {fileID: 3502833507591228199}
   - {fileID: 3615552051149755286}
+  - {fileID: 850416437}

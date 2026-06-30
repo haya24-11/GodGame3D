@@ -17,7 +17,12 @@ public class DoubleUnit : MonoBehaviour
 	/// <summary>call（攻撃）を受けたとき 攻撃判定側から呼ぶ</summary>
 	public void OnHitByCall()
 	{
-		owner?.OnUnitDestroyed(this);   // owner に破壊されたことを通知
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.PlayTrideraUnitDeath(transform.position);
+        }
+
+        owner?.OnUnitDestroyed(this);   // owner に破壊されたことを通知
         Destroy(gameObject);
 	}
 
