@@ -1469,7 +1469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f2aff21f9649840b303820bb1e8998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChange
-  sceneName: Title
+  sceneName: Newstage4
 --- !u!114 &1345617223
 MonoBehaviour:
   m_ObjectHideFlags: 0
