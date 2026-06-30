@@ -1,73 +1,59 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class SceneChange : MonoBehaviour
 {
     [SerializeField] private string sceneName;
+    private static Stack<string> sceneHistory = new Stack<string>();
 
-    void Update()
-    {
-        // コントローラーが認識されているか確認
-        if (Gamepad.current == null)
-        {
-            Debug.LogWarning("コントローラーが認識されていません");
-            return;
-        }
-        else
-        {
-            Debug.Log("コントローラー認識OK: " + Gamepad.current.name);
-        }
+    // ↓ Update() は削除。A判定は標準Submitに任せる
 
-        // ボタンを押したら確認
-        if (Gamepad.current.buttonSouth.wasPressedThisFrame)
-        {
-            Debug.Log("Aボタン押された");
-        }
-        if (Gamepad.current.dpad.right.wasPressedThisFrame)
-        {
-            Debug.Log("十字キー右 押された");
-        }
-    }
-
+    // 各ボタンの onClick にこのメソッドを登録する
     public void ChangeScene()
     {
-        Debug.Log("ボタンが押されました");
-
-        // シーン名が空か確認
         if (string.IsNullOrEmpty(sceneName))
         {
-            Debug.LogError("sceneName が設定されていません！");
+            Debug.Log("sceneName が未設定 → 直前のシーンへ戻ります");
+            GoBackScene();
             return;
         }
 
-        Debug.Log("遷移先シーン : " + sceneName);
-
-        // BuildSettingsに存在するか確認
-        bool sceneExists = false;
-
-        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-        {
-            string path = SceneUtility.GetScenePathByBuildIndex(i);
-            string name = System.IO.Path.GetFileNameWithoutExtension(path);
-
-            if (name == sceneName)
-            {
-                sceneExists = true;
-                break;
-            }
-        }
-
-        if (!sceneExists)
+        if (!IsSceneInBuildSettings(sceneName))
         {
             Debug.LogError("Build Settings にシーンがありません : " + sceneName);
             return;
         }
 
-        Debug.Log("シーン遷移開始");
-
+        sceneHistory.Push(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene(sceneName);
     }
 
+    public void GoBackScene()
+    {
+        if (sceneHistory.Count == 0)
+        {
+            Debug.LogWarning("戻れるシーンがありません（履歴が空です）");
+            return;
+        }
 
+        string previousScene = sceneHistory.Pop();
+        if (!IsSceneInBuildSettings(previousScene))
+        {
+            Debug.LogError("Build Settings にシーンがありません : " + previousScene);
+            return;
+        }
+        SceneManager.LoadScene(previousScene);
+    }
+
+    private bool IsSceneInBuildSettings(string targetName)
+    {
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            string name = System.IO.Path.GetFileNameWithoutExtension(path);
+            if (name == targetName) return true;
+        }
+        return false;
+    }
 }
