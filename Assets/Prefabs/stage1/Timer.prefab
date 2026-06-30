@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 99
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497618b73ddf533489d6ff6ad5a82f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ttimer
-  cnttime: 100
+  cnttime: 99
   interval: 1
   timerText: {fileID: 9186785292573627934}
   nextSceneName: Title

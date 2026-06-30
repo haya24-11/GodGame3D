@@ -50,11 +50,11 @@ public class EnemyBaseBeta : MonoBehaviour
 		}
 	}
 
-	// ――――――――――――――――――――――――――――――――――――
-	// 公開 API
-	// ――――――――――――――――――――――――――――――――――――
+    // ――――――――――――――――――――――――――――――――――――
+    // 公開 API
+    // ――――――――――――――――――――――――――――――――――――
 
-	public bool IsDead => isDead;
+    public bool IsDead => isDead;
 	public int CurrentHp => currentHp;
 	public int MaxHp => maxHp;
 

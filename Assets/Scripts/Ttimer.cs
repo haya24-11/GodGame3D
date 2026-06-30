@@ -4,7 +4,7 @@ using TMPro;
 public class Ttimer : MonoBehaviour
 {
     [Header("時間")]
-    public int cnttime = 100; // 初期値
+    public int cnttime = 99; // 初期値
     public float interval = 1f;     // 減る間隔（秒）
 
     [Header("UI")]
@@ -46,7 +46,7 @@ public class Ttimer : MonoBehaviour
 
         if (timerText != null)
         {
-            timerText.text = cnttime.ToString("D3");
+            timerText.text = cnttime.ToString("D2");
         }
 
         if (cnttime <= 0)

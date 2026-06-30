@@ -21,6 +21,10 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("背景スクロール速度 (演出参考値 / 必要に応じて敵速度補正に使用)")]
     public float backgroundScrollSpeed = 2f;
 
+    [Header("========== ステージクリア管理 ==========")]
+    [SerializeField]
+    private StageClearManager stageClearManager;
+
     // ステージ開始からの経過時間
     private float stageTimer = 0f;
 
@@ -35,6 +39,11 @@ public class EnemySpawner : MonoBehaviour
     private void Awake()
     {
         enemyTable = GetComponent<EnemyTable>();
+
+        if (stageClearManager == null)
+        {
+            stageClearManager = FindObjectOfType<StageClearManager>();
+        }
     }
 
     private void Start()
@@ -120,27 +129,63 @@ public class EnemySpawner : MonoBehaviour
     // ========================================
     // 敵1体をスポーン
     // ========================================
+    // ========================================
+    // 敵1体をスポーン
+    // ========================================
     private void SpawnEnemy(EnemyWaveData wave, int index)
     {
         GameObject obj = enemyTable.GetFromPool(wave.enemyPrefab);
 
-        // 座標設定 (Vector3 / X・Y・Z すべて反映)
+        // 座標設定
         obj.transform.position = wave.spawnPoints[index].spawnPosition;
 
         // 向き設定
-        // 度数法: 0=真右, 90=真上
-        // Y軸回転に適用
         obj.transform.rotation = Quaternion.Euler(0f, wave.direction, 0f);
 
-        // 移動速度・スポーン情報を敵本体へ渡す (IEnemyInitializable 実装があれば)
+        // ========================================
+        // ボスだった場合、StageClearManagerに登録
+        // 意図：Prefabではなく、実際に出現したBoss(Clone)を監視する
+        // ========================================
+        BossBase boss = obj.GetComponent<BossBase>();
+
+        if (boss != null)
+        {
+            if (stageClearManager != null)
+            {
+                stageClearManager.SetTargetBoss(boss);
+
+                Debug.Log(
+                    $"[EnemySpawner] ボスをStageClearManagerへ登録:{obj.name}"
+                );
+            }
+            else
+            {
+                Debug.LogError(
+                    "[EnemySpawner] StageClearManagerが見つかりません"
+                );
+            }
+        }
+
+        // 移動速度・スポーン情報を敵本体へ渡す
         IEnemyInitializable initTarget = obj.GetComponent<IEnemyInitializable>();
+
         if (initTarget != null)
         {
             initTarget.Initialize(wave.direction, wave.despawnTime);
         }
 
-        // 消滅タイマー開始 (despawnTime 後にプールへ返却)
-        enemyTable.ReturnToPoolAfterDelay(wave.enemyPrefab, obj, wave.despawnTime);
+        // ========================================
+        // 通常敵だけ消滅タイマーでプールへ返す
+        // ボスは勝敗管理対象なので、時間で自動返却しない
+        // ========================================
+        if (boss == null)
+        {
+            enemyTable.ReturnToPoolAfterDelay(
+                wave.enemyPrefab,
+                obj,
+                wave.despawnTime
+            );
+        }
     }
 
     // ========================================
@@ -150,6 +195,8 @@ public class EnemySpawner : MonoBehaviour
     {
         SpawnWave(wave);
     }
+
+
 }
 
 // ========================================
@@ -166,3 +213,4 @@ public interface IEnemyInitializable
     /// <param name="despawnTime">消滅時間 [秒]</param>
     void Initialize(float direction, float despawnTime);
 }
+

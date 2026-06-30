@@ -179,7 +179,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3062345286291306449}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -197,7 +197,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f92c0cf40b33e1241a022a2648a4acfb, type: 2}
+  - {fileID: 2100000, guid: 3de4d39b49eb0644e88c416153175b7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,8 +255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67860a8472fb7b41b4c7fed44ab5454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteSheetAnimator
-  columns: 3
-  rows: 4
+  columns: 1
+  rows: 1
   fps: 8
   directionRow: 0
 --- !u!114 &5452804715205606413
@@ -324,7 +324,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9045633392375560039}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

@@ -44,6 +44,8 @@ public class BossLegion : BossBase
 
     private int waveLevel = 0;
 
+    private bool isRespawning = false;
+
     private List<GameObject> activeClones = new();
 
     // ============================================
@@ -159,11 +161,17 @@ public class BossLegion : BossBase
 
     IEnumerator ReSpawnWave()
     {
+        if (isRespawning) yield break;
+
+        isRespawning = true;
+
         yield return new WaitForSeconds(1f);
 
         deadCloneCount = 0;
 
         SpawnClones();
+
+        isRespawning = false;
 
         Debug.Log("[Legion] Wave再生成");
     }
@@ -228,6 +236,8 @@ public class BossLegion : BossBase
 
     public void NotifyCloneKilled(LegionClone clone)
     {
+        if (clone == null) return;
+
         if (activeClones.Contains(clone.gameObject))
         {
             activeClones.Remove(clone.gameObject);
@@ -245,10 +255,19 @@ public class BossLegion : BossBase
 
         deadCloneCount++;
 
+        Debug.Log(
+            $"[Legion] Clone撃破:{deadCloneCount}/{spawnCount}"
+        );
+
+        // 全Cloneを撃破した場合だけ強化する
         if (deadCloneCount >= spawnCount)
         {
             PowerUp();
-            StartCoroutine(ReSpawnWave());
+
+            if (!isRespawning)
+            {
+                StartCoroutine(ReSpawnWave());
+            }
         }
     }
 
@@ -270,10 +289,13 @@ public class BossLegion : BossBase
             $"[Legion] CloneExpired 残り:{activeClones.Count}"
         );
 
-        // 全員消えたら再生成
+        // 攻撃されずに全員消えた場合は、強化せず同じ数で再生成
         if (activeClones.Count <= 0)
         {
-            StartCoroutine(ReSpawnWave());
+            if (!isRespawning)
+            {
+                StartCoroutine(ReSpawnWave());
+            }
         }
     }
 
