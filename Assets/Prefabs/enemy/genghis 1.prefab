@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6603604931995964249}
   - component: {fileID: 8784756621971548053}
   - component: {fileID: 3527946305909926529}
+  - component: {fileID: -3227451431119146656}
   m_Layer: 0
   m_Name: genghis 1
   m_TagString: Untagged
@@ -201,6 +202,18 @@ MonoBehaviour:
   fieldTag: Field
   initialCheckRadius: 0.5
   hideDelay: 0.1
+--- !u!114 &-3227451431119146656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529836752255182640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f1b08be44cbb54286fcd1a1a01e996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathEffect
 --- !u!1 &1513312008982473598
 GameObject:
   m_ObjectHideFlags: 0

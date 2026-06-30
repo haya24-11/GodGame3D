@@ -103,6 +103,9 @@ public class BossKonse : BossBase
     {
         base.Start();
 
+        // 着地エフェクト
+        EffectManager.Instance?.PlayBossLanding(transform.position);
+
         state = State.Protected;
 
         SpawnMinions();

@@ -64,10 +64,25 @@ public class BossWeakPoint : MonoBehaviour
     /// 攻撃が弱点にヒットしているか判定し、倍率を返す。
     /// ヒットしていない場合は 1f を返す。
     /// </summary>
+
+    float lastEffectTime = 0f;
+    float effectCooldown = 0.2f;
+
     public float GetHitMultiplier(Vector3 attackWorldPos)
     {
         if (!focusSystem.IsFocusing) return 1f;
         float dist = Vector3.Distance(attackWorldPos, WorldPosition);
+
+        if (dist <= hitRadius)
+        {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.PlayWeekpoint(WorldPosition);
+            }
+
+            return damageMultiplier;
+        }
+
         return dist <= hitRadius ? damageMultiplier : 1f;
     }
 

@@ -109,6 +109,8 @@ public abstract class BossBase : MonoBehaviour,IDamageable
 
         StartCoroutine(DamageFlash());
 
+        //EffectManager.Instance.PlayWeekpoint(transform.position);
+
         // ============================
         // É{ÉXå≈óLîÌíeèàóù
         // ============================
@@ -200,6 +202,8 @@ public abstract class BossBase : MonoBehaviour,IDamageable
         OnBossDead?.Invoke();
 
         StartCoroutine(DeathSequence());
+
+        EffectManager.Instance.PlayEnemyDeath(transform.position);
     }
 
     // ============================================

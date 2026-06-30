@@ -63,6 +63,9 @@ public class BossLegion : BossBase
         transform.position =
             new Vector3(0f, 1f, 0f);
 
+        // 着地エフェクト
+        EffectManager.Instance?.PlayBossLanding(transform.position);
+
         SpawnClones();
     }
 

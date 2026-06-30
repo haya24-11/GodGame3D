@@ -101,6 +101,12 @@ public class BossWiper : BossBase
     private bool isFirstSpawn = true;
 
     // ============================================
+    // エフェクト
+    // ============================================
+
+    private bool isSpeedEffectPlaying = false;
+
+    // ============================================
     // 初期化
     // ============================================
 
@@ -310,6 +316,12 @@ public class BossWiper : BossBase
 
         if (Vector3.Distance(startPos, transform.position) >= 0.5f)
         {
+            //　着地エフェクト
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.PlayBossLanding(transform.position);
+            }
+
             state = State.Stop;
         }
     }
@@ -391,6 +403,16 @@ public class BossWiper : BossBase
 
     void Charge()
     {
+        // 初回のみエフェクト開始
+        if (!isSpeedEffectPlaying)
+        {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.StartBossSpeed(transform);
+            }
+            isSpeedEffectPlaying = true;
+        }
+
         Vector3 dir =
             isKnockback ? knockbackDir : moveDir;
 
@@ -413,6 +435,13 @@ public class BossWiper : BossBase
         if (Mathf.Abs(transform.position.z) > h + 2f ||
             Mathf.Abs(transform.position.x) > w + 2f)
         {
+            // エフェクト停止
+            if (isSpeedEffectPlaying)
+            {
+                EffectManager.Instance.StopBossSpeed();
+                isSpeedEffectPlaying = false;
+            }
+
             isKnockback = false;
 
             Respawn();
@@ -575,5 +604,17 @@ public class BossWiper : BossBase
 
         //UnityEngine.SceneManagement.SceneManager
            // .LoadScene("Title");
+    }
+
+    // ========================================
+    // 安全対策
+    // ========================================
+    private void OnDisable()
+    {
+        if (isSpeedEffectPlaying)
+        {
+            EffectManager.Instance.StopBossSpeed();
+            isSpeedEffectPlaying = false;
+        }
     }
 }

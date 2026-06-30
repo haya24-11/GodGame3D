@@ -116,6 +116,12 @@ public class BossMimesis : BossBase
     private int totalDamage = 0;
 
     // ============================================
+    // エフェクト
+    // ============================================
+
+    private bool isSpeedEffectPlaying = false;
+
+    // ============================================
     // 初期化
     // ============================================
 
@@ -257,6 +263,13 @@ public class BossMimesis : BossBase
         {
             isActionChanging = true;
             state = State.Idle;
+
+            // エフェクト停止
+            if (isSpeedEffectPlaying)
+            {
+                EffectManager.Instance.StopBossSpeed();
+                isSpeedEffectPlaying = false;
+            }
 
             StartCoroutine(NextActionDelay());
         }
@@ -641,7 +654,18 @@ public class BossMimesis : BossBase
         }
 
         transform.position = startPos;
+
+        // 着地エフェクト
+        EffectManager.Instance?.PlayBossLanding(transform.position);
+
         chargeDir = dir;
+        
+        // 突進中エフェクト発生
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.StartBossSpeed(transform);
+        }
+        isSpeedEffectPlaying = true;
 
         chargeSpeed =
             totalDamage >= 30
@@ -719,6 +743,16 @@ public class BossMimesis : BossBase
         {
             currentHp = 0;
             Die();
+        }
+    }
+
+    // 安全停止
+    private void OnDisable()
+    {
+        if (isSpeedEffectPlaying)
+        {
+            EffectManager.Instance.StopBossSpeed();
+            isSpeedEffectPlaying = false;
         }
     }
 }
