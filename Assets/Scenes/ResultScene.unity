@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 720652039}
   - component: {fileID: 720652042}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: stageselect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f2aff21f9649840b303820bb1e8998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChange
-  sceneName: 
+  sceneName: StageSelectScene
 --- !u!1 &1076800681
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +455,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 77.93732, y: 76.4289}
+  m_AnchoredPosition: {x: 123.54, y: 17.567}
   m_SizeDelta: {x: 1629.6547, y: 1044.8665}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1076800683
@@ -593,8 +593,8 @@ RectTransform:
   - {fileID: 219359597}
   - {fileID: 1900860502}
   - {fileID: 1076800682}
-  - {fileID: 720652038}
   - {fileID: 1662753219}
+  - {fileID: 720652038}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -695,7 +695,7 @@ GameObject:
   - component: {fileID: 1662753220}
   - component: {fileID: 1662753223}
   m_Layer: 5
-  m_Name: Button
+  m_Name: retry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -764,7 +764,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1662753221}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1662753223}
+        m_TargetAssemblyTypeName: SceneChange, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1662753221
 MonoBehaviour:
   m_ObjectHideFlags: 0
