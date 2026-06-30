@@ -203,7 +203,7 @@ public abstract class BossBase : MonoBehaviour,IDamageable
 
         StartCoroutine(DeathSequence());
 
-        EffectManager.Instance.PlayEnemyDeath(transform.position);
+        //EffectManager.Instance.PlayEnemyDeath(transform.position);
     }
 
     // ============================================
