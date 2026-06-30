@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1761290488354326891}
   - component: {fileID: 5849128099553761968}
   - component: {fileID: 3002038617855135608}
-  - component: {fileID: 1283973152072324487}
   m_Layer: 0
   m_Name: tridera_unit 1
   m_TagString: Untagged
@@ -117,18 +116,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1283973152072324487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333097067686952438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61f1b08be44cbb54286fcd1a1a01e996, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathEffect
 --- !u!1 &1794096708349676805
 GameObject:
   m_ObjectHideFlags: 0

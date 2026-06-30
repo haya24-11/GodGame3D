@@ -287,7 +287,6 @@ GameObject:
   - component: {fileID: 4174866167251350169}
   - component: {fileID: 2658752285744774777}
   - component: {fileID: 4075548452139432139}
-  - component: {fileID: -4599977722031657268}
   m_Layer: 0
   m_Name: zago 1
   m_TagString: Untagged
@@ -458,15 +457,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBaseBeta
   maxHp: 2
---- !u!114 &-4599977722031657268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9142441526748096778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61f1b08be44cbb54286fcd1a1a01e996, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathEffect
