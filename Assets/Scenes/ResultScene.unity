@@ -369,7 +369,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 720652040}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 720652042}
+        m_TargetAssemblyTypeName: SceneChange, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &720652040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f2aff21f9649840b303820bb1e8998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChange
-  sceneName: 
+  sceneName: StageSelectScene
 --- !u!1 &1076800681
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +776,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1662753221}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1662753223}
+        m_TargetAssemblyTypeName: SceneChange, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1662753221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,7 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f2aff21f9649840b303820bb1e8998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChange
-  sceneName: 
+  sceneName: StageSelectScene
 --- !u!1 &1752377868
 GameObject:
   m_ObjectHideFlags: 0
