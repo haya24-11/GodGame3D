@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class ResultButtonSelector : MonoBehaviour
+public class ResultButtonSelectorHorizontal : MonoBehaviour
 {
     [System.Serializable]
     public class SelectableButton
@@ -13,7 +13,7 @@ public class ResultButtonSelector : MonoBehaviour
         public Sprite selectedSprite;  // 選択中のテクスチャ
     }
 
-    [SerializeField] private SelectableButton[] buttons; // 配列順 = 上から下
+    [SerializeField] private SelectableButton[] buttons; // 配列順 = 左から右
 
     private int currentIndex = 0;
 
@@ -26,22 +26,6 @@ public class ResultButtonSelector : MonoBehaviour
     {
         var gamepad = Gamepad.current;
         if (gamepad == null) return;
-
-        // デバッグ用: スティック/dpadの生値を確認(原因調査後に削除)
-        Vector2 stick = gamepad.leftStick.ReadValue();
-        Vector2 dpadVal = gamepad.dpad.ReadValue();
-        if (stick.sqrMagnitude > 0.01f || dpadVal.sqrMagnitude > 0.01f)
-            Debug.Log($"[ResultButtonSelector] leftStick={stick} dpad={dpadVal}");
-
-        // 上移動
-        if (gamepad.dpad.up.wasPressedThisFrame ||
-            gamepad.leftStick.up.wasPressedThisFrame)
-            MoveIndex(-1);
-
-        // 下移動
-        if (gamepad.dpad.down.wasPressedThisFrame ||
-            gamepad.leftStick.down.wasPressedThisFrame)
-            MoveIndex(+1);
 
         // 左移動
         if (gamepad.dpad.left.wasPressedThisFrame ||
