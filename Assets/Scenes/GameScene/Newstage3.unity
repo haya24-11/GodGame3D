@@ -2291,11 +2291,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6840645576194009747, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
       propertyPath: resultSceneName
-      value: StageSelectScene
+      value: GameCleaScene3
       objectReference: {fileID: 0}
     - target: {fileID: 6840645576194009747, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
       propertyPath: gameOverSceneName
-      value: ResultScene
+      value: ResultScene3
       objectReference: {fileID: 0}
     - target: {fileID: 8360770004867111493, guid: 6fe3250da6125b640bdd43d868d82a0c, type: 3}
       propertyPath: m_LocalPosition.x
