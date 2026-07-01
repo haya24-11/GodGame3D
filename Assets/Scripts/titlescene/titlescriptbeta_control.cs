@@ -57,18 +57,39 @@ public class ImageSpawnerSelector : MonoBehaviour
     {
         navigateAction = new InputAction(
             name: "Navigate",
-            type: InputActionType.Value,
-            binding: "<Gamepad>/dpad"
+            type: InputActionType.Value
         );
 
-        // 左スティックでも操作可能
+        // ゲームパッド
+        navigateAction.AddCompositeBinding("2DVector")
+            .With("Up", "<Gamepad>/dpad/up")
+            .With("Down", "<Gamepad>/dpad/down")
+            .With("Left", "<Gamepad>/dpad/left")
+            .With("Right", "<Gamepad>/dpad/right");
+
         navigateAction.AddBinding("<Gamepad>/leftStick");
+
+        // キーボード上下キー
+        navigateAction.AddCompositeBinding("2DVector")
+            .With("Up", "<Keyboard>/upArrow")
+            .With("Down", "<Keyboard>/downArrow");
+
+        // W/S でも動かしたい場合
+        navigateAction.AddCompositeBinding("2DVector")
+            .With("Up", "<Keyboard>/w")
+            .With("Down", "<Keyboard>/s");
 
         submitAction = new InputAction(
             name: "Submit",
-            type: InputActionType.Button,
-            binding: "<Gamepad>/buttonSouth"
+            type: InputActionType.Button
         );
+
+        // ゲームパッド決定
+        submitAction.AddBinding("<Gamepad>/buttonSouth");
+
+        // キーボード決定
+        submitAction.AddBinding("<Keyboard>/enter");
+        submitAction.AddBinding("<Keyboard>/space");
     }
 
     private void OnEnable()
