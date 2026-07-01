@@ -36,6 +36,47 @@ public class BossMimesis : BossBase
 
     private int aliveSlimeCount = 0;
 
+    private bool isActionChanging = false;
+
+    private enum SpawnSide
+    {
+        Top,
+        Bottom,
+        Right,
+        Left
+    }
+
+    private enum SpawnLineType
+    {
+        Center,
+        CornerA,
+        CornerB
+    }
+
+    [SerializeField]
+    private float slimeSpeed = 8f;
+
+    [SerializeField]
+    private float slimeSize = 1f;
+
+    [SerializeField]
+    private int slimeSpawnCount = 3;
+
+    private bool slimeActionFinished = false;
+
+    [Header("Area")]
+    [SerializeField] private GameObject blueWarningPrefab;
+    [SerializeField] private float areaWarningTime = 1f;
+    [SerializeField] private float areaStayTimePhase2 = 1f;
+
+    private GameObject activeAreaWarning;
+
+    [Header("Final")]
+    [SerializeField] private float finalEdgeMargin = 3f;
+    [SerializeField] private float finalOrbitSpeed = 90f;
+
+    private float finalAngle = 0f;
+
     // ============================================
     // Charge
     // ============================================
@@ -48,6 +89,17 @@ public class BossMimesis : BossBase
     private Vector3 chargeDir;
 
     private bool chargeHit = false;
+
+    [SerializeField]
+    private GameObject redWarningPrefab;
+
+    [SerializeField]
+    private float chargeWarningTime = 2f;
+
+    [SerializeField]
+    private float chargeSpeedPhase2 = 15f;
+
+    private GameObject activeWarning;
 
     // ============================================
     // Area
@@ -85,6 +137,10 @@ public class BossMimesis : BossBase
             case State.Charge:
                 UpdateCharge();
                 break;
+
+            case State.Final:
+                UpdateFinal();
+                break;
         }
     }
 
@@ -94,9 +150,7 @@ public class BossMimesis : BossBase
 
     void StartNextAction()
     {
-        // ========================================
-        // 最終フェーズ
-        // ========================================
+        isActionChanging = false;
 
         if (totalDamage >= 60)
         {
@@ -130,41 +184,15 @@ public class BossMimesis : BossBase
     {
         state = State.Slime;
 
-        aliveSlimeCount = 3;
+        slimeActionFinished = false;
+        aliveSlimeCount = slimeSpawnCount;
 
-        Camera cam = Camera.main;
+        SpawnSlimeFormation();
 
-        float h = cam.orthographicSize;
-        float w = h * cam.aspect;
-
-        for (int i = 0; i < 3; i++)
-        {
-            Vector3 pos = new Vector3(
-                Random.Range(-w, w),
-                1f,
-                Random.Range(-h, h)
-            );
-
-            GameObject obj =
-                ObjectPool.Instance.Get(
-                    slimePrefab,
-                    pos,
-                    Quaternion.identity
-                );
-
-            MimesisSlime slime =
-                obj.GetComponent<MimesisSlime>();
-
-            slime.Init(this, slimePrefab, 8f);
-        }
-
-        // 全破壊待ち
-        while (aliveSlimeCount > 0)
+        while (!slimeActionFinished)
         {
             yield return null;
         }
-
-        TakeBossDamage(10);
 
         yield return new WaitForSeconds(1f);
 
@@ -177,7 +205,25 @@ public class BossMimesis : BossBase
 
     public void NotifySlimeDead()
     {
+        if (state != State.Slime) return;
+        if (slimeActionFinished) return;
+
         aliveSlimeCount--;
+
+        if (aliveSlimeCount <= 0)
+        {
+            slimeActionFinished = true;
+
+            ApplyFixedDamage(10);
+        }
+    }
+
+    public void NotifySlimeOutScreen()
+    {
+        if (state != State.Slime) return;
+        if (slimeActionFinished) return;
+
+        slimeActionFinished = true;
     }
 
     // ============================================
@@ -186,26 +232,16 @@ public class BossMimesis : BossBase
 
     void StartCharge()
     {
-        state = State.Charge;
-
-        chargeHit = false;
-
-        Camera cam = Camera.main;
-
-        float h = cam.orthographicSize;
-
-        transform.position =
-            new Vector3(0f, 1f, h + 2f);
-
-        chargeDir = Vector3.back;
+        StartCoroutine(ChargeRoutine());
     }
 
     // ============================================
     // Charge更新
     // ============================================
-
     void UpdateCharge()
     {
+        if (isActionChanging) return;
+
         transform.Translate(
             chargeDir * chargeSpeed * Time.deltaTime,
             Space.World
@@ -214,9 +250,14 @@ public class BossMimesis : BossBase
         Camera cam = Camera.main;
 
         float h = cam.orthographicSize;
+        float w = h * cam.aspect;
 
-        if (transform.position.z < -h - 3f)
+        if (Mathf.Abs(transform.position.x) > w + 3f ||
+            Mathf.Abs(transform.position.z) > h + 3f)
         {
+            isActionChanging = true;
+            state = State.Idle;
+
             StartCoroutine(NextActionDelay());
         }
     }
@@ -233,20 +274,69 @@ public class BossMimesis : BossBase
 
         while (areaLoopCount < 3)
         {
-            Vector3 pos = GetRandomAreaPosition();
+            Rect areaRect = GetRandomAreaRect();
 
-            transform.position = pos;
+            Vector3 warningPos = new Vector3(
+                areaRect.center.x,
+                0.05f,
+                areaRect.center.y
+            );
+
+            // =========================
+            // 青予告表示
+            // =========================
+
+            if (blueWarningPrefab != null)
+            {
+                activeAreaWarning = Instantiate(
+                    blueWarningPrefab,
+                    warningPos,
+                    Quaternion.identity
+                );
+
+                activeAreaWarning.transform.localScale =
+                    new Vector3(areaRect.width, 1f, areaRect.height);
+            }
+
+            yield return new WaitForSeconds(areaWarningTime);
+
+            if (activeAreaWarning != null)
+            {
+                Destroy(activeAreaWarning);
+            }
+
+            // =========================
+            // 予告範囲内に出現
+            // =========================
+
+            transform.position = new Vector3(
+                Random.Range(areaRect.xMin, areaRect.xMax),
+                1f,
+                Random.Range(areaRect.yMin, areaRect.yMax)
+            );
+
+            float stayTime =
+                totalDamage >= 30
+                ? areaStayTimePhase2
+                : areaStayTime;
 
             float timer = 0f;
 
-            while (timer < areaStayTime)
+            while (timer < stayTime)
             {
+                if (state != State.Area)
+                {
+                    yield break;
+                }
+
                 timer += Time.deltaTime;
                 yield return null;
             }
 
             areaLoopCount++;
         }
+
+        state = State.Idle;
 
         yield return new WaitForSeconds(1f);
 
@@ -299,6 +389,10 @@ public class BossMimesis : BossBase
     {
         state = State.Final;
 
+        isActionChanging = true;
+
+        finalAngle = 0f;
+
         Debug.Log("[Mimesis] FINAL PHASE");
     }
 
@@ -317,51 +411,314 @@ public class BossMimesis : BossBase
     // 被弾
     // ============================================
 
-    protected override void OnDamaged(
-        int damage,
-        Vector3 attackerPos
-    )
-    {
-        if (state == State.Charge)
-        {
-            TakeDamage(10, transform.position);
-
-            StartCoroutine(NextActionDelay());
-        }
-
-        if (state == State.Area)
-        {
-            TakeDamage(10, transform.position);
-        }
-    }
     public override void TakeDamage(
-    int damage,
-    Vector3 attackerPos
-)
+     int damage,
+     Vector3 attackerPos
+ )
     {
-        bool canDamage = false;
+        if (isDead) return;
 
         switch (state)
         {
             case State.Charge:
             case State.Area:
-            case State.Final:
+                ApplyFixedDamage(10);
 
-                canDamage = true;
+                if (!isActionChanging)
+                {
+                    isActionChanging = true;
+                    state = State.Idle;
+                    StartCoroutine(NextActionDelay());
+                }
 
                 break;
-        }
 
-        if (!canDamage)
+            case State.Final:
+                ApplyFixedDamage(damage);
+                break;
+
+            default:
+                Debug.Log("[Mimesis] 現在は無敵");
+                break;
+        }
+    }
+
+    void SpawnSlimeFormation()
+    {
+        if (slimePrefab == null)
         {
+            Debug.LogError("[Mimesis] slimePrefab 未設定");
             return;
         }
 
+        if (ObjectPool.Instance == null)
+        {
+            Debug.LogError("[Mimesis] ObjectPool.Instance が存在しない");
+            return;
+        }
+
+        Camera cam = Camera.main;
+
+        float h = cam.orthographicSize;
+        float w = h * cam.aspect;
+
+        SpawnSide side = (SpawnSide)Random.Range(0, 4);
+
+        float spacing = slimeSize * 2f;
+
+        float totalLength = spacing * (slimeSpawnCount - 1);
+        float startOffset = -totalLength * 0.5f;
+
+        SpawnLineType lineType =
+            (SpawnLineType)Random.Range(0, 3);
+
+        float lineCenter = 0f;
+
+        switch (lineType)
+        {
+            case SpawnLineType.Center:
+                lineCenter = 0f;
+                break;
+
+            case SpawnLineType.CornerA:
+                lineCenter = -Mathf.Min(w, h) * 0.5f;
+                break;
+
+            case SpawnLineType.CornerB:
+                lineCenter = Mathf.Min(w, h) * 0.5f;
+                break;
+        }
+
+        float halfSize = slimeSize * 0.5f;
+
+        Vector3 moveDir = Vector3.zero;
+
+        MimesisSlime.MoveType formationMoveType =
+            Random.value < 0.5f
+            ? MimesisSlime.MoveType.Straight
+            : MimesisSlime.MoveType.Wave;
+
+        for (int i = 0; i < slimeSpawnCount; i++)
+        {
+            float offset = startOffset + spacing * i;
+
+            Vector3 pos = Vector3.zero;
+            Vector3 waveDir = Vector3.zero;
+
+            switch (side)
+            {
+                case SpawnSide.Top:
+                    pos = new Vector3(
+                        Mathf.Clamp(lineCenter + offset, -w + halfSize, w - halfSize),
+                        1f,
+                        h - halfSize
+                    );
+                    moveDir = Vector3.back;
+                    waveDir = Vector3.right;
+                    break;
+
+                case SpawnSide.Bottom:
+                    pos = new Vector3(
+                        Mathf.Clamp(lineCenter + offset, -w + halfSize, w - halfSize),
+                        1f,
+                        -h + halfSize
+                    );
+                    moveDir = Vector3.forward;
+                    waveDir = Vector3.right;
+                    break;
+
+                case SpawnSide.Right:
+                    pos = new Vector3(
+                        w - halfSize,
+                        1f,
+                        Mathf.Clamp(lineCenter + offset, -h + halfSize, h - halfSize)
+                    );
+                    moveDir = Vector3.left;
+                    waveDir = Vector3.forward;
+                    break;
+
+                case SpawnSide.Left:
+                    pos = new Vector3(
+                        -w + halfSize,
+                        1f,
+                        Mathf.Clamp(lineCenter + offset, -h + halfSize, h - halfSize)
+                    );
+                    moveDir = Vector3.right;
+                    waveDir = Vector3.forward;
+                    break;
+            }
+
+            GameObject obj = ObjectPool.Instance.Get(
+                slimePrefab,
+                pos,
+                Quaternion.identity
+            );
+
+            MimesisSlime slime =
+                obj.GetComponent<MimesisSlime>();
+
+            if (slime == null)
+            {
+                Debug.LogError("[Mimesis] MimesisSlime がPrefabに付いてない");
+                return;
+            }
+
+            slime.Init(
+                this,
+                slimePrefab,
+                slimeSpeed,
+                moveDir,
+                waveDir,
+                formationMoveType
+            );
+        }
+
+        Debug.Log("[Mimesis] Slime隊列生成");
+    }
+
+    IEnumerator ChargeRoutine()
+    {
+        state = State.Idle;
+        isActionChanging = true;
+
+        Camera cam = Camera.main;
+
+        float h = cam.orthographicSize;
+        float w = h * cam.aspect;
+
+        int side = Random.Range(0, 4);
+
+        Vector3 startPos = Vector3.zero;
+        Vector3 dir = Vector3.zero;
+        Vector3 warningPos = Vector3.zero;
+
+        switch (side)
+        {
+            case 0:
+                startPos = new Vector3(Random.Range(-w, w), 1f, h + 2f);
+                dir = Vector3.back;
+                warningPos = new Vector3(startPos.x, 0.05f, 0f);
+                break;
+
+            case 1:
+                startPos = new Vector3(Random.Range(-w, w), 1f, -h - 2f);
+                dir = Vector3.forward;
+                warningPos = new Vector3(startPos.x, 0.05f, 0f);
+                break;
+
+            case 2:
+                startPos = new Vector3(w + 2f, 1f, Random.Range(-h, h));
+                dir = Vector3.left;
+                warningPos = new Vector3(0f, 0.05f, startPos.z);
+                break;
+
+            case 3:
+                startPos = new Vector3(-w - 2f, 1f, Random.Range(-h, h));
+                dir = Vector3.right;
+                warningPos = new Vector3(0f, 0.05f, startPos.z);
+                break;
+        }
+
+        float warningTime =
+            totalDamage >= 30
+            ? 1f
+            : chargeWarningTime;
+
+        if (redWarningPrefab != null)
+        {
+            activeWarning = Instantiate(
+                redWarningPrefab,
+                warningPos,
+                Quaternion.identity
+            );
+        }
+
+        yield return new WaitForSeconds(warningTime);
+
+        if (activeWarning != null)
+        {
+            Destroy(activeWarning);
+        }
+
+        transform.position = startPos;
+        chargeDir = dir;
+
+        chargeSpeed =
+            totalDamage >= 30
+            ? chargeSpeedPhase2
+            : 12f;
+
+        chargeHit = false;
+        isActionChanging = false;
+        state = State.Charge;
+    }
+
+    Rect GetRandomAreaRect()
+    {
+        Camera cam = Camera.main;
+
+        float h = cam.orthographicSize;
+        float w = h * cam.aspect;
+
+        int areaIndex = Random.Range(0, 4);
+
+        bool right = areaIndex % 2 == 1;
+        bool top = areaIndex >= 2;
+
+        float xMin = right ? 0f : -w;
+        float xMax = right ? w : 0f;
+
+        float zMin = top ? 0f : -h;
+        float zMax = top ? h : 0f;
+
+        return Rect.MinMaxRect(
+            xMin,
+            zMin,
+            xMax,
+            zMax
+        );
+    }
+
+    void UpdateFinal()
+    {
+        Camera cam = Camera.main;
+
+        float h = cam.orthographicSize;
+        float w = h * cam.aspect;
+
+        float radiusX = Mathf.Max(0f, w - finalEdgeMargin);
+        float radiusZ = Mathf.Max(0f, h - finalEdgeMargin);
+
+        finalAngle += finalOrbitSpeed * Time.deltaTime;
+
+        float rad = finalAngle * Mathf.Deg2Rad;
+
+        Vector3 pos = new Vector3(
+            Mathf.Cos(rad) * radiusX,
+            1f,
+            Mathf.Sin(rad) * radiusZ
+        );
+
+        transform.position = pos;
+    }
+
+    void ApplyFixedDamage(int damage)
+    {
+        if (isDead) return;
+
         totalDamage += damage;
 
-        base.TakeDamage(
-            damage,
-            attackerPos
+        int beforeHp = currentHp;
+        currentHp -= damage;
+
+        Debug.Log(
+            $"[Mimesis] 固定ダメージ:{damage} / HP:{beforeHp} → {currentHp}"
         );
+
+        if (currentHp <= 0)
+        {
+            currentHp = 0;
+            Die();
+        }
     }
 }

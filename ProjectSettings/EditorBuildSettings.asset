@@ -6,20 +6,26 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ZENJO_BETA.unity
-    guid: 2e71a93a426fd184581a86c8b46460df
-  - enabled: 1
-    path: Assets/Scenes/Title.unity
-    guid: f4a5fe50e57dd1f4a8303bad9b7bcc33
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Newtitle.unity
+    guid: 99bf86fdc15d5a34a90d3744542eb468
   - enabled: 1
     path: Assets/Scenes/loadScreen.unity
     guid: 12583eeb36dee3047b84cb11fbf4b5ab
   - enabled: 1
     path: Assets/Scenes/StageSelectScene.unity
     guid: 2c3a7bae62f9c524b9c4654cfd7d7d16
+  - enabled: 1
+    path: Assets/Scenes/GameScene/Newstage1.unity
+    guid: 7a6277186a3c9554f9107fdc0acb09ee
+  - enabled: 1
+    path: Assets/Scenes/GameScene/Newstage2.unity
+    guid: 1c82eff30e9d818429a4d9dd308e0a5a
+  - enabled: 1
+    path: Assets/Scenes/GameScene/Newstage3.unity
+    guid: e1c9219d665400d4ba49f92fa1dec87b
+  - enabled: 1
+    path: Assets/Scenes/GameScene/Newstage4.unity
+    guid: 9fd19dbdb6222444994d405db86cece2
   - enabled: 1
     path: Assets/Scenes/ResultScene.unity
     guid: 99f5eaf3d9a37284ca89678d9bcc2ab9

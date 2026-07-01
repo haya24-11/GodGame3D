@@ -573,7 +573,7 @@ public class BossWiper : BossBase
 
         Debug.Log("[BossStraight] ƒ^ƒCƒgƒ‹‚Ö‘JˆÚ");
 
-        UnityEngine.SceneManagement.SceneManager
-            .LoadScene("Title");
+        //UnityEngine.SceneManagement.SceneManager
+           // .LoadScene("Title");
     }
 }

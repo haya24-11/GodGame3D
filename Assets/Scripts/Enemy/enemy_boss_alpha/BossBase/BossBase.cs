@@ -40,6 +40,7 @@ public abstract class BossBase : MonoBehaviour,IDamageable
 
     public int CurrentHp => currentHp;
 
+    public event System.Action OnBossDead;
     // ============================================
     // èâä˙âª
     // ============================================
@@ -122,9 +123,7 @@ public abstract class BossBase : MonoBehaviour,IDamageable
         {
             currentHp = 0;
 
-            isDead = true;
-
-            StartCoroutine(DeathSequence());
+            Die();
         }
     }
 
@@ -183,10 +182,22 @@ public abstract class BossBase : MonoBehaviour,IDamageable
     {
         if (isDead)
         {
+            Debug.Log($"[{gameObject.name}] DieÇÕä˘Ç…é¿çsçœÇ›");
             return;
         }
 
         isDead = true;
+
+        int listenerCount =
+            OnBossDead != null
+                ? OnBossDead.GetInvocationList().Length
+                : 0;
+
+        Debug.Log(
+            $"[{gameObject.name}] OnBossDead î≠âŒ / ìoò^êî:{listenerCount}"
+        );
+
+        OnBossDead?.Invoke();
 
         StartCoroutine(DeathSequence());
     }

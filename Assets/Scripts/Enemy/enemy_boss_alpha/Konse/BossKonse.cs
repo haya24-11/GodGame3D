@@ -12,7 +12,6 @@ public class BossKonse : BossBase
     // ============================================
     // 状態
     // ============================================
-
     private enum State
     {
         Protected,
@@ -41,6 +40,9 @@ public class BossKonse : BossBase
 
     private int aliveMinionCount = 0;
 
+    private bool isRespawningFormation = false;
+    private bool isRecovering = false;
+
     //  Minionのサイズ（中心から端までの距離） 本体と重ならないようにするために必要
     [SerializeField]
     private float minionSize = 1f;
@@ -51,6 +53,12 @@ public class BossKonse : BossBase
         Bottom,
         Right,
         Left
+    }
+    private enum SpawnLineType
+    {   //  Minionが出現するラインのタイプ
+        Center,
+        CornerA,
+        CornerB
     }
 
     // ============================================
@@ -103,7 +111,6 @@ public class BossKonse : BossBase
     // ============================================
     // 更新
     // ============================================
-
     void Update()
     {
         if (isDead) return;
@@ -128,7 +135,6 @@ public class BossKonse : BossBase
     // ============================================
     // 円移動
     // ============================================
-
     void OrbitMove()
     {
         orbitAngle += orbitSpeed * Time.deltaTime;
@@ -149,7 +155,6 @@ public class BossKonse : BossBase
     // ============================================
     // Minion生成
     // ============================================
-
     void SpawnMinions()
     {
         if (minionPrefab == null)
@@ -188,9 +193,40 @@ public class BossKonse : BossBase
         float totalLength = spacing * (spawnCount - 1);
         float startOffset = -totalLength * 0.5f;
 
+        // =========================
+        // 中央だけでなく、角寄りにも配置する
+        // Center  : 中央
+        // CornerA : 左上 / 下左 / 右上 / 左上側
+        // CornerB : 右上 / 下右 / 右下 / 左下側
+        // =========================
+
+        SpawnLineType lineType = (SpawnLineType)Random.Range(0, 3);
+
+        float lineCenter = 0f;  // ラインの中心位置（0が中央、負が左上/下、正が右上/下）
+
+        switch (lineType)
+        {   //  今回は中央に配置することが多め
+            case SpawnLineType.Center:
+                lineCenter = 0f;
+                break;
+            //  角寄りに配置することもある
+            case SpawnLineType.CornerA:
+                lineCenter = -Mathf.Min(w, h) * 0.5f;
+                break;
+            //  角寄りに配置することもある
+            case SpawnLineType.CornerB:
+                lineCenter = Mathf.Min(w, h) * 0.5f;
+                break;
+        }
+
         float halfSize = minionSize * 0.5f;
 
         Vector3 moveDir = Vector3.zero;
+
+        KonseMinion.MoveType formationMoveType =
+        Random.value < 0.5f
+        ? KonseMinion.MoveType.Straight
+        : KonseMinion.MoveType.Wave;
 
         for (int i = 0; i < spawnCount; i++)
         {
@@ -198,50 +234,52 @@ public class BossKonse : BossBase
 
             Vector3 pos = Vector3.zero;
 
+            Vector3 waveDir = Vector3.zero;
+
             switch (side)
             {
                 case SpawnSide.Top:
-                    // 上端に横1列配置 → 下へ進む
                     pos = new Vector3(
-                        offset,
+                        Mathf.Clamp(lineCenter + offset, -w + halfSize, w - halfSize),
                         1f,
                         h - halfSize
                     );
 
                     moveDir = Vector3.back;
+                    waveDir = Vector3.right;
                     break;
 
                 case SpawnSide.Bottom:
-                    // 下端に横1列配置 → 上へ進む
                     pos = new Vector3(
-                        offset,
+                        Mathf.Clamp(lineCenter + offset, -w + halfSize, w - halfSize),
                         1f,
                         -h + halfSize
                     );
 
                     moveDir = Vector3.forward;
+                    waveDir = Vector3.right;
                     break;
 
                 case SpawnSide.Right:
-                    // 右端に縦1列配置 → 左へ進む
                     pos = new Vector3(
                         w - halfSize,
                         1f,
-                        offset
+                        Mathf.Clamp(lineCenter + offset, -h + halfSize, h - halfSize)
                     );
 
                     moveDir = Vector3.left;
+                    waveDir = Vector3.forward;
                     break;
 
                 case SpawnSide.Left:
-                    // 左端に縦1列配置 → 右へ進む
                     pos = new Vector3(
                         -w + halfSize,
                         1f,
-                        offset
+                        Mathf.Clamp(lineCenter + offset, -h + halfSize, h - halfSize)
                     );
 
                     moveDir = Vector3.right;
+                    waveDir = Vector3.forward;
                     break;
             }
 
@@ -263,7 +301,9 @@ public class BossKonse : BossBase
                 this,
                 minionPrefab,
                 minionSpeed,
-                moveDir
+                moveDir,
+                waveDir,
+                 formationMoveType
             );
 
             activeMinions.Add(minion);
@@ -275,10 +315,18 @@ public class BossKonse : BossBase
     // ============================================
     // Minion死亡通知
     // ============================================
-
-    public void NotifyMinionDead()
+    public void NotifyMinionDead(KonseMinion minion)
     {
+        if (state != State.Protected) return;
+
+        if (activeMinions.Contains(minion))
+        {
+            activeMinions.Remove(minion);
+        }
+
         aliveMinionCount--;
+
+        Debug.Log($"[Konse] Minion撃破 残り:{aliveMinionCount}");
 
         if (aliveMinionCount <= 0)
         {
@@ -289,16 +337,17 @@ public class BossKonse : BossBase
     // ============================================
     // 露出開始
     // ============================================
-
     void EnterExposed()
     {
         state = State.Exposed;
 
         canTakeDamage = true;
+        isRecovering = false;
 
         exposedTimer = 10f;
-
         exposedDamage = 0;
+
+        activeMinions.Clear();
 
         Debug.Log("[Konse] 本体露出");
     }
@@ -306,7 +355,6 @@ public class BossKonse : BossBase
     // ============================================
     // 無敵状態
     // ============================================
-
     void UpdateProtected()
     {
     }
@@ -314,38 +362,33 @@ public class BossKonse : BossBase
     // ============================================
     // 露出状態
     // ============================================
-
     void UpdateExposed()
     {
         exposedTimer -= Time.deltaTime;
 
         if (exposedTimer <= 0f)
         {
-            StartCoroutine(RecoverRoutine());
+            StartRecover();
         }
     }
 
     // ============================================
     // 回復フェーズ
     // ============================================
-
     IEnumerator RecoverRoutine()
     {
         state = State.Recover;
-
-        canTakeDamage = false;
 
         yield return new WaitForSeconds(1f);
 
         SpawnMinions();
 
         state = State.Protected;
+        isRecovering = false;
     }
-
     // ============================================
     // 被弾
     // ============================================
-
     protected override void OnDamaged(
         int damage,
         Vector3 attackerPos
@@ -365,14 +408,12 @@ public class BossKonse : BossBase
         // ========================================
         // 4ダメージで吹っ飛び
         // ========================================
-
         if (exposedDamage >= 4)
         {
             breakCount++;
 
             AddTime(10);
 
-            // 強化
             if (breakCount == 1)
             {
                 minionSpeed = 7f;
@@ -382,7 +423,7 @@ public class BossKonse : BossBase
                 spawnCount++;
             }
 
-            StartCoroutine(RecoverRoutine());
+            StartRecover();
         }
     }
     public override void TakeDamage(
@@ -392,6 +433,7 @@ public class BossKonse : BossBase
     {
         if (!canTakeDamage)
         {
+            Debug.Log("[Konse] 無敵中");
             return;
         }
 
@@ -399,5 +441,55 @@ public class BossKonse : BossBase
             damage,
             attackerPos
         );
+    }
+
+    public void RequestRespawnFormation(float delay)
+    {
+        if (state != State.Protected) return;
+        if (isRespawningFormation) return;
+
+        StartCoroutine(RespawnFormationAfterDelay(delay));
+    }
+    IEnumerator RespawnFormationAfterDelay(float delay)
+    {
+        isRespawningFormation = true;
+
+        ClearActiveMinions();
+
+        yield return new WaitForSeconds(delay);
+
+        if (state == State.Protected)
+        {
+            SpawnMinions();
+        }
+
+        isRespawningFormation = false;
+    }
+    void ClearActiveMinions()
+    {
+        List<KonseMinion> targets =
+            new List<KonseMinion>(activeMinions);
+
+        activeMinions.Clear();
+
+        for (int i = 0; i < targets.Count; i++)
+        {
+            if (targets[i] == null) continue;
+
+            ObjectPool.Instance.Return(
+                minionPrefab,
+                targets[i].gameObject
+            );
+        }
+    }
+
+    void StartRecover()
+    {
+        if (isRecovering) return;
+
+        isRecovering = true;
+        canTakeDamage = false;
+
+        StartCoroutine(RecoverRoutine());
     }
 }
