@@ -105,6 +105,8 @@ public class BossWiper : BossBase
     // ============================================
 
     private bool isSpeedEffectPlaying = false;
+    private bool isRespawningWithAlert = false;
+    private Collider bossCollider;
 
     // ============================================
     // 初期化
@@ -126,6 +128,14 @@ public class BossWiper : BossBase
 
         spriteAnimator =
             GetComponentInChildren<SpriteSheetAnimator>();
+
+
+
+        bossCollider = GetComponent<Collider>();
+
+        SetBossVisible(false);
+
+
 
         // ========================================
         // 初回出現
@@ -190,6 +200,17 @@ public class BossWiper : BossBase
 
     void Respawn()
     {
+        if (isRespawningWithAlert) return;
+
+        StartCoroutine(RespawnWithBossAlert());   
+    }
+
+    IEnumerator RespawnWithBossAlert()
+    {
+        isRespawningWithAlert = true;
+
+        SetBossVisible(false);
+
         Camera cam = Camera.main;
 
         float h = cam.orthographicSize;
@@ -280,6 +301,14 @@ public class BossWiper : BossBase
         transform.position =
             new Vector3(x, 1f, z);
 
+        EffectManager.Instance?.PlayBossAlart(Vector3.zero);
+
+        float waitTime = EffectManager.Instance != null
+            ? EffectManager.Instance.BossAlertDuration
+            : 2f;
+
+        yield return new WaitForSeconds(waitTime);
+
         isFirstSpawn = false;
 
         startPos = transform.position;
@@ -293,8 +322,11 @@ public class BossWiper : BossBase
         // ========================================
         // 状態変更
         // ========================================
+        SetBossVisible(true);
 
         state = State.MoveIn;
+
+        isRespawningWithAlert = false;
     }
 
     // ============================================
@@ -615,6 +647,22 @@ public class BossWiper : BossBase
         {
             EffectManager.Instance.StopBossSpeed();
             isSpeedEffectPlaying = false;
+        }
+    }
+
+    // ========================================
+    // 表示切替用メソッド
+    // ========================================
+    void SetBossVisible(bool visible)
+    {
+        if (rend != null)
+        {
+            rend.enabled = visible;
+        }
+
+        if (bossCollider != null)
+        {
+            bossCollider.enabled = visible;
         }
     }
 }

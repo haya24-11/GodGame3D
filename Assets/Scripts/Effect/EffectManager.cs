@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// ゲーム内エフェクトの再生を一元管理するシングルトンクラス。
@@ -13,11 +14,11 @@ public class EffectManager : MonoBehaviour
     // ----------------------------------------
 
     [Header("2Dエフェクト")]
-    [SerializeField] private GameObject effectFocusPrefab;       // effect_focus
-    [SerializeField] private GameObject effectBossAlartPrefab;   // effect_boss_alart
-    [SerializeField] private GameObject effectTimePlusPrefab;    // effect_timePlus
-    [SerializeField] private GameObject effectReadyPrefab;       // effect_Ready
-    [SerializeField] private GameObject effectGoPrefab;          // effect_Go
+    [SerializeField] private Texture2D effectFocusTexture;       // effect_focus
+    [SerializeField] private Texture2D effectBossAlartTexture;   // effect_boss_alart
+    [SerializeField] private Texture2D effectTimePlusTexture;    // effect_timePlus
+    [SerializeField] private Texture2D effectReadyTexture;       // effect_Ready
+    [SerializeField] private Texture2D effectGoTexture;          // effect_Go
 
     [Header("3Dエフェクト")]
     [SerializeField] private GameObject effectCallElectronicPrefab;    // effect_call_electronic
@@ -30,7 +31,7 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private GameObject effectBossSpeedPrefab;         // effect_boss_speed（ループ）
 
     [Header("UI")]
-    [SerializeField] private GameObject effectControllerPrefab; // effect_controller（PAUSE画面操作説明）
+    [SerializeField] private Texture2D effectControllerTexture; // effect_controller（PAUSE画面操作説明）
 
     // ----------------------------------------
     // ループエフェクトの実体参照（Start/Stop管理）
@@ -62,6 +63,12 @@ public class EffectManager : MonoBehaviour
     /// 敵の右上オフセット（timePlus表示位置）
     /// </summary>
     private static readonly Vector3 TIME_PLUS_OFFSET = new Vector3(0.5f, 0.5f, 0f);
+
+    [Header("Boss Alert設定")]
+    [SerializeField] private float bossAlertDuration = 2f;
+    [SerializeField] private int bossAlertSortingOrder = 999;
+
+    public float BossAlertDuration => bossAlertDuration;
 
     // ========================================
     // 初期化
@@ -99,6 +106,79 @@ public class EffectManager : MonoBehaviour
         Destroy(fx, destroyTime);
     }
 
+    /// <summary>
+    /// Texture2D から Sprite を作成して GameObject にして再生、destroyTime 秒後に Destroy するオーバーロード（2D用）。
+    /// </summary>
+    public void PlayEffect(Texture2D texture, Vector3 position, float destroyTime = 2f)
+    {
+        if (texture == null)
+        {
+            Debug.LogWarning($"[EffectManager] PlayEffect(Texture2D): textureがnullです。Inspectorでアサインしてください。");
+            return;
+        }
+
+        GameObject go = CreateSpriteEffect(texture, position, texture.name);
+        Destroy(go, destroyTime);
+    }
+
+    /// <summary>
+    /// Texture2D から GameObject(SPR) を生成するユーティリティ。
+    /// </summary>
+    private GameObject CreateSpriteEffect(Texture2D texture, Vector3 position, string name)
+    {
+        if (texture == null) return null;
+
+        GameObject go = new GameObject(name);
+        go.transform.position = position;
+        var sr = go.AddComponent<SpriteRenderer>();
+        // ピクセルパー単位はプロジェクトに応じて調整（ここでは 100 を使用）
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
+        sr.sprite = sprite;
+        // 必要ならソーティングレイヤーや order を設定する
+        return go;
+    }
+
+    private GameObject PlayFullScreenTexture(Texture2D texture, string objectName, float destroyTime)
+    {
+        if (texture == null)
+        {
+            Debug.LogWarning($"[EffectManager] {objectName}: textureがnullです。Inspectorでアサインしてください。");
+            return null;
+        }
+
+        GameObject root = new GameObject(objectName);
+
+        Canvas canvas = root.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = bossAlertSortingOrder;
+
+        CanvasScaler scaler = root.AddComponent<CanvasScaler>();
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920f, 1080f);
+        scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        scaler.matchWidthOrHeight = 0.5f;
+
+        root.AddComponent<GraphicRaycaster>();
+
+        GameObject imageObj = new GameObject(objectName + "_Image");
+        imageObj.transform.SetParent(root.transform, false);
+
+        RawImage rawImage = imageObj.AddComponent<RawImage>();
+        rawImage.texture = texture;
+        rawImage.color = Color.white;
+        rawImage.raycastTarget = false;
+
+        RectTransform rect = imageObj.GetComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+
+        Destroy(root, destroyTime);
+
+        return root;
+    }
+
     // ========================================
     // 2Dエフェクト
     // ========================================
@@ -115,9 +195,9 @@ public class EffectManager : MonoBehaviour
     public void PlayFocusEffect()
     {
         if (activeFocusEffect != null) return; // 二重起動防止
-        if (effectFocusPrefab == null) { Debug.LogWarning("[EffectManager] effectFocusPrefab未アサイン"); return; }
+        if (effectFocusTexture == null) { Debug.LogWarning("[EffectManager] effectFocusPrefab未アサイン"); return; }
 
-        activeFocusEffect = Instantiate(effectFocusPrefab, Vector3.zero, Quaternion.identity);
+        activeFocusEffect = CreateSpriteEffect(effectFocusTexture, Vector3.zero, "effect_focus");
         SetAlpha(activeFocusEffect, 0f);
         StartCoroutine(FadeEffect(activeFocusEffect, 0f, 1f, FOCUS_FADE_DURATION));
     }
@@ -134,13 +214,14 @@ public class EffectManager : MonoBehaviour
     // ----------------------------------------
     // 2. ボス出現時警告（effect_boss_alart）
     //    ・ボス出現前に呼び出す
-    //    ・発生時間 2秒程度
+    //    ・画面全体に表示
+    //    ・表示後にボスを出現させる
     // ----------------------------------------
 
     /// <summary>ボス出現前の警告演出を再生する。再生完了後にボスを出現させること。</summary>
     public void PlayBossAlart(Vector3 position)
     {
-        PlayEffect(effectBossAlartPrefab, position, 2f);
+        PlayFullScreenTexture(effectBossAlartTexture, "effect_boss_alart", bossAlertDuration);
     }
 
     // ----------------------------------------
@@ -153,7 +234,7 @@ public class EffectManager : MonoBehaviour
     /// <param name="enemyPosition">敵オブジェクトのワールド座標</param>
     public void PlayTimePlus(Vector3 enemyPosition)
     {
-        PlayEffect(effectTimePlusPrefab, enemyPosition + TIME_PLUS_OFFSET, 1.5f);
+        PlayEffect(effectTimePlusTexture, enemyPosition + TIME_PLUS_OFFSET, 1.5f);
     }
 
     // ----------------------------------------
@@ -174,17 +255,17 @@ public class EffectManager : MonoBehaviour
     private IEnumerator GameStartSequence(System.Action onComplete)
     {
         // Ready表示
-        if (effectReadyPrefab != null)
+        if (effectReadyTexture != null)
         {
-            GameObject ready = Instantiate(effectReadyPrefab, Vector3.zero, Quaternion.identity);
+            GameObject ready = CreateSpriteEffect(effectReadyTexture, Vector3.zero, "effect_Ready");
             yield return new WaitForSeconds(readyDuration);
             Destroy(ready);
         }
 
         // Go表示→フェードアウト
-        if (effectGoPrefab != null)
+        if (effectGoTexture != null)
         {
-            GameObject go = Instantiate(effectGoPrefab, Vector3.zero, Quaternion.identity);
+            GameObject go = CreateSpriteEffect(effectGoTexture, Vector3.zero, "effect_Go");
             SetAlpha(go, 1f);
             yield return StartCoroutine(FadeAndDestroy(go, 1f, 0f, goFadeDuration));
         }
@@ -325,8 +406,8 @@ public class EffectManager : MonoBehaviour
     public void ShowController()
     {
         if (activeControllerUI != null) return;
-        if (effectControllerPrefab == null) { Debug.LogWarning("[EffectManager] effectControllerPrefab未アサイン"); return; }
-        activeControllerUI = Instantiate(effectControllerPrefab);
+        if (effectControllerTexture == null) { Debug.LogWarning("[EffectManager] effectControllerTexture未アサイン"); return; }
+        activeControllerUI = CreateSpriteEffect(effectControllerTexture, Vector3.zero, "effect_controller");
     }
 
     /// <summary>PAUSE画面を閉じた際に操作説明画像を非表示にする。</summary>

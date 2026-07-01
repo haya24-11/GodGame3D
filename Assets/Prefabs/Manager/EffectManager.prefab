@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9169da777be02b40a0290473c8d2be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EffectManager
-  effectFocusPrefab: {fileID: 0}
-  effectBossAlartPrefab: {fileID: 0}
-  effectTimePlusPrefab: {fileID: 0}
-  effectReadyPrefab: {fileID: 0}
-  effectGoPrefab: {fileID: 0}
+  effectFocusTexture: {fileID: 0}
+  effectBossAlartTexture: {fileID: 2800000, guid: ade154d48dade774f8b900fb0529fec3, type: 3}
+  effectTimePlusTexture: {fileID: 0}
+  effectReadyTexture: {fileID: 2800000, guid: 65ba2a514feef7842964a544d6c46907, type: 3}
+  effectGoTexture: {fileID: 2800000, guid: 0f040bdf1237da742aad0cc463a038f9, type: 3}
   effectCallElectronicPrefab: {fileID: 6611133166075936371, guid: ac050929db2ea614095a2e16747967a5, type: 3}
   effectEnemyDeathPrefab: {fileID: 6093091153952768911, guid: 771303f9f58d7c54e8ea4b7a607f73e6, type: 3}
   effectWeekpointPrefab: {fileID: 5811952454168074165, guid: 99f651031dccc9d4080908e66efe3304, type: 3}

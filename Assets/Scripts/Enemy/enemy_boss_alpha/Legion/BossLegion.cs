@@ -56,12 +56,46 @@ public class BossLegion : BossBase
     {
         base.Start();
 
+        StartCoroutine(StartWithBossAlert());
+    }
+
+    IEnumerator StartWithBossAlert()
+    {
         // ========================================
         // ボスを中央固定
         // ========================================
+        Vector3 pos = new Vector3(0f, 1f, 0f);
 
-        transform.position =
-            new Vector3(0f, 1f, 0f);
+        if (rend != null)
+        {
+            rend.enabled = false;
+        }
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        EffectManager.Instance?.PlayBossAlart(Vector3.zero);
+
+        float waitTime = EffectManager.Instance != null
+            ? EffectManager.Instance.BossAlertDuration
+            : 2f;
+
+        yield return new WaitForSeconds(waitTime);
+
+        transform.position = pos;
+
+        if (rend != null)
+        {
+            rend.enabled = true;
+        }
+
+        if (col != null)
+        {
+            col.enabled = true;
+        }
 
         // 着地エフェクト
         EffectManager.Instance?.PlayBossLanding(transform.position);

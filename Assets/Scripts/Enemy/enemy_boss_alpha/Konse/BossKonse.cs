@@ -103,6 +103,42 @@ public class BossKonse : BossBase
     {
         base.Start();
 
+        StartCoroutine(StartWithBossAlert());
+    }
+
+    IEnumerator StartWithBossAlert()
+    {
+
+        if (rend != null)
+        {
+            rend.enabled = false;
+        }
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        // 画面全体のボス出現警告
+        EffectManager.Instance?.PlayBossAlart(Vector3.zero);
+
+        float waitTime = EffectManager.Instance != null
+            ? EffectManager.Instance.BossAlertDuration
+            : 2f;
+
+        yield return new WaitForSeconds(waitTime);
+
+        if (rend != null)
+        {
+            rend.enabled = true;
+        }
+
+        if (col != null)
+        {
+            col.enabled = true;
+        }
+
         // 着地エフェクト
         EffectManager.Instance?.PlayBossLanding(transform.position);
 

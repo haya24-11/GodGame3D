@@ -637,21 +637,13 @@ public class BossMimesis : BossBase
             ? 1f
             : chargeWarningTime;
 
-        if (redWarningPrefab != null)
-        {
-            activeWarning = Instantiate(
-                redWarningPrefab,
-                warningPos,
-                Quaternion.identity
-            );
-        }
+        EffectManager.Instance?.PlayBossAlart(Vector3.zero);
 
-        yield return new WaitForSeconds(warningTime);
+        float waitTime = EffectManager.Instance != null
+            ? EffectManager.Instance.BossAlertDuration
+            : warningTime;
 
-        if (activeWarning != null)
-        {
-            Destroy(activeWarning);
-        }
+        yield return new WaitForSeconds(waitTime);
 
         transform.position = startPos;
 
